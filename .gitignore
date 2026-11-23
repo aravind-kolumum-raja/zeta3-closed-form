@@ -10,6 +10,10 @@ __pycache__/
 *.pyc
 .venv/
 
+# Rust / Cargo build outputs
+tools/*/target/
+target/
+
 # OS / Editor
 .DS_Store
 .vscode/
