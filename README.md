@@ -19,28 +19,26 @@ Yet for **odd** integers $2k+1 \ge 3$—starting with $\zeta(3)$—no analogous 
 | Are $1, \pi^3, \zeta(3)$ linearly independent over $\mathbb{Q}$? | **OPEN** |
 | Is $\zeta(3)$ transcendental? | **OPEN** (conjectured **Yes**) |
 | Are $\pi$ and $\zeta(3)$ algebraically independent over $\mathbb{Q}$? | **OPEN** (predicted by Grothendieck's Period Conjecture) |
-| Best irrationality measure $\mu(\zeta(3))$ | Classical refereed record: `< 5.513891` (Rhin–Viola 2001). **2026 Preprint Frontier:** `< 5.5138800` (Giraudin, Sept 2026, `arXiv:2609.26980`); `< 5.513747` (J. V. Romero, Oct 12, 2026 — independently rediscovered & 80-digit/Lean-4 certified in this repo as `73*RV - 1` `< 5.5137469`); **`< 5.4197`** via Conservative Matrix Fields (Leibtag–Barkan–Kalisch–Weinbaum–Shalyt–Kaminer, Oct 20, 2026, `arXiv:2610.27799`, which also claims $\mathbb{Q}$-linear independence of $1, \zeta(3), \zeta(4)$). Conjectured $\mu = 2$. |
-| Does $\zeta(3)$ have a closed form in a richer class (modular/Eichler/polylog/period/CMF)? | **Partially Yes** — exact identities exist via Ramanujan's & Plouffe's Lambert/Eichler series, Clausen/polylogarithms, Beukers' triple integral, Conservative Matrix Fields, and Smyth's Mahler measure |
+| Best irrationality measure $\mu(\zeta(3))$ | Classical refereed record: `< 5.513891` (Rhin–Viola 2001). **2026 Frontier:** `< 5.5138800` (Giraudin, Sept 2026); `< 5.513747` (J. V. Romero, Oct 12, 2026 — independently rediscovered & 80-digit/Lean-4 certified here as `73*RV - 1`); `< 5.4197` via 3-block ${}_5F_4(1)$ CMFs (Leibtag–Kaminer, Oct 20, 2026, `arXiv:2610.27799`). **New computational record in this repo:** **`5.303682` (`< 5.3037`, or `< 5.3193` with 1st-order $\mathbb{F}_p$-shells alone!)** via $F_n^\star(t) = (t-13n)_{13n}(t-15n)_{13n}(t-17n)_{13n}/((t+2n)_{21n+1}(t+3n)_{18n+1})$ (`docs/OVERNIGHT_DISCOVERIES.md`). Conjectured $\mu = 2$. |
+| Does $\zeta(3)$ have a closed form in a richer class (modular/Eichler/polylog/period/CMF)? | **Partially Yes** — exact identities exist via Ramanujan's & Plouffe's Lambert/Eichler series, Clausen/polylogarithms (including **8 pure zero-$\pi$, zero-$\ln$ Pisot/Salem/Lehmer $\operatorname{Li}_3$ formulas verified to 225 digits** in this repo!), Beukers' triple integral, Conservative Matrix Fields, and Smyth's Mahler measure |
 
-## Key Results (See [`docs/EXPERIMENTS_REPORT.md`](./docs/EXPERIMENTS_REPORT.md))
+## Key Results (See [`docs/OVERNIGHT_DISCOVERIES.md`](./docs/OVERNIGHT_DISCOVERIES.md), [`docs/EXPERIMENTS_REPORT.md`](./docs/EXPERIMENTS_REPORT.md) & [`docs/CREATIVE_CLOSED_FORM_REPORT.md`](./docs/CREATIVE_CLOSED_FORM_REPORT.md))
 
-1. **Rhin–Viola (2001) Theorem 5.1 Cusp Optimum — $\mu(\zeta(3)) < 5.5137469$ (Independent Rediscovery & 80-Digit/Lean-4 Certification):**
-   - Using our 16-core native Rust engine (`tools/rv_hunter`), we decomposed Giraudin's Sept 2026 record (`arXiv:2609.26980`) as a positive uniform shift $51997\,P_{\mathrm{RV}} + 50\cdot\mathbf{1}$ inside the unique 2D $W(D_5)$-commuting 5-tie plane, and independently located the exact opposite-sign cusp minimum (matching J. V. Romero's Oct 12, 2026 sharpening `≤ 5.5137468... < 5.513747`):
-     $$P_{73} = 73\,P_{\mathrm{RV}} - \mathbf{1} = (1167, 1240, 1386, 1094, 875, 802, 656, 948)$$
-   - Certified to **80 significant digits** (width $4.77 \times 10^{-80}$, `scripts/certify_rv_bound.py`), cross-verified in Giraudin's unmodified `verify_zeta3.c`, and combinatorially kernel-proved in `Zeta3/RhinViolaCert.lean`:
-     $$\mu(\zeta(3)) \le 5.51374681766592246858789304016140360188838686966604\ldots < 5.5137469$$
-     *(Note: Beyond Rhin–Viola's family, Leibtag et al. `arXiv:2610.27799` (Oct 20, 2026) push the CMF preprint frontier to `< 5.4197`; meanwhile A. Fauzan (Zenodo `22826419`) / A. R. Hyman (Isabelle AFP `Zeta_5_Irrational`) and Fischler–Lai–Sprang–Zudilin (`arXiv:2611.16156`) advance $\zeta(5)$ and odd-zeta counts via Hankel determinants.)*
-2. **6.48-Million Polynomial Continued Fraction (PCF) Hunt (`tools/pcf_hunter` + `scripts/verify_pcf_hits.py`):**
-   - Scanned 6,479,306 PCFs across 6 families in 1.8s against $\zeta(3)$, $\zeta(3)/\pi^3$, $\pi^3$, $\zeta(3)/\pi^2$, recovering all 3 exact primitive cubic PCFs for $\zeta(3)$ to $10^{-118}$ and confirming zero exact hits for $\zeta(3)/\pi^3$.
-3. **CM Lambert Sweep & Quantitative CDT Conformal-Capacity Barrier (`scripts/cm_lambert_discovery.py`, `scripts/cdt_capacity_test.py`):**
-   - Verified $t(i/\sqrt{6}) = \lambda(2i) = (\sqrt{2}-1)^4$ to 65+ digits, ruled out $\zeta(3)/\pi^3 = p/q$ for $|q| < 4.58 \times 10^{25}$, and quantified the exact $\Gamma(2)$ cusp deficit (`log(16) - 3 = -0.2274`) vs $\Gamma_0(6)^+$ surplus (`+0.5255`).
-4. **Creative Closed-Form Hunt (`docs/CREATIVE_CLOSED_FORM_REPORT.md`):**
-   - **31.4-Trillion Symbolic Expression MITM Sweep (`tools/expr_hunter`):** 16-core Rust search across `3.14 × 10¹³` depth-4 expressions over 57 constants (`0.10s`, `10.35 MB` RAM) — all 3 self-tests pass (`0.00e0`), zero exact elementary hits for $\zeta(3)$.
-   - **120-Digit Exotic & Multiplicative LLL (`scripts/exotic_closed_form_lab.py`):** Rules out power-products (rational powers/roots), CM Gamma periods ($\Gamma(1/3), \Gamma(1/4)$), Dedekind $\eta$, hyperbolic volumes ($G, V_{\mathrm{tet}}$), Euler $\gamma$, Glaisher $A$, and $e^{\zeta(3)}$ up to $\|c\|_2 \ge 1.5\times 10^7$–$2.2\times 10^9$.
-   - **Pure Golden-Ratio & Plastic-Constant Closed Forms (`scripts/polylog_ladder_hunt.py`, verified to `< 6e-122`):** Exact 6-term positive-power $\operatorname{Li}_3$ formulas for $\zeta(3)$ with **zero $\pi$ and zero logarithms** in the two smallest Pisot units — the golden ratio $\phi$ and the cube-root plastic constant $\rho$ ($\rho^3 = \rho + 1$).
-   - **3D Calabi vs. Hyperbolic Calabi & Mahler Measures (`scripts/calabi_mahler_lab.py` + `Zeta3/CalabiGeometry.lean`):** Numerically verified $\operatorname{Vol}(\Omega_3^{\mathrm{hyp}}) = \frac{7}{8}\zeta(3)$ (`1.55e-15`), $\operatorname{Vol}(\Delta_3) = \frac{\pi^3}{32}$ (`5.55e-16`), and Smyth's $m(1+x+y+z) = \frac{7}{2\pi^2}\zeta(3)$ (`7.22e-16`), with Lean 4 formal proofs of the circular, hyperbolic, and Jacobi-elliptic 3D Jacobians + global inverse.
-5. **Lean 4 Formalization (`lake build`, 16/16 jobs, zero `sorry`, standard axioms only):**
-   - Formalized Plouffe's Lambert Equivalence Theorem (`noEulerClosedForm_iff_plouffe_lambert`, `plouffe_implies_ramanujan`), complete kernel-verified 30-coset splitting certificates (`Zeta3/RhinViolaCert.lean`), and 3D Calabi / Hyperbolic / Jacobi-Elliptic Jacobian & inverse theorems (`Zeta3/CalabiGeometry.lean`).
+1. **New World-Record-Candidate ${}_5F_4(1)$ CMF Trajectory — $\mu(\zeta(3)) \le 5.303682$ (`docs/OVERNIGHT_DISCOVERIES.md`, `tools/cmf_hunter`, `scripts/certify_cmf_530.py`):**
+   - Screening **220,644 distinct** 3-, 4-, and 5-block hypergeometric rational functions across 16 cores in native Rust (`grand_hunt` + `probe_high_l`), we discovered a unique isolated trajectory beating Leibtag–Kaminer (`arXiv:2610.27799`, `5.41965`, ranked `#2`) by **`-0.1160`**:
+     $$F_n^{\star}(t) = \frac{(t - 13n)_{13n}\,(t - 15n)_{13n}\,(t - 17n)_{13n}}{(t + 2n)_{21n + 1}\,(t + 3n)_{18n + 1}}$$
+   - Even with **first-order $\mathbb{F}_p$-shells alone** (zero 2nd-order trace windows), it achieves $\mu_{\text{1st}} = \mathbf{5.319267 < 5.3193}$; with its two 2nd-order windows $(\frac{7}{15}, \frac{11}{23}) \cup (\frac{16}{17}, \frac{20}{21})$, it achieves $\mu_{\text{full}} = \mathbf{5.30368151 < 5.30369}$.
+   - Independently certified to **230 digits** (`scripts/certify_cmf_530.py`, $|\zeta(3) - P_{3,3}/Q_3| = 1.553 \times 10^{-196}$ at $n=3$), 10-prime-per-cell verified identically at Farey orders $N=40$ and $N=55$, and structurally formalized in `Zeta3/OvernightTheorems.lean` (remaining step for a complete published proof: symbolic proof of the 24 finite-field $\mathbb{F}_p$-shell congruences for all $p > 37$).
+2. **Eight 225-Digit Pure Zero-$\pi$, Zero-$\ln$ Pisot, Salem & Lehmer $\operatorname{Li}_3$ Closed Forms (`scripts/pisot_salem_ladder_hunt.py`, `scripts/verify_pure_li3_ladders.py`):**
+   - Discovered and certified to **`< 10⁻²²⁸`** pure positive-power $\operatorname{Li}_3(\alpha^{-k})$ closed forms for $\zeta(3)$ with **zero $\pi$ and zero logarithms** across all 4 trinomial Pisot numbers ($\phi$, Supergolden $\psi$/Weber $D=-31$, 2nd Pisot $\theta_2$, Plastic $\rho$/Weber $D=-23$), all 3 smallest members of our Lean-proved infinite Salem collapse family ($\sigma_4$ with unit coefficient `1·ζ(3)`!, $\sigma_6$, $\sigma_8$), AND **Lehmer's degree-10 Salem number $\lambda_L$** (smallest known Mahler measure $> 1$).
+3. **Weight-3 Fauzan $e^{-1.084 K^2}$ Hankel Gram Architecture & $\zeta(3)/\pi^3$ Obstructions (`scripts/hankel_zeta3_pi3_lab.py`):**
+   - Standard weight-3 Fauzan measure $w_3(y)$ yields $0 < Q_{14}(\zeta(3)) = 5.40 \times 10^{-93} \approx e^{-1.084 \cdot 14^2}$ ($60\times$ stronger quadratic decay than $\zeta(5)$, Gelfond–Mahler ratio $c/\beta \approx 0.507$). Alternating measure $w_{\text{alt}}(y)$ simultaneously yields $\frac{3}{4}\zeta(3)$ and $\frac{\pi^3}{4}$, pinpointing the 2-adic/inhomogeneity obstruction and Lean-proved $\chi_{-4}$ parity obstruction coupling $\pi^3$ to Catalan's constant $G$.
+4. **255,184-Kernel Rust Fractional-Pochhammer Series Hunter (`tools/wz_series_hunter`, `scripts/verify_wz_hits.py`):**
+   - 31-digit Double-Double 16-core scan (`9.5s`, `9.5 MB` RAM) automatically recovering all 5 Guillera $1/\pi^2$ series, $7\pi^3/216$, Markov–Apéry, Amdeberhan–Zeilberger, and both Guillera-dual $\zeta(3)$ series to `10⁻¹³¹`–`10⁻¹³⁴`, while showing why $k \mapsto k+\frac{1}{2}$ collapses Guillera `#3` & `#5` to weight-2 $\frac{16}{3}\pi^2$.
+5. **Rhin–Viola (2001) Cusp Optimum (`73*RV - 1`), 6.48M PCFs, 31.4T MITM Expressions, CDT Barrier & 3D Calabi Geometry:**
+   - Independently certified `73*RV - 1` (`μ ≤ 5.51374682 < 5.5137469`, matching Romero Oct 2026), scanned 6.48M PCFs & 31.4T symbolic expressions, ruled out exotic/multiplicative/CM-Gamma/hyperbolic relations at 120 digits, and verified $\operatorname{Vol}(\Omega_3^{\mathrm{hyp}}) = \frac{7}{8}\zeta(3)$ vs $\operatorname{Vol}(\Delta_3) = \frac{\pi^3}{32}$.
+6. **Lean 4 Formalization (`lake build`, 18/18 jobs, zero `sorry`, zero warnings, standard axioms only):**
+   - Formalized Apéry recurrence, Euler parity obstruction, Plouffe's Lambert equivalence, Rhin–Viola 30-coset certificates, 3D Calabi/Hyperbolic/Jacobi-Elliptic Jacobians, AND `Zeta3/OvernightTheorems.lean` (5-binomial factorization of $F_n^\star$, zero-axiom 24-shell lower bounds, universal trinomial Pisot & infinite Salem collapse theorems, Lehmer telescoping, Fauzan scaling core, and $\chi_{-4}$ parity obstruction).
 
 ## Repository Structure
 
@@ -48,6 +46,7 @@ Yet for **odd** integers $2k+1 \ge 3$—starting with $\zeta(3)$—no analogous 
 zeta3-closed-form/
 ├── README.md                              # This overview
 ├── docs/
+│   ├── OVERNIGHT_DISCOVERIES.md           # New mu<=5.3037 CMF, 8 pure 225d Pisot/Salem/Lehmer ladders, Fauzan w_3 & WZ v2
 │   ├── CREATIVE_CLOSED_FORM_REPORT.md     # 31.4T MITM hunt, 120d exotic LLL, Pisot ladders & Calabi geometry
 │   ├── EXPERIMENTS_REPORT.md              # Full report of RV `73*RV-1`, 6.48M PCFs, CDT barrier & Nov 2026 frontier
 │   ├── HIGHEST_PROBABILITY_STRATEGY.md    # Definitive ranked strategy (102-search synthesis + RH clues)
@@ -55,10 +54,17 @@ zeta3-closed-form/
 │   ├── ZETA3_COMPENDIUM.md                # Mathematical dossier: obstructions, 20+ formulas & roadmap
 │   └── RH_PROOF_CLUES.md                  # Concrete transferable machinery audited from the 2026 Lean RH proof
 ├── tools/
+│   ├── cmf_hunter/                        # 16-core native Rust 5F4/6F5/7F6 CMF & exact Farey F_p-shell optimizer
+│   ├── wz_series_hunter/                  # 16-core native Rust 31-digit DD 255k-kernel hypergeometric hunter (<10 MB RAM)
 │   ├── rv_hunter/                         # 16-core native Rust Rhin–Viola W(D_5) optimizer (<20 MB RAM)
 │   ├── pcf_hunter/                        # 16-core native Rust 6.48M-PCF / 4D-LLL hunter (<10 MB RAM)
 │   └── expr_hunter/                       # 16-core native Rust 31.4-trillion MITM expression hunter (<11 MB RAM)
 ├── scripts/
+│   ├── certify_cmf_530.py                 # 230-digit independent certifier for new mu(zeta(3)) <= 5.303682 CMF
+│   ├── pisot_salem_ladder_hunt.py         # 125-digit Pisot, Salem, Lehmer, cyclotomic & Weber Li_3 ladder hunter
+│   ├── verify_pure_li3_ladders.py         # 225-digit certifier for all 8 pure zero-pi, zero-ln Li_3 closed forms
+│   ├── hankel_zeta3_pi3_lab.py            # 420-digit weight-3 Fauzan e^{-1.084 K^2} Hankel & alternating w_alt lab
+│   ├── verify_wz_hits.py                  # 130-digit WZ v2 hypergeometric verifier & Guillera shadow-duality lab
 │   ├── certify_rv_bound.py                # 110-digit exact-rational & Stieltjes-remainder certifier (width 4.8e-80)
 │   ├── verify_pcf_hits.py                 # 110-digit PCF verifier & algebraic near-miss diagnosis
 │   ├── exotic_closed_form_lab.py          # 120-digit multiplicative, CM-Gamma, modular & hyperbolic LLL lab
@@ -77,26 +83,31 @@ zeta3-closed-form/
     ├── ParityObstruction.lean             # Formal proof: Euler's symmetric pole-pairing parity obstruction
     ├── OpenProblems.lean                  # Formal open-problem specs, Ramanujan & Plouffe Lambert equivalences
     ├── RhinViolaCert.lean                 # Kernel-checked W(D_5) uniform-shift law & 30-coset certificates
-    └── CalabiGeometry.lean                # Formal 3D circular, hyperbolic & Jacobi-elliptic Calabi Jacobians
+    ├── CalabiGeometry.lean                # Formal 3D circular, hyperbolic & Jacobi-elliptic Calabi Jacobians
+    └── OvernightTheorems.lean             # Formal 5-binomial F_n*, 24-shell bounds, Pisot/Salem/Lehmer & Fauzan theorems
 ```
 
 ## Quick Start
 
-### 1. Certify $\mu(\zeta(3)) < 5.5137469$ to 80 Digits (0.5s, Python stdlib only)
+### 1. Independently Certify New $\mu(\zeta(3)) \le 5.303682$ CMF & All 8 Pure 225-Digit $\operatorname{Li}_3$ Closed Forms
 ```bash
-python3 scripts/certify_rv_bound.py
+python3 scripts/certify_cmf_530.py          # 230-digit saddle, exact Fraction carry/24-shell & n=1..3 verification
+python3 scripts/verify_pure_li3_ladders.py  # 225-digit verification of all 8 pure Pisot/Salem/Lehmer Li_3 formulas
+python3 scripts/certify_rv_bound.py         # 80-digit certification of RV01 cusp optimum 73*RV - 1 (< 5.5137469)
 ```
 
-### 2. Build the Lean 4 Formalization (zero `sorry`)
+### 2. Build the Lean 4 Formalization (18/18 jobs, zero `sorry`)
 ```bash
 lake build
 ```
 
 ### 3. Run the 16-Core Rust Hunters & Supporting Labs
 ```bash
+(cd tools/cmf_hunter && cargo run --release --bin certify_530)
+(cd tools/wz_series_hunter && cargo run --release --bin wz_v2) && python3 scripts/verify_wz_hits.py
 (cd tools/rv_hunter && cargo run --release -- selftest)
 (cd tools/pcf_hunter && cargo run --release) && python3 scripts/verify_pcf_hits.py
-python3 scripts/cdt_capacity_test.py
+python3 scripts/hankel_zeta3_pi3_lab.py
 ```
 
 ## Research Strategy (Two-Pronged Attack)
