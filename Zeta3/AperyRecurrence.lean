@@ -102,4 +102,88 @@ theorem apery_casoratian (n : Nat) :
     decide +kernel
   rw [h, h01]
 
+/--
+**Apéry Ratio Step Identity:**
+Whenever `aperyA n ≠ 0` and `aperyA (n + 1) ≠ 0`,
+$$\frac{b_{n+1}}{a_{n+1}} - \frac{b_n}{a_n} = \frac{6}{(n+1)^3 a_n a_{n+1}}.$$
+-/
+theorem apery_ratio_step (n : Nat) (hn : aperyA n ≠ 0) (hn1 : aperyA (n + 1) ≠ 0) :
+    aperyB (n + 1) / aperyA (n + 1) - aperyB n / aperyA n =
+    6 / ((((n + 1 : Nat) : Rat) ^ 3) * aperyA n * aperyA (n + 1)) := by
+  have hcas := apery_casoratian n
+  have hcube : (((n + 1 : Nat) : Rat) ^ 3) ≠ 0 := cube_succ_rat_ne_zero n
+  have hprod : (((n + 1 : Nat) : Rat) ^ 3) * aperyA n * aperyA (n + 1) ≠ 0 := by
+    intro h0
+    rcases Rat.mul_eq_zero.mp h0 with hleft | hright
+    · rcases Rat.mul_eq_zero.mp hleft with hc | ha
+      · exact hcube hc
+      · exact hn ha
+    · exact hn1 hright
+  -- Clear denominators using field arithmetic on Rat
+  have hmul :
+      (aperyB (n + 1) / aperyA (n + 1) - aperyB n / aperyA n) *
+        ((((n + 1 : Nat) : Rat) ^ 3) * aperyA n * aperyA (n + 1)) = 6 := by
+    have hdiv_cancel : ∀ (x y : Rat), y ≠ 0 → (x / y) * y = x := by
+      intro x y hy
+      rw [Rat.div_def, Rat.mul_assoc, Rat.inv_mul_cancel y hy, Rat.mul_one]
+    have h1 : (aperyB (n + 1) / aperyA (n + 1)) *
+        ((((n + 1 : Nat) : Rat) ^ 3) * aperyA n * aperyA (n + 1)) =
+        (((n + 1 : Nat) : Rat) ^ 3) * aperyA n * aperyB (n + 1) := by
+      have hrw : (aperyB (n + 1) / aperyA (n + 1)) *
+          ((((n + 1 : Nat) : Rat) ^ 3) * aperyA n * aperyA (n + 1)) =
+          (((n + 1 : Nat) : Rat) ^ 3) * aperyA n * ((aperyB (n + 1) / aperyA (n + 1)) * aperyA (n + 1)) := by
+        grind
+      rw [hrw, hdiv_cancel _ _ hn1]
+    have h2 : (aperyB n / aperyA n) *
+        ((((n + 1 : Nat) : Rat) ^ 3) * aperyA n * aperyA (n + 1)) =
+        (((n + 1 : Nat) : Rat) ^ 3) * aperyA (n + 1) * aperyB n := by
+      have hrw : (aperyB n / aperyA n) *
+          ((((n + 1 : Nat) : Rat) ^ 3) * aperyA n * aperyA (n + 1)) =
+          (((n + 1 : Nat) : Rat) ^ 3) * aperyA (n + 1) * ((aperyB n / aperyA n) * aperyA n) := by
+        grind
+      rw [hrw, hdiv_cancel _ _ hn]
+    have hsub :
+        (aperyB (n + 1) / aperyA (n + 1) - aperyB n / aperyA n) *
+          ((((n + 1 : Nat) : Rat) ^ 3) * aperyA n * aperyA (n + 1)) =
+        (aperyB (n + 1) / aperyA (n + 1)) *
+          ((((n + 1 : Nat) : Rat) ^ 3) * aperyA n * aperyA (n + 1)) -
+        (aperyB n / aperyA n) *
+          ((((n + 1 : Nat) : Rat) ^ 3) * aperyA n * aperyA (n + 1)) := by
+      grind
+    rw [hsub, h1, h2]
+    grind
+  have hdiv : ∀ (x y z : Rat), y ≠ 0 → x * y = z → x = z / y := by
+    intro x y z hy hxy
+    rw [← hxy, Rat.div_def, Rat.mul_assoc, Rat.mul_inv_cancel y hy, Rat.mul_one]
+  exact hdiv _ _ _ hprod hmul
+
+/-- Helper: finite telescoping sum `∑_{k=0}^{N-1} 6 / ((k+1)^3 * a_k * a_{k+1})`. -/
+def aperyTelescopingSum : Nat → Rat
+  | 0 => 0
+  | n + 1 =>
+      aperyTelescopingSum n +
+        6 / ((((n + 1 : Nat) : Rat) ^ 3) * aperyA n * aperyA (n + 1))
+
+/--
+**Apéry's Telescoping Series Theorem:**
+Assuming `aperyA k ≠ 0` for all `k ≤ N`, the `N`-th Apéry rational approximant equals
+$$\frac{b_N}{a_N} = \sum_{k=0}^{N-1} \frac{6}{(k+1)^3 a_k a_{k+1}}.$$
+(Taking `N → ∞` yields Apéry's celebrated series $\zeta(3) = \sum_{k=0}^\infty \frac{6}{(k+1)^3 a_k a_{k+1}}$.)
+-/
+theorem apery_telescoping_identity :
+    ∀ N : Nat, (∀ k ≤ N, aperyA k ≠ 0) →
+      aperyB N / aperyA N = aperyTelescopingSum N := by
+  intro N
+  induction N with
+  | zero =>
+      intro _
+      simp only [aperyTelescopingSum, aperyA, aperyB, aperySeq]
+      decide +kernel
+  | succ m ih =>
+      intro hne
+      have ihm := ih (fun k hk => hne k (Nat.le_succ_of_le hk))
+      have hstep := apery_ratio_step m (hne m (Nat.le_succ m)) (hne (m + 1) (Nat.le_refl _))
+      simp only [aperyTelescopingSum, ← ihm, ← hstep]
+      grind
+
 end Zeta3

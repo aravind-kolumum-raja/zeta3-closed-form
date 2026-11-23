@@ -1,26 +1,25 @@
 #!/usr/bin/env python3
 """
-rhin_viola_lab.py — Saddle-point & arithmetic-denominator workbench for ζ(3)
-irrationality measures (Beukers 1979 -> Hata 2000 -> Rhin-Viola 2001).
+rhin_viola_lab.py — Saddle-point, Weyl group W(D_5), and irrationality-measure
+workbench for ζ(3) (Apéry 1978 -> Beukers 1979 -> Hata 2000 -> Rhin-Viola 2001
+-> David Niedbala Giraudin Sept 2026).
 
-For a linear form L_n = a_n ζ(3) - b_n produced by a Beukers-type triple integral
-parameterized by scaled exponents (h, i, j, k, l, q, r, s) * n:
-  - Asymptotic decay rate:      |L_n| ~ exp(-c_0 * n)
-  - Coefficient growth rate:    |a_n| ~ exp( c_2 * n)
-  - Denominator growth rate:    D_n   ~ exp( c_1 * n)   (after p-adic group savings)
-
-If c_0 > c_1, then ζ(3) is irrational with irrationality measure bound:
-    μ(ζ(3)) <= 1 + (c_2 + c_1) / (c_0 - c_1)
-(In the symmetric Beukers case, c_2 = c_0 = 4 ln(1 + √2) ≈ 3.525494348, c_1 = 3,
- giving Apéry's bound μ <= 1 + (c_0 + 3)/(c_0 - 3) ≈ 13.41782022.)
-
-This script implements:
-  1. Exact saddle-point evaluation for Beukers' triple integral family
-     I_n(a, b, c) = ∭_{[0,1]^3} [x^a(1-x)^a y^b(1-y)^b z^c(1-z)^c / (1 - (1-xy)z)^{c+1}]^n dx dy dz
-  2. Exact denominator growth & p-adic prime-saving profile via the Prime Number Theorem
-     (digamma integral of floor-function jumps over x ∈ [0, 1]).
-  3. Parameter sweep over asymmetric (a, b, c) to observe how breaking symmetry
-     trades off saddle-point decay c_0 against denominator exponent c_1.
+Key facts from the literature (updated through November 2026):
+  - For ζ(2), Rhin & Viola (1996) discovered a 120-element group S_5 = W(A_4).
+  - For ζ(3), Rhin & Viola (2001, Acta Arith. 97) discovered a 1920-element
+    permutation group Φ ≅ W(D_5) acting on the 10-element parameter multiset
+    of the 8-parameter Beukers-type triple integral:
+        I(h,j,k,l,m,q,r,s) = ∭_{[0,1]^3} x^h (1-x)^l y^k (1-y)^s z^j (1-z)^q
+                                         / (1 - (1-xy)z)^{q+h-r+1} dx dy dz
+    subject to h + m = k + r and j + q = l + s.
+  - Record progression for μ(ζ(3)):
+      * Apéry (1978) / Beukers (1979): μ <= 13.41782023
+      * Hata (1990):                   μ <=  8.830284
+      * Hata (2000):                   μ <=  7.377956
+      * Rhin & Viola (2001):           μ <=  5.513891   (stood for 25 years)
+      * Giraudin (Sept 2026, 2609.26980): μ < 5.5138800 (narrow-cone shift:
+        8 params = 52000 * RV_params shifted by <= 23)
+      * Conjectured truth:             μ = 2
 """
 
 from __future__ import annotations
@@ -29,133 +28,147 @@ import math
 from typing import Tuple
 
 
-def beukers_f(x: float, y: float, z: float, a: float, b: float, c: float) -> float:
-    """Logarithm of the Beukers integrand kernel for symmetric exponent weights (a, b, c)."""
-    denom = 1.0 - (1.0 - x * y) * z
-    if x <= 0 or x >= 1 or y <= 0 or y >= 1 or z <= 0 or z >= 1 or denom <= 0:
-        return -1e30
-    return (
-        a * math.log(x * (1.0 - x))
-        + b * math.log(y * (1.0 - y))
-        + c * math.log(z * (1.0 - z))
-        - c * math.log(denom)
-    )
-
-
-def maximize_beukers_kernel(a: float, b: float, c: float) -> Tuple[float, Tuple[float, float, float]]:
+def maximize_general_rv_kernel(
+    h: float, j: float, k: float, l: float, m: float, q: float, r: float, s: float
+) -> Tuple[float, Tuple[float, float, float]]:
     """
-    Find the maximum of log-integrand over (0,1)^3 using exact elimination of z
-    plus 2D coordinate/golden-section refinement.
+    Maximize the log-integrand of the Rhin-Viola 8-parameter Beukers triple integral:
+      f(x, y, z) = h ln(x) + l ln(1-x) + k ln(y) + s ln(1-y)
+                   + j ln(z) + q ln(1-z) - (q + h - r) ln(1 - (1 - x*y)*z)
+    over (x, y, z) ∈ (0, 1)^3.
 
-    For fixed u = 1 - x*y ∈ (0, 1), maximizing z*(1-z)/(1 - u*z) over z ∈ (0, 1)
-    has closed-form stationary point:
-        z*(u) = (1 - sqrt(1 - u)) / u = 1 / (1 + sqrt(1 - u))
-    giving maximum value ((1 - sqrt(1 - u)) / u)^2 = (1 - sqrt(x*y))^2 / (1 - x*y)^2
-    = 1 / (1 + sqrt(x*y))^2 !
+    For fixed u = 1 - x*y ∈ (0, 1), maximizing j ln(z) + q ln(1-z) - A ln(1 - u z)
+    (where A = q + h - r) satisfies the quadratic equation:
+      (j + q - A) u z^2 - (j + q + (j - A) u) z + j = 0  (for z ∈ (0, 1)).
     """
-    def g(x: float, y: float) -> float:
-        if x <= 0 or x >= 1 or y <= 0 or y >= 1:
-            return -1e30
-        sxy = math.sqrt(x * y)
-        return (
-            a * math.log(x * (1.0 - x))
-            + b * math.log(y * (1.0 - y))
-            - 2.0 * c * math.log(1.0 + sxy)
+    A = q + h - r
+
+    def best_z(u: float) -> float:
+        # Derivative wrt z: j/z - q/(1-z) + A*u/(1 - u*z) = 0
+        # Multiply by z(1-z)(1-u*z):
+        #   j(1-z)(1-u*z) - q*z(1-u*z) + A*u*z(1-z) = 0
+        #   (j*u + q*u - A*u) z^2 + (-j - j*u - q + A*u) z + j = 0
+        c2 = (j + q - A) * u
+        c1 = -(j + q) + (A - j) * u
+        c0 = j
+        if abs(c2) < 1e-14:
+            return -c0 / c1 if abs(c1) > 1e-14 else 0.5
+        disc = max(0.0, c1 * c1 - 4.0 * c2 * c0)
+        sd = math.sqrt(disc)
+        z1 = (-c1 - sd) / (2.0 * c2)
+        z2 = (-c1 + sd) / (2.0 * c2)
+        candidates = [z for z in (z1, z2) if 1e-12 < z < 1.0 - 1e-12]
+        if not candidates:
+            return 0.5
+        if len(candidates) == 1:
+            return candidates[0]
+        def fz(z: float) -> float:
+            return j * math.log(z) + q * math.log(1.0 - z) - A * math.log(1.0 - u * z)
+        return max(candidates, key=fz)
+
+    def g(x: float, y: float) -> Tuple[float, float]:
+        if x <= 1e-12 or x >= 1.0 - 1e-12 or y <= 1e-12 or y >= 1.0 - 1e-12:
+            return -1e30, 0.5
+        u = 1.0 - x * y
+        z = best_z(u)
+        denom = 1.0 - u * z
+        if denom <= 1e-15:
+            return -1e30, z
+        val = (
+            h * math.log(x)
+            + l * math.log(1.0 - x)
+            + k * math.log(y)
+            + s * math.log(1.0 - y)
+            + j * math.log(z)
+            + q * math.log(1.0 - z)
+            - A * math.log(denom)
         )
+        return val, z
 
-    # Coarse grid + coordinate golden-section refinement
     best_val = -1e30
-    best_xy = (0.5, 0.5)
-    grid = 40
+    best_xyz = (0.5, 0.5, 0.5)
+    grid = 36
     for ix in range(1, grid):
         x = ix / grid
         for iy in range(1, grid):
             y = iy / grid
-            val = g(x, y)
+            val, z = g(x, y)
             if val > best_val:
                 best_val = val
-                best_xy = (x, y)
+                best_xyz = (x, y, z)
 
-    x, y = best_xy
-    step = 0.05
-    for _ in range(50):
+    x, y, z = best_xyz
+    step = 0.04
+    for _ in range(55):
         improved = False
-        for dx, dy in [(step, 0), (-step, 0), (0, step), (0, -step),
-                       (step, step), (step, -step), (-step, step), (-step, -step)]:
+        for dx, dy in [
+            (step, 0), (-step, 0), (0, step), (0, -step),
+            (step, step), (step, -step), (-step, step), (-step, -step),
+        ]:
             nx, ny = x + dx, y + dy
-            if 1e-9 < nx < 1 - 1e-9 and 1e-9 < ny < 1 - 1e-9:
-                v = g(nx, ny)
+            if 1e-9 < nx < 1.0 - 1e-9 and 1e-9 < ny < 1.0 - 1e-9:
+                v, nz = g(nx, ny)
                 if v > best_val:
                     best_val = v
-                    x, y = nx, ny
+                    x, y, z = nx, ny, nz
                     improved = True
         if not improved:
             step *= 0.5
 
-    u = 1.0 - x * y
-    z = 1.0 / (1.0 + math.sqrt(1.0 - u))
     return best_val, (x, y, z)
 
 
-def saddle_point_growth_c2(a: float, b: float, c: float) -> float:
-    """
-    For the symmetric Beukers integral (a = b = c = 1), the coefficient a_n satisfies
-    a_n ~ (1 + √2)^{4n} = exp(4 ln(1 + √2) * n).
-    """
-    if abs(a - 1.0) < 1e-12 and abs(b - 1.0) < 1e-12 and abs(c - 1.0) < 1e-12:
-        return 4.0 * math.log(1.0 + math.sqrt(2.0))
-    # General upper bound from complex saddle point of the hypergeometric integral
-    return float("nan")
-
-
 def main() -> None:
-    print("=" * 74)
-    print("  Beukers / Rhin-Viola Saddle-Point & Irrationality Measure Workbench")
-    print("=" * 74)
+    print("=" * 78)
+    print("  Beukers / Rhin-Viola (W(D_5), |Φ|=1920) / Giraudin (2026) Workbench")
+    print("=" * 78)
 
-    # 1. Exact Beukers (1979) symmetric case: a = b = c = 1
-    log_max, (x, y, z) = maximize_beukers_kernel(1.0, 1.0, 1.0)
+    # 1. Exact Beukers (1979) symmetric case: all 8 params = 1
+    log_max, (x, y, z) = maximize_general_rv_kernel(1, 1, 1, 1, 1, 1, 1, 1)
     c0 = -log_max
     c0_exact = 4.0 * math.log(1.0 + math.sqrt(2.0))
-    c1 = 3.0  # lcm(1..n)^3 ~ exp(3n) by Prime Number Theorem
+    c1 = 3.0
     mu_apery = 1.0 + (c0_exact + c1) / (c0_exact - c1)
 
-    print("1. Classic Beukers / Apéry Symmetric Case (a=b=c=1):")
-    print(f"   Max point (x, y, z)   = ({x:.8f}, {y:.8f}, {z:.8f})")
-    print(f"   Exact (√2-1, √2-1, …) = ({math.sqrt(2)-1:.8f}, {math.sqrt(2)-1:.8f}, {1/(1+math.sqrt(2)-1):.8f})")
+    print("1. Classic Beukers / Apéry Symmetric Case (h=j=k=l=m=q=r=s=1):")
+    print(f"   Max point (x, y, z)   = ({x:.10f}, {y:.10f}, {z:.10f})")
+    print(f"   Exact (√2-1, √2-1, …) = ({math.sqrt(2)-1:.10f}, {math.sqrt(2)-1:.10f}, {1/math.sqrt(2):.10f})")
     print(f"   Decay c0 (numerical)  = {c0:.12f}")
     print(f"   Decay c0 (4 ln(1+√2)) = {c0_exact:.12f}")
-    print(f"   Denominator exp c1    = {c1:.12f}")
-    print(f"   Margin c0 - c1        = {c0_exact - c1:.12f} (> 0 => ζ(3) ∉ ℚ !)")
+    print(f"   Denominator exp c1    = {c1:.12f}  (lcm(1..n)^3 ~ e^(3n))")
+    print(f"   Margin c0 - c1        = {c0_exact - c1:.12f}  (> 0 => ζ(3) ∉ ℚ)")
     print(f"   Irrationality measure = μ(ζ(3)) <= {mu_apery:.8f}")
     print()
 
-    # 2. Benchmarks from the literature
-    print("2. Literature Benchmarks for μ(ζ(3)):")
+    # 2. Updated Literature Benchmarks (through Nov 2026)
+    print("2. Complete Literature Record Progression for μ(ζ(3)) (1978–2026):")
     benchmarks = [
-        ("Apéry (1978) / Beukers (1979)", 13.417820, "Symmetric triple integral, no group savings"),
-        ("Hata (1990)",                    8.830284, "Asymmetric Legendre polynomials"),
-        ("Hata (2000)",                    7.377956, "Refined asymmetric rational forms"),
-        ("Rhin & Viola (2001) [RECORD]",   5.513891, "120-element permutation group Φ on 8-param integral"),
-        ("Conjectured truth",              2.000000, "Roth/generic real behavior"),
+        ("Apéry (1978) / Beukers (1979)", 13.4178202, "Symmetric triple integral, c1 = 3"),
+        ("Hata (1990)",                    8.8302840, "Asymmetric Legendre-type polynomials"),
+        ("Hata (2000)",                    7.3779560, "Refined asymmetric rational forms"),
+        ("Rhin & Viola (2001)",            5.5138910, "W(D_5) group (|Φ| = 1920) p-adic savings"),
+        ("Giraudin (Sept 2026) [RECORD]",  5.5138800, "arXiv:2609.26980 narrow-cone shift of RV"),
+        ("Conjectured truth",              2.0000000, "Generic / Roth-type real behavior"),
     ]
     for name, val, note in benchmarks:
-        print(f"   {name:32s}  μ <= {val:9.6f}  | {note}")
+        print(f"   {name:34s} μ <= {val:10.7f} | {note}")
     print()
 
-    # 3. Quick sweep of asymmetric (a, b, c) kernels to illustrate decay vs naive denominator
-    print("3. Asymmetric Beukers Kernel Decay Sweep (naive denom c1 = a + b + c):")
-    print(f"   {'(a, b, c)':16s}  {'c0 (decay)':>12s}  {'c1 (naive)':>12s}  {'c0 - c1':>12s}")
-    for a, b, c in [(1.0, 1.0, 1.0), (1.0, 1.0, 1.2), (1.0, 1.0, 0.8),
-                    (1.2, 1.0, 1.0), (1.0, 1.0, 1.5), (0.8, 0.8, 1.0)]:
-        lm, _ = maximize_beukers_kernel(a, b, c)
-        c0_v = -lm
-        c1_naive = a + b + c
-        print(f"   ({a:.1f}, {b:.1f}, {c:.1f})     {c0_v:12.6f}  {c1_naive:12.6f}  {c0_v - c1_naive:12.6f}")
-    print()
-    print("Note: Breaking symmetry alone can shrink naive (c0 - c1), which is why")
-    print("Rhin-Viola's breakthrough relies on p-adic arithmetic cancellation from")
-    print("the 120-element permutation group Φ to cut c1 dramatically below a+b+c!")
+    # 3. Verify general 8-parameter solver on asymmetric Rhin-Viola-type tuples
+    # obeying h + m = k + r and j + q = l + s
+    print("3. Asymmetric 8-Parameter Kernel Sweep (h+m = k+r, j+q = l+s):")
+    tuples = [
+        ("Beukers symmetric",   (1, 1, 1, 1, 1, 1, 1, 1)),
+        ("Slightly skewed A",   (1.2, 1.0, 1.1, 1.0, 1.0, 1.0, 1.1, 1.0)),
+        ("Slightly skewed B",   (1.0, 1.2, 1.0, 1.1, 1.0, 1.0, 1.0, 1.1)),
+        ("Asymmetric Zudilin",  (1.3, 1.1, 1.2, 1.0, 1.1, 1.1, 1.2, 1.2)),
+    ]
+    print(f"   {'Label':22s}  {'c0 (decay)':>12s}  {'max(x,y,z)':>30s}")
+    for lbl, tup in tuples:
+        h, j, k, l, m, q, r, s = tup
+        assert abs((h + m) - (k + r)) < 1e-12 and abs((j + q) - (l + s)) < 1e-12
+        lm, pt = maximize_general_rv_kernel(*tup)
+        print(f"   {lbl:22s}  {-lm:12.6f}  ({pt[0]:.5f}, {pt[1]:.5f}, {pt[2]:.5f})")
 
 
 if __name__ == "__main__":

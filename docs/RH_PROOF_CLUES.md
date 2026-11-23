@@ -43,7 +43,7 @@ The theorem `RiemannHypothesis` (all nontrivial zeros $\rho = \frac{1}{2} + i\ga
 - **Why this matters for $\zeta(3)$:**
   In arithmetic geometry, $\zeta(3)$ is governed by the **Bloch–Kato Selmer group** $H^1_f(\mathbb{Q}, \mathbb{Q}_p(3)) \cong \mathbb{Q}_p$ (Soulé's cyclotomic elements / Beilinson–Deligne regulators for $K_5(\mathbb{Z})$), where the non-trivial crystalline extension of $\mathbb{Q}_p$ by $\mathbb{Q}_p(3)$ encodes $\zeta_p(3)$ — the exact $p$-adic counterpart of why $\zeta(3)$ is a *non-critical* zeta value!
   - Meanwhile, the RH proof's `EisensteinCokernelLengths` proves razor-sharp $p$-adic valuation bounds (`padicValInt`, Gauss valuations on Eisenstein polynomials) to control denominators of automorphic/Eisenstein lifts.
-  - **Clue for $\zeta(3)$:** Controlling $p$-adic valuation cancellations in denominators is literally what separates Apéry ($\mu \le 13.42$) from Rhin–Viola ($\mu \le 5.5139$). Combining $p$-adic valuation lemmas of the `LagrangeIdealSg` / `FactorialValuationBounds` flavor with Rhin–Viola's permutation-group / Zudilin's well-poised hypergeometric integrals is a direct, concrete target for Lean-verified improvements to $\mu(\zeta(3))$.
+  - **Clue for $\zeta(3)$:** Controlling $p$-adic valuation cancellations in denominators is literally what separates Apéry ($\mu \le 13.42$) from Rhin–Viola ($\mu \le 5.513891$) and Giraudin's Sept 2026 record ($\mu < 5.5138800$). Combining $p$-adic valuation lemmas of the `LagrangeIdealSg` / `FactorialValuationBounds` flavor with Rhin–Viola's 1920-element $W(D_5)$ permutation group / Zudilin's well-poised hypergeometric integrals is a direct, concrete target for Lean-verified improvements to $\mu(\zeta(3))$.
 
 ### 4. Siegel Theta Quasi-Periods & CM Period Machinery
 - **Where in RH proof:**
@@ -58,7 +58,7 @@ The theorem `RiemannHypothesis` (all nontrivial zeros $\rho = \frac{1}{2} + i\ga
   - `Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp` and `IntervalInt` used throughout the RH proof's numerical/analytic inequalities.
 - **Clue for $\zeta(3)$:**
   For $\zeta(3)$, both:
-  1. **Searching for a new irrationality measure record $\mu(\zeta(3)) < 5.513891$** (over generalized Rhin–Viola / Zudilin well-poised ${}_7F_6$, ${}_9F_8$, or higher-dimensional Beukers-type integrals), and
+  1. **Searching for a new irrationality measure record $\mu(\zeta(3)) < 5.5138800$** (beating Giraudin's Sept 2026 `arXiv:2609.26980` narrow-cone shift of Rhin–Viola's $W(D_5)$ family, or via Zudilin well-poised ${}_7F_6$, ${}_9F_8$, and higher-dimensional Beukers-type integrals), and
   2. **Searching for Calegari–Dimitrov–Tang-style holonomic / modular power series** with bounded/controlled denominators targeting $\{1, \pi^3, \zeta(3)\}$,
   naturally split into **automated high-precision search** (Python/Rust) + **certified rigorous bounds** (Lean 4 with dyadic interval arithmetic).
 
@@ -70,6 +70,6 @@ The theorem `RiemannHypothesis` (all nontrivial zeros $\rho = \frac{1}{2} + i\ga
 |---|---|---|
 | `ThetaCorrespondence/` + `RallisInnerProduct/` | Chains of theta lifts as Stepanov multiplicity | Higher-multiplicity automorphic / Eichler linear forms for $\{1, \pi^3, \zeta(3)\}$ |
 | `L2DbarEstimates/` + `GeometryOfNumbers/` | Hörmander $L^2$ $\bar\partial$ & lattice slopes | Bost / Calegari–Dimitrov–Tang holonomy method for weight-3 zeta values |
-| `BlochKatoExtensions/` + `EisensteinCokernelLengths/` | Crystalline extensions & sharp $p$-adic denominator bounds | Sharper $p$-adic valuation savings for $\mu(\zeta(3)) < 5.513891$ |
+| `BlochKatoExtensions/` + `EisensteinCokernelLengths/` | Crystalline extensions & sharp $p$-adic denominator bounds | Sharper $p$-adic valuation savings for $\mu(\zeta(3)) < 5.5138800$ |
 | `ThetaQuasiPeriods/` + `CMTypeGalois/` | Siegel theta functions & CM periods | Nesterenko-style CM-point approach to Ramanujan's Eichler integral $S(\pi)$ |
 | `IntervalDyadicReal` tactics | Machine-checked analytic inequalities | Formal Lean 4 certification of saddle-point & PNT integral bounds |

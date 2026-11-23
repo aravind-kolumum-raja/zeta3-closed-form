@@ -19,25 +19,29 @@ Yet for **odd** integers $2k+1 \ge 3$—starting with $\zeta(3)$—no analogous 
 | Are $1, \pi^3, \zeta(3)$ linearly independent over $\mathbb{Q}$? | **OPEN** |
 | Is $\zeta(3)$ transcendental? | **OPEN** (conjectured **Yes**) |
 | Are $\pi$ and $\zeta(3)$ algebraically independent over $\mathbb{Q}$? | **OPEN** (predicted by Grothendieck's Period Conjecture) |
-| Best irrationality measure $\mu(\zeta(3))$ | $\mu(\zeta(3)) \le 5.513891$ (Rhin–Viola 2001; conjectured $\mu(\zeta(3)) = 2$) |
-| Does $\zeta(3)$ have a closed form in a richer class (modular/Eichler/polylog/period)? | **Partially Yes** — exact identities exist via Ramanujan's modular series, Clausen/polylogarithms, Beukers' triple integral, and Borel's $K_5(\mathbb{Z})$ regulator |
+| Best irrationality measure $\mu(\zeta(3))$ | $\mu(\zeta(3)) < 5.5138800$ (Giraudin Sept 2026, `arXiv:2609.26980`, improving Rhin–Viola 2001's $5.513891$; conjectured $\mu = 2$) |
+| Does $\zeta(3)$ have a closed form in a richer class (modular/Eichler/polylog/period/CMF)? | **Partially Yes** — exact identities exist via Ramanujan's & Plouffe's Lambert/Eichler series, Clausen/polylogarithms, Beukers' triple integral, Conservative Matrix Fields, and Smyth's Mahler measure |
 
 ## Repository Structure
 
 ```text
 zeta3-closed-form/
-├── README.md                    # This overview
+├── README.md                              # This overview
 ├── docs/
-│   ├── ZETA3_COMPENDIUM.md      # Complete mathematical dossier, obstructions & attack roadmap
-│   └── RH_PROOF_CLUES.md        # Concrete clues & transferable machinery from the 2026 Lean RH proof
+│   ├── HIGHEST_PROBABILITY_STRATEGY.md    # Definitive ranked strategy (102-search synthesis + RH clues)
+│   ├── LITERATURE_100_SEARCH_ARCHIVE.md   # Complete indexed archive of 102 targeted research searches (1734–2026)
+│   ├── ZETA3_COMPENDIUM.md                # Mathematical dossier: obstructions, 20+ formulas & roadmap
+│   └── RH_PROOF_CLUES.md                  # Concrete transferable machinery audited from the 2026 Lean RH proof
 ├── scripts/
-│   └── zeta3_lab.py             # 60-digit arbitrary-precision identity verifier, Apéry lab & LLL relation finder
-├── lean-toolchain               # Lean 4 toolchain (v4.36.0)
-├── lakefile.toml                # Lake project configuration
+│   ├── zeta3_lab.py                       # 80-digit verifier (8 identities to 1e-81) & LLL relation exclusion lab
+│   └── rhin_viola_lab.py                  # Beukers / Rhin–Viola W(D_5) (|Φ|=1920) / Giraudin (2026) workbench
+├── lean-toolchain                         # Lean 4 toolchain (v4.36.0)
+├── lakefile.toml                          # Lake project configuration
 └── Zeta3/
-    ├── Basic.lean               # Core definitions, Apéry sequences (a_n, b_n), and exact algebraic recurrences
-    ├── OpenProblems.lean        # Formal statements of the closed-form, independence & irrationality-measure targets
-    └── AperyRecurrence.lean     # Verified theorems on Apéry numbers, recurrences & Casoratian identities
+    ├── Basic.lean                         # Apéry numbers, cubic recurrence & rational sequences
+    ├── AperyRecurrence.lean               # Formal proofs: Casoratian conservation & telescoping series identity
+    ├── ParityObstruction.lean             # Formal proof: Euler's symmetric pole-pairing parity obstruction
+    └── OpenProblems.lean                  # Formal open-problem specs & proved Ramanujan–Eichler equivalence
 ```
 
 ## Quick Start
@@ -59,7 +63,7 @@ Because Grothendieck's Period Conjecture and Mixed Tate Motives ($\mathrm{MTM}(\
 
 1. **Negative / Non-Existence Direction (Proving No Euler Closed Form Exists):**
    - **Target 1 (Milestone):** Prove $\zeta(3) / \pi^3 \notin \mathbb{Q}$ (i.e., there is no rational closed form $\zeta(3) = q\pi^3$).
-   - **Target 2 (Quantitative):** Improve Rhin–Viola's irrationality measure $\mu(\zeta(3)) \le 5.513891$ by searching larger hypergeometric / multiple-integral / group-action families.
+   - **Target 2 (Quantitative):** Beat Giraudin's Sept 2026 irrationality measure record $\mu(\zeta(3)) < 5.5138800$ (`arXiv:2609.26980`) by searching narrow-cone $W(D_5)$ perturbations and larger hypergeometric / multiple-integral families.
    - **Target 3 (Transcendence):** Study Nesterenko-style modular / Eichler-integral approaches linking $\zeta(3)$ via Ramanujan's formula $\zeta(3) = \frac{7\pi^3}{180} - 2\sum_{n=1}^\infty \frac{1}{n^3(e^{2\pi n}-1)}$ to quasi-modular forms.
 
 2. **Positive / Structural Direction (Closed Forms in Enlarged Function & Period Rings):**
