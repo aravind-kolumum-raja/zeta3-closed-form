@@ -28,7 +28,8 @@ Yet for **odd** integers $2k+1 \ge 3$—starting with $\zeta(3)$—no analogous 
 zeta3-closed-form/
 ├── README.md                    # This overview
 ├── docs/
-│   └── ZETA3_COMPENDIUM.md      # Complete mathematical dossier, obstructions & attack roadmap
+│   ├── ZETA3_COMPENDIUM.md      # Complete mathematical dossier, obstructions & attack roadmap
+│   └── RH_PROOF_CLUES.md        # Concrete clues & transferable machinery from the 2026 Lean RH proof
 ├── scripts/
 │   └── zeta3_lab.py             # 60-digit arbitrary-precision identity verifier, Apéry lab & LLL relation finder
 ├── lean-toolchain               # Lean 4 toolchain (v4.36.0)
