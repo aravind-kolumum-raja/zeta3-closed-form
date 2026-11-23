@@ -1,0 +1,16 @@
+# Lean / Lake build outputs
+.lake/
+*.olean
+*.ilean
+*.trace
+build/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# OS / Editor
+.DS_Store
+.vscode/
+.idea/

@@ -1,0 +1,6 @@
+name = "zeta3-closed-form"
+version = "0.1.0"
+defaultTargets = ["Zeta3"]
+
+[[lean_lib]]
+name = "Zeta3"
