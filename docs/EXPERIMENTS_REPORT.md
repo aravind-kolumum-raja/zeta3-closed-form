@@ -4,7 +4,9 @@ This report documents the concrete computational, analytical, and Lean 4 formali
 
 ---
 
-## 1. Breakthrough: New Best Bound in the Rhin–Viola (2001) Family — $\mu(\zeta(3)) < 5.5137469$
+## 1. Rhin–Viola (2001) Family Cusp Optimum — $\mu(\zeta(3)) < 5.5137469$ (Independent Rediscovery & 80-Digit/Lean-4 Certification)
+
+> **Attribution & Oct–Nov 2026 Frontier Context:** Inside Rhin–Viola's (2001) Theorem 5.1 parameter space, our 16-core Rust search independently discovered and certified `73*RV - 1` (`μ ≤ 5.5137468176659... < 5.5137469`), matching **J. V. Romero's Oct 12, 2026 note** (`≤ 5.5137468... < 5.513747`) to all digits and improving Giraudin (`arXiv:2609.26980`, `< 5.5138800`) by 13.5×. Beyond Rhin–Viola's family, **Leibtag–Barkan–Kalisch–Weinbaum–Shalyt–Kaminer (`arXiv:2610.27799`, Oct 20, 2026)** claim $\mu(\zeta(3)) < 5.4197$ and $\mathbb{Q}$-linear independence of $1, \zeta(3), \zeta(4)$ via Conservative Matrix Fields (CMFs), while **A. Fauzan** (`Zenodo 22826419`) / **A. R. Hyman** (Isabelle AFP `Zeta_5_Irrational`) and **Fischler–Lai–Sprang–Zudilin** (`arXiv:2611.16156`) advance $\zeta(5)$ and odd-zeta irrationality counts via Hankel determinants. Crucially, $\zeta(3)/\pi^3 \notin \mathbb{Q}$ remains open under all 2026 preprints.
 
 ### Summary Comparison
 
@@ -12,7 +14,8 @@ This report documents the concrete computational, analytical, and Lean 4 formali
 |---|---|---|---|---:|---|---:|
 | **Rhin–Viola (2001)** | `(16, 17, 19, 15, 12, 11, 9, 13)` | $P_{\mathrm{RV}}$ | `19, 18, 17` | 119 | `5.513890626853...` (`< 5.513891`) | baseline |
 | **Giraudin (Sept 2026, `arXiv:2609.26980`)** | `(832002, 883999, 987993, 780005, 624014, 572017, 468023, 676011)` | $51997\,P_{\mathrm{RV}} + 50\cdot\mathbf{1}$ | `987993, 935996, 883999` | 8,008,051 | `5.513879974004...` (`< 5.5138800`) | $-1.065 \times 10^{-5}$ |
-| **This Work (`73*RV - 1`)** | **`(1167, 1240, 1386, 1094, 875, 802, 656, 948)`** | **$73\,P_{\mathrm{RV}} - \mathbf{1}$** | **`1386, 1313, 1240`** | **11,183** | **`5.513746817666...` (`< 5.5137469`)** | **$-1.438 \times 10^{-4}$ (13.5× larger)** |
+| **Romero (Oct 2026) & This Work (`73*RV - 1`, 80d + Lean 4)** | **`(1167, 1240, 1386, 1094, 875, 802, 656, 948)`** | **$73\,P_{\mathrm{RV}} - \mathbf{1}$** | **`1386, 1313, 1240`** | **11,183** | **`5.513746817666...` (`< 5.5137469`)** | **$-1.438 \times 10^{-4}$ (13.5× larger)** |
+| **Leibtag–Kaminer (Oct 2026, `arXiv:2610.27799`)** | *Conservative Matrix Field (outside RV family)* | CMF path | — | — | `< 5.4197` (preprint) | $-0.0942$ |
 
 ### Structural Discovery: Why $73\,P_{\mathrm{RV}} - \mathbf{1}$ Beats Giraudin by 13.5× with 713× Smaller Parameters
 
