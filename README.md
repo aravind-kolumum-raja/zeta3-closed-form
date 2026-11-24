@@ -47,6 +47,10 @@ Yet for **odd** integers $2k+1 \ge 3$—starting with $\zeta(3)$—no analogous 
 ```text
 zeta3-closed-form/
 ├── README.md                              # This overview
+├── paper/
+│   ├── main.tex                           # Publication-ready arXiv LaTeX manuscript (mu(zeta(3)) < 5.3193 & dim<1,z3,z4>=3)
+│   ├── main.pdf                           # Compiled 21-page AMS/arXiv PDF (with Lean 4 formalization in Appendix C)
+│   └── references.bib                     # BibTeX bibliography
 ├── docs/
 │   ├── NUMBER_THEORY_MASTER_STRATEGY.md   # 10-branch master strategy, 5 stress tests & 5-module elementary proof study guide
 │   ├── OVERNIGHT_DISCOVERIES.md           # New mu<=5.3037 CMF, 8 pure 225d Pisot/Salem/Lehmer ladders, Fauzan w_3 & WZ v2
@@ -63,6 +67,7 @@ zeta3-closed-form/
 │   ├── pcf_hunter/                        # 16-core native Rust 6.48M-PCF / 4D-LLL hunter (<10 MB RAM)
 │   └── expr_hunter/                       # 16-core native Rust 31.4-trillion MITM expression hunter (<11 MB RAM)
 ├── scripts/
+│   ├── certify_paper_bounds.py            # 100-digit rigorous interval-arithmetic & universal Farey-40 certifier for paper/main.tex
 │   ├── prove_fp_shells_530.py             # Elementary Wilson-Lucas deg(g_m)=p-2 verifier (38/38 sub-shells) & joint (1,z3,z4)
 │   ├── strategy_stress_tests.py           # 5 quantitative cross-branch number-theory stress tests (Exp 3A, 3B, 4A, 4B, 4C)
 │   ├── certify_cmf_530.py                 # 230-digit independent certifier for new mu(zeta(3)) <= 5.303682 CMF
@@ -89,13 +94,15 @@ zeta3-closed-form/
     ├── OpenProblems.lean                  # Formal open-problem specs, Ramanujan & Plouffe Lambert equivalences
     ├── RhinViolaCert.lean                 # Kernel-checked W(D_5) uniform-shift law & 30-coset certificates
     ├── CalabiGeometry.lean                # Formal 3D circular, hyperbolic & Jacobi-elliptic Calabi Jacobians
-    └── OvernightTheorems.lean             # Formal 5-binomial F_n*, 24-shell bounds, Pisot/Salem/Lehmer & Fauzan theorems
+    ├── OvernightTheorems.lean             # Formal 5-binomial F_n*, 24-shell bounds, Pisot/Salem/Lehmer & Fauzan theorems
+    └── ElementaryRecordProof.lean         # Formal saddle cubic, Wilson-Lucas degree, 38 sub-shells, concavity & Thms 1-2
 ```
 
 ## Quick Start
 
-### 1. Independently Certify New $\mu(\zeta(3)) \le 5.303682$ CMF, Wilson–Lucas Proof & Strategy Stress Tests
+### 1. Independently Certify the Paper (`paper/main.pdf`), Wilson–Lucas Proof & Strategy Stress Tests
 ```bash
+python3 scripts/certify_paper_bounds.py     # 100-digit interval enclosures, universal Farey-40 & concavity certifier
 python3 scripts/prove_fp_shells_530.py      # Elementary Wilson-Lucas proof (38/38 sub-shells) & single-presentation (1,z3,z4)
 python3 scripts/strategy_stress_tests.py    # 5 cross-branch number-theory stress tests (Exp 3A, 3B, 4A, 4B, 4C)
 python3 scripts/certify_cmf_530.py          # 230-digit saddle, exact Fraction carry/24-shell & n=1..3 verification
@@ -103,9 +110,10 @@ python3 scripts/verify_pure_li3_ladders.py  # 225-digit verification of all 8 pu
 python3 scripts/certify_rv_bound.py         # 80-digit certification of RV01 cusp optimum 73*RV - 1 (< 5.5137469)
 ```
 
-### 2. Build the Lean 4 Formalization (18/18 jobs, zero `sorry`)
+### 2. Build the Lean 4 Formalization (20/20 jobs, zero `sorry`) & Compile the Paper PDF
 ```bash
 lake build
+(cd paper && tectonic -X compile main.tex)
 ```
 
 ### 3. Run the 16-Core Rust Hunters & Supporting Labs
