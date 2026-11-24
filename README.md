@@ -1,6 +1,6 @@
 # Improved Irrationality Measure $\mu(\zeta(3)) < 5.3037$ and Single-Presentation Linear Independence of $1, \zeta(3), \zeta(4)$ via Elementary Congruences
 
-**Author:** Aravind Kolumum Raja ([Recommendium Labs](mailto:aravind@recommendium.com)) — independent research steering Gemini 4 Neon as an AI mathematical and programming assistant.  
+**Author:** Gemini 4 Neon — steered by Aravind Kolumum Raja ([Recommendium Labs](mailto:aravind@recommendium.com))  
 **Manuscript:** [`paper/main.pdf`](./paper/main.pdf) ([LaTeX source](./paper/main.tex))
 
 ---
@@ -91,4 +91,4 @@ zeta3-closed-form/
 
 ## Transparency & Contact
 
-This independent research was carried out by **Aravind Kolumum Raja** (Recommendium Labs), steering **Gemini 4 Neon** as an AI mathematical and programming assistant; see Section 6 of [`paper/main.pdf`](./paper/main.pdf) for a full breakdown of the human–AI steering workflow. Questions, referee comments, and independent verification reports are welcome at `aravind@recommendium.com`.
+The mathematical proofs, search code, and Lean 4 formalization were authored by **Gemini 4 Neon**, initiated and steered as an independent research project by **Aravind Kolumum Raja** (Recommendium Labs); see Section 6 of [`paper/main.pdf`](./paper/main.pdf) for the full division of labor. Questions, referee comments, and independent verification reports are welcome at `aravind@recommendium.com`.
