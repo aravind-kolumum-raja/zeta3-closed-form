@@ -87,7 +87,6 @@
 \address{Independent Researcher}
 \email{aravind-kolumum-raja@users.noreply.github.com}
 \urladdr{https://github.com/aravind-kolumum-raja/zeta3-closed-form}
-\thanks{Independent research by Aravind Kolumum Raja, steering Gemini~4~Neon as an AI programming and mathematical reasoning assistant; see the ``Use of AI Tools'' statement in Section~\ref{sec:remarks}.}
 
 \subjclass[2020]{Primary 11J82; Secondary 11J72, 11M06, 33C20, 68V20}
 \keywords{Ap{\'e}ry's constant, irrationality measure, Riemann zeta function, Wilson's theorem, Lucas's theorem, Wolstenholme's theorem, modulo-$p^2$ congruences, finite-field shells, linear independence, Lean 4 formal verification}
@@ -1096,9 +1095,13 @@ All verification scripts and Lean~4 proofs are publicly available at \url{https:
 \end{itemize}
 \end{remark}
 
-\enlargethispage{2\baselineskip}
-\subsection*{Use of AI Tools}
-In the spirit of transparent reporting (cf.~\cite{LeibtagKaminer2026}), this work was conducted by Aravind Kolumum Raja (independent researcher), who directed and steered Gemini~4~Neon to help design and run the large-scale Rust/Python parameter searches, explore candidate modulo-$p$ and modulo-$p^2$ congruence structures, draft Lean~4 proof scripts, and assist with manuscript typesetting. Every mathematical theorem in this paper is supported by a complete, self-contained proof presented in Sections~\ref{sec:pf}--\ref{sec:proof-main}, independently verified by $100$-digit interval arithmetic and the Lean~4 proof kernel.
+\subsection*{Use of AI Tools and Human--AI Steering Methodology}
+In the spirit of complete transparency (cf.~\cite{LeibtagKaminer2026}), we describe the exact division of labor between the author and the AI system used in this project:
+\begin{itemize}
+  \item \emph{Human direction and steering:} This work began as a personal independent research initiative by Aravind Kolumum Raja (whose formal training is in statistics rather than analytic number theory). The author set the overarching research goals (exploring closed forms, transcendence obstructions, and sharper irrationality measures for $\zeta(3)$), steered the iterative experimental agenda, insisted on replacing black-box CMF and empirical claims with self-contained proofs and formal checks, initiated the $25$-experiment follow-up campaign that turned the empirical second-order windows into Theorem~\ref{thm:second-order}, and directed the auditing, retitling, proofreading, and transparent presentation of the manuscript.
+  \item \emph{AI execution and mathematical derivation:} Under the author's step-by-step steering, Gemini~4~Neon designed and executed the native Rust and Python search code (screening over $3 \times 10^5$ hypergeometric trajectories and testing $25$ distinct mathematical variations), discovered the rational function $F_n^{\star}(t)$, formulated the elementary modulo-$p$ Wilson--Lucas proof (Theorem~\ref{thm:wilson-lucas}) and modulo-$p^2$ Faulhaber-lift / triple-zero quotient proof (Theorem~\ref{thm:second-order}), wrote the $100$-digit interval-arithmetic certifier and Lean~4 formalization, and assisted with LaTeX drafting and verification.
+  \item \emph{Verification standard:} Precisely because the mathematical derivations and code were produced through human-steered AI collaboration outside an academic number-theory department, every claim in this paper is structured to be independently verifiable without trusting either the author or the AI: all proofs in Sections~\ref{sec:pf}--\ref{sec:proof-main} are written out explicitly from first principles, all numerical enclosures and Farey-$40$ case checks are reproducible via a zero-dependency Python script, and the algebraic identities, contour concavity, crossing identities, sub-shell defects, and final measure inequalities are kernel-checked in Lean~4 with zero \texttt{sorry} and no extra axioms. Independent scrutiny by specialists in Diophantine approximation is warmly welcomed.
+\end{itemize}
 
 \clearpage
 % =============================================================================
