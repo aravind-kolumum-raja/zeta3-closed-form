@@ -2,11 +2,39 @@
 
 \usepackage[margin=1.05in]{geometry}
 \usepackage{amsmath,amssymb,amsthm,mathtools}
-\usepackage{booktabs,array,longtable}
+\usepackage{booktabs,array}
 \usepackage{listings}
 \usepackage{xcolor}
-\usepackage[hidelinks]{hyperref}
+\usepackage[colorlinks=true,linkcolor=blue!55!black,citecolor=teal!60!black,urlcolor=blue!60!black]{hyperref}
 \usepackage{microtype}
+
+\allowdisplaybreaks[2]
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
+
+% Clean subsection indentation in amsart Table of Contents
+\makeatletter
+\def\@tocline#1#2#3#4#5#6#7{\relax
+  \ifnum #1>\c@tocdepth
+  \else
+    \par \addpenalty\@secpenalty\addvspace{#2}%
+    \begingroup \hyphenpenalty\@M
+    \@ifempty{#4}{%
+      \@tempdima\csname r@tocindent\number#1\endcsname\relax
+    }{%
+      \@tempdima#4\relax
+    }%
+    \parindent\z@ \leftskip#3\relax \advance\leftskip\@tempdima\relax
+    \rightskip\@pnumwidth plus4em \parfillskip-\@pnumwidth
+    #5\leavevmode\hskip-\@tempdima #6\nobreak\relax
+    \dotfill\hbox to\@pnumwidth{\@tocpagenum{#7}}\par
+    \nobreak
+    \endgroup
+  \fi}
+\def\l@section{\@tocline{1}{4pt plus1pt}{0pt}{2pc}{\bfseries}}
+\def\l@subsection{\@tocline{2}{1pt}{2pc}{2.6pc}{}}
+\makeatother
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
@@ -39,15 +67,18 @@
 \lstset{
   language=Lean4,
   basicstyle=\ttfamily\footnotesize,
-  keywordstyle=\bfseries\color{blue!70!black},
-  commentstyle=\itshape\color{green!45!black},
+  keywordstyle=\bfseries\color{blue!65!black},
+  commentstyle=\itshape\color{teal!55!black},
   breaklines=true,
   columns=fullflexible,
   frame=single,
-  rulecolor=\color{black!25},
+  framesep=6pt,
+  aboveskip=10pt,
+  belowskip=8pt,
+  rulecolor=\color{black!20},
   backgroundcolor=\color{black!2},
-  xleftmargin=4pt,
-  xrightmargin=4pt
+  xleftmargin=6pt,
+  xrightmargin=6pt
 }
 
 \title[Improved Irrationality Measure $\mu(\zeta(3)) < 5.3037$]{Improved Irrationality Measure $\mu(\zeta(3)) < 5.3037$ and Single-Presentation Linear Independence of $1, \zeta(3), \zeta(4)$ via Elementary Congruences}
@@ -82,7 +113,9 @@ The proof is direct and self-contained: it uses neither Conservative Matrix Fiel
 
 \maketitle
 
+\clearpage
 \tableofcontents
+\clearpage
 
 % =============================================================================
 \section{Introduction, Definitions, and Main Results}
@@ -115,7 +148,8 @@ By Dirichlet's approximation theorem, $\mu(\alpha) \ge 2$ for every irrational $
 \caption{Historical progression of proved upper bounds on $\mu(\zeta(3))$.}
 \label{tab:history}
 \footnotesize
-\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.18}
+\setlength{\tabcolsep}{6pt}
 \begin{tabular}{@{}llcl@{}}
 \toprule
 Year & Authors & Bound & Primary Method \\
@@ -875,6 +909,7 @@ Differentiating the partial-fraction expansion of $\widetilde{G}_q(t)$ twice eli
 Finally, since $p > \max(77, \sqrt{40n})$ implies $q < p/40$ and hence $27q + 25 < \frac{27}{40}p + 25 < p$, every pole $M$ and every factorial in the denominators of $\widetilde{a}_M, \widetilde{b}_M$ is strictly less than $p$ and coprime to $p$. Reducing the exact rational identity modulo $p$ in~\eqref{eq:p4-I23-split} gives $p^{v+2} \mid 6 p^4 C_n P_{4,n}$, completing the proof.
 \end{proof}
 
+\clearpage
 % =============================================================================
 \section{Prime Number Theorem, Digamma Enclosures, and Proofs of Theorems~\ref{thm:main-zeta3} and~\ref{thm:main-joint}}
 \label{sec:proof-main}
@@ -901,6 +936,8 @@ where $\psi(w) = \Gamma'(w)/\Gamma(w)$ is the digamma function.
 \caption{The $24$ merged Wilson--Lucas $\FF_p$-shells $I_k = (a_k, b_k)$ of $F_n^{\star}(t)$, with exact $u < 1$ weight $\frac{1}{a_k} - \frac{1}{b_k}$ and periodic digamma weight $\psi(b_k+1) - \psi(a_k+1)$. Entries marked $\dagger$ ($I_{12}$ and $I_{23}$) have proved multiplicity $2$ via Theorem~\ref{thm:second-order}.}
 \label{tab:shells24}
 \footnotesize
+\renewcommand{\arraystretch}{1.42}
+\setlength{\tabcolsep}{5pt}
 \begin{tabular}{@{}clrr@{\hspace{18pt}}clrr@{}}
 \toprule
 $k$ & $I_k = (a_k, b_k)$ & $\frac{1}{a_k} - \frac{1}{b_k}$ & $\psi(b_k+1)-\psi(a_k+1)$ &
@@ -1061,6 +1098,7 @@ All verification scripts and Lean~4 proofs are publicly available at \url{https:
 \subsection*{Use of AI Tools}
 In the spirit of transparent reporting (cf.~\cite{LeibtagKaminer2026}), we note that AI-assisted programming and mathematical reasoning tools were used during this independent research initiative to help design and run the large-scale Rust/Python parameter searches, explore candidate finite-field congruence structures, draft Lean~4 proof scripts, and assist with manuscript typesetting. Every mathematical theorem in this paper is supported by a complete, self-contained elementary proof presented in Sections~\ref{sec:pf}--\ref{sec:proof-main}, independently checked by $100$-digit interval arithmetic and the Lean~4 proof kernel.
 
+\clearpage
 % =============================================================================
 \appendix
 \section{All 38 Uniform-Carry Sub-Shells of \texorpdfstring{$F_n^{\star}(t)$}{F\_n*(t)}}
@@ -1069,19 +1107,17 @@ In the spirit of transparent reporting (cf.~\cite{LeibtagKaminer2026}), we note 
 
 Table~\ref{tab:subshells38} records all $38$ uniform-carry sub-shells partitioning the $24$ merged intervals of Table~\ref{tab:shells24}. On every sub-shell, $\Delta - v_{\min} = 1$, the active set $\mathcal{A}(x_0)$ is a single contiguous open arc on $\RR/\ZZ$, and the unique active carry tuple $(c_1, c_2, c_3, c_4, c_5) \in \{0,1\}^5$ is listed explicitly.
 
-\begin{longtable}{@{}clcccl@{}}
+\begin{table}[ht]
+\centering
 \caption{Exact uniform-carry decomposition of the $24$ shells into $38$ sub-shells.}
-\label{tab:subshells38} \\
+\label{tab:subshells38}
+\footnotesize
+\renewcommand{\arraystretch}{1.04}
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{@{}clcccl@{}}
 \toprule
 Shell & Sub-shell $(a, b)$ & $v_{\min}$ & $\Delta$ & Active carry tuple $(c_1,\dots,c_5)$ & Arc length (at midpt) \\
 \midrule
-\endfirsthead
-\toprule
-Shell & Sub-shell $(a, b)$ & $v_{\min}$ & $\Delta$ & Active carry tuple $(c_1,\dots,c_5)$ & Arc length (at midpt) \\
-\midrule
-\endhead
-\bottomrule
-\endfoot
  1 & $(1/15,\ 2/27)$ & $3$ & $4$ & $(1,1,1,0,0)$ & $0.26667$ \\
  2 & $(1/13,\ 2/25)$ & $0$ & $1$ & $(0,0,0,0,0)$ & $0.41231$ \\
  3 & $(1/11,\ 2/21)$ & $0$ & $1$ & $(0,0,0,0,0)$ & $0.13853$ \\
@@ -1120,8 +1156,11 @@ Shell & Sub-shell $(a, b)$ & $v_{\min}$ & $\Delta$ & Active carry tuple $(c_1,\d
 23 & $(18/19,\ 19/20)$ & $1$ & $2$ & $(0,0,0,0,1)$ & $0.46184$ \\
 23 & $(19/20,\ 20/21)$ & $2$ & $3$ & $(0,0,0,1,1)$ & $0.43929$ \\
 24 & $(20/21,\ 22/23)$ & $2$ & $3$ & $(0,0,0,1,1)$ & $0.40994$ \\
-\end{longtable}
+\bottomrule
+\end{tabular}
+\end{table}
 
+\clearpage
 % =============================================================================
 \section{Exact Small-\texorpdfstring{$n$}{n} Approximants and Steepest-Descent Verification}
 \label{app:numeric}
@@ -1134,7 +1173,8 @@ Table~\ref{tab:small-n} summarizes exact rational evaluation of $(C_n Q_n, C_n P
 \caption{Exact $230$-digit evaluation of $F_n^{\star}(t)$ for $n = 1, 2, 3$ vs.\ Proposition~\ref{prop:asymp-nonvanish}.}
 \label{tab:small-n}
 \footnotesize
-\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.22}
+\setlength{\tabcolsep}{5pt}
 \begin{tabular}{@{}ccccccc@{}}
 \toprule
 $n$ & Digits of $C_n Q_n$ & $|\zeta(3) - P_{3,n}/Q_n|$ & $|\zeta(4) - P_{4,n}/Q_n|$ & Exact $R_{3,n}$ & Steepest-descent $R_{3,n}$ & Ratio \\
@@ -1309,8 +1349,9 @@ theorem thm2_mu_joint_lt_119_7 :
 
 end Zeta3.ElementaryRecordProof
 \end{lstlisting}
-\noindent\emph{(Note: The full inductive proof scripts of \texttt{num\_crossing\_identity} and \texttt{den\_crossing\_identity} are included verbatim in the compiled repository file \texttt{Zeta3/ElementaryRecordProof.lean}; ASCII symbols \texttt{/\textbackslash}, \texttt{/=}, \texttt{<=}, \texttt{>=}, \texttt{x} above correspond to Unicode \texttt{$\wedge$}, \texttt{$\ne$}, \texttt{$\le$}, \texttt{$\ge$}, \texttt{$\times$}.)}
+\noindent{\small\textit{Note:} The full inductive proof scripts of \texttt{num\_crossing\_identity} and \texttt{den\_crossing\_identity} are included verbatim in the compiled repository file \texttt{Zeta3/ElementaryRecordProof.lean}; ASCII symbols \texttt{/\textbackslash}, \texttt{/=}, \texttt{<=}, \texttt{>=}, \texttt{x} above correspond to Unicode $\wedge$, $\ne$, $\le$, $\ge$, $\times$.}
 
+\clearpage
 \bibliographystyle{amsplain}
 \bibliography{references}
 
