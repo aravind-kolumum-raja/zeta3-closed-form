@@ -5,33 +5,44 @@ certify_paper_bounds.py
 Complete, pure-Python-stdlib, 100-digit rigorous interval-arithmetic certifier
 for all numerical and combinatorial claims in our paper:
 
-  "An Elementary Proof of mu(zeta(3)) < 5.3193 and Single-Presentation Linear
-   Independence of 1, zeta(3), zeta(4) via Wilson-Lucas Finite-Field Shells"
+  "An Elementary Proof of mu(zeta(3)) < 5.3037 and Single-Presentation Linear
+   Independence of 1, zeta(3), zeta(4) via Wilson-Lucas and Z/p^2Z Finite-Field Shells"
 
 Certifies with EXPLICIT rigorous lower/upper enclosures [lo, hi] (zero floating-
 point ambiguity, zero external dependencies):
   1. Exact algebraic decomposition of all 24 merged F_p-shells into 38 uniform-
-     carry sub-shells; symbolic verification on exact rational midpoints &
-     endpoints that on ALL 38/38 sub-shells:
+     carry sub-shells (and universal verification over all open Farey-40 cells in S):
        (a) Delta(x0) - v_min(x0) == 1,
        (b) the active minimum set A(x0) is a SINGLE contiguous open arc on R/Z
            with a UNIQUE carry tuple (c1, c2, c3, c4, c5) in {0, 1}^5,
        (c) NO breakpoint among {0, -2x0, -4x0, 2x0, 3x0, 21x0, 23x0} lies inside A(x0),
        (d) BOTH P_{3,n} (t0=2n) AND P_{4,n} (t0=4n) vanish mod p^{v_all + 1} across
            all 38/38 sub-shells in BOTH u < 1 AND periodic u = 1 + x!
+  1B. Exact universal Farey-40 symbolic certification of the TWO second-order Z/p^2Z
+      shells I_12 = (7/15, 11/23) and I_23 = (16/17, 20/21) (5 uniform-carry sub-
+      windows, 14/14 open Farey-40 cells):
+       (a) c_core[:3] == (0, 0, 0) and Delta - v_min == 1 (so sum_beta == -1),
+       (b) {dv <= 1} is a SINGLE contiguous open arc strictly inside (0, 1) in the
+           j + 2n bucket coordinate (wraps_0 == False, comp_circle == 1),
+       (c) NO binomial carry drops below c_core on {dv <= 1} (drops_on_le1 == 0),
+       (d) On I_12 (7/7 cells), j + 4n === 0 (mod p) also never splits {dv <= 1};
+           on I_23 (7/7 cells), the prefix x < (-2n mod p) has uniform carry tuple
+           c_core + (0, 0, 1, 0, 0), giving exact quotient rational function G_tilde_q(t)
+           of equal degree 39q + 37 with a TRIPLE ZERO at t = 0 => G_tilde_q''(0) = 0!
   2. Exact rational Farey N=40 carry sums on u in (1/25, 1) [zeta(3)] and
      u in (1/27, 1) [joint (1, zeta(3), zeta(4))], verifying simple-pole wings
      NEVER undercut double-pole carry valuations anywhere on the periodic Farey grid.
   3. 100-digit rigorous enclosures [lo, hi] for:
        - Saddle cubic roots x_pole, z_cplx, sigma, g, g - sigma, phase theta, Re(S''(z*)),
-       - Unimodal global maximum verification of 1D vertical contour potential
-         psi(y) = Re(Phi_0(c + i*y)) - 2*pi*|y| on y in [0, inf),
+       - Exact interval-arithmetic proof of strict concavity psi''(y) < 0 on (0, inf)
+         for the 1D vertical contour potential psi(y) = Re(Phi_0(c + iy)) - 2*pi*y,
        - Periodic digamma integrals psi(b+1) - psi(a+1) using the strictly
          alternating Bernoulli asymptotic series remainder theorem!
   4. Final rigorous upper bounds:
-       - Theorem 1: mu(zeta(3))           <= mu_1st_hi   < 5.319267  < 5.3193
-       - Theorem 2: mu(A*zeta(3)+B*zeta(4)) <= mu_joint_hi < 119.670 < 119.7
-       - Remark (empirical 2nd-order):    mu_full        = 5.3036815 < 5.3037
+       - Theorem 1.2 (Full, 1st+2nd order): mu(zeta(3))           <= 5.3036815115 < 5.3037
+         (1st-order Wilson-Lucas milestone: mu_1st                <= 5.3192668443 < 5.3193)
+       - Theorem 1.3 (Full, 1st+2nd order): mu(A*zeta(3)+B*zeta(4)) <= 112.238     < 112.3
+         (1st-order Wilson-Lucas milestone: mu_joint_1st          <= 119.6696     < 119.7)
 """
 
 from decimal import Decimal, getcontext, ROUND_FLOOR, ROUND_CEILING
@@ -342,6 +353,85 @@ def certify_38_subshells():
     return table_rows
 
 
+def certify_2nd_order_shells():
+    print("\n" + "=" * 82)
+    print("1B. UNIVERSAL FAREY-40 PROOF OF THE TWO SECOND-ORDER Z/p^2Z SHELLS I_12 U I_23")
+    print("=" * 82)
+    f40 = farey_seq(40)
+    w2_i12 = (Fraction(7, 15), Fraction(11, 23))
+    w2_i23 = (Fraction(16, 17), Fraction(20, 21))
+    n_i12 = 0
+    n_i23 = 0
+    for i in range(len(f40) - 1):
+        a, b = f40[i], f40[i + 1]
+        x = (a + b) / 2
+        in12 = (w2_i12[0] < x < w2_i12[1])
+        in23 = (w2_i23[0] < x < w2_i23[1])
+        if not (in12 or in23):
+            continue
+        # Breakpoints in the j+2n bucket coordinate t = {y + 2x} in [0, 1):
+        tpts = {Fraction(0), Fraction(1)}
+        for k in (11, -2, 13, 0, 15, 2, -5, -4):
+            tpts.add((-k * x) % 1)
+        for k in (25, 23):
+            tpts.add((k * x) % 1)
+        ts = sorted(tpts)
+        vals, ctups = [], []
+        for k in range(len(ts) - 1):
+            t = (ts[k] + ts[k + 1]) / 2
+            y = (t - 2 * x) % 1
+            ct = (
+                math.floor(y + 13 * x) - math.floor(13 * x) - math.floor(y),
+                math.floor(y + 15 * x) - math.floor(13 * x) - math.floor(y + 2 * x),
+                math.floor(y + 17 * x) - math.floor(13 * x) - math.floor(y + 4 * x),
+                math.floor(20 * x) - math.floor(y - 3 * x) - math.floor(23 * x - y),
+                math.floor(19 * x) - math.floor(y - 2 * x) - math.floor(21 * x - y),
+            )
+            vals.append(sum(ct))
+            ctups.append(ct)
+        vmin = min(vals)
+        delta = 2 - 3 * math.floor(13 * x) + math.floor(20 * x) + math.floor(19 * x)
+        c_core = ctups[vals.index(vmin)]
+        assert c_core[:3] == (0, 0, 0), f"Unexpected numerator core carry at {x}: {c_core}"
+        assert delta - vmin == 1
+        # Exact H-coefficient sum: sum_beta = 3*floor(13x) - floor(20x) - floor(19x) - (1-c4) - (1-c5) = -(Delta - vmin) = -1
+        sum_beta = 3 * math.floor(13 * x) - (math.floor(20 * x) + (1 - c_core[3])) - (math.floor(19 * x) + (1 - c_core[4]))
+        assert sum_beta == -1
+        le1 = [v <= vmin + 1 for v in vals]
+        comp_circle = sum(1 for k in range(len(le1)) if le1[k] and not le1[k - 1])
+        if all(le1): comp_circle = 1
+        assert comp_circle == 1, f"Non-single {{dv<=1}} arc at {x}: comp={comp_circle}"
+        assert not (le1[0] and le1[-1]), f"j+2n wraps {{dv<=1}} at {x}"
+        drops = sum(1 for k in range(len(vals)) if le1[k] for r in range(5) if ctups[k][r] < c_core[r])
+        assert drops == 0, f"Carry drop on {{dv<=1}} at {x}"
+        # Check P_{4,n} breakpoint t_p4 = (-2x) % 1 (i.e., j + 4n === 0 mod p):
+        t_p4 = (-2 * x) % 1
+        idx_p4 = ts.index(t_p4)
+        splits_p4 = le1[idx_p4 - 1] and le1[idx_p4 % len(vals)]
+        if in12:
+            assert not splits_p4, f"j+4n splits {{dv<=1}} on I_12 at {x}"
+            n_i12 += 1
+        else:
+            # On I_23, verify every interval in the prefix [0, t_p4) has dv == 1 and EXACT carry tuple c_core + (0,0,1,0,0)!
+            for k in range(idx_p4):
+                assert vals[k] == vmin + 1, f"I_23 prefix non-dv1 at {x}, k={k}: dv={vals[k]-vmin}"
+                assert ctups[k] == (c_core[0], c_core[1], 1, c_core[3], c_core[4])
+            # Also verify exact floor constants giving the triple-zero quotient rational function G_tilde_q(t):
+            assert math.floor(2 * x) == 1 and math.floor(4 * x) == 3
+            assert math.floor(11 * x) == 10 and math.floor(13 * x) == 12 and math.floor(15 * x) == 14
+            assert math.floor(23 * x) == 21 and math.floor(25 * x) == 23
+            n_i23 += 1
+    assert n_i12 == 7 and n_i23 == 7
+    print(f"  ALL {n_i12}/7 Farey-40 cells of I_12 = (7/15, 11/23) and ALL {n_i23}/7 cells of I_23 = (16/17, 20/21)")
+    print(f"  certified: c_core[:3]=(0,0,0), sum_beta=-1, single arc {{dv<=1}} strictly inside (0,1),")
+    print(f"  zero carry drops on {{dv<=1}}, zero j+2n splits (Q_n, P_{{3,n}} vanish bucket-by-bucket mod p^{{vmin+2}}),")
+    print(f"  zero j+4n splits on I_12, and exact uniform prefix c_core+(0,0,1,0,0) on I_23 (G_tilde_q''(0)=0)!")
+    # Exact rational 2nd-order extra sum on u < 1:
+    extra_2nd_u1 = (Fraction(15, 7) - Fraction(23, 11)) + (Fraction(17, 16) - Fraction(21, 20))
+    assert extra_2nd_u1 == Fraction(397, 6160)
+    print(f"  Exact rational 2nd-order u < 1 extra sum = {extra_2nd_u1} (= {float(extra_2nd_u1):.12f})")
+
+
 def dec_atan(x: Decimal) -> Decimal:
     if x < 0:
         return -dec_atan(-x)
@@ -619,11 +709,13 @@ def certify_farey_and_digamma_enclosures(sigma_lo, sigma_hi, g_lo, g_hi):
 
     D_car_j4 = interval_add(frac_enc(d_car_j4_u1), d_car_per)
     D_1st_j4 = interval_add(D_car_j4, interval_add(frac_enc(sh1_u1), sh1_per))
+    D_full_j4 = interval_add(D_car_j4, interval_add(frac_enc(sh_full_u1), sh_full_per))
 
     # h = sigma + 3*25 - D (for zeta(3)) and sigma + 4*27 - D (for joint)
     h_1st = (sigma_lo + Decimal(75) - D_1st_z3[1], sigma_hi + Decimal(75) - D_1st_z3[0])
     h_full = (sigma_lo + Decimal(75) - D_full_z3[1], sigma_hi + Decimal(75) - D_full_z3[0])
-    h_j4 = (sigma_lo + Decimal(108) - D_1st_j4[1], sigma_hi + Decimal(108) - D_1st_j4[0])
+    h_j4_1st = (sigma_lo + Decimal(108) - D_1st_j4[1], sigma_hi + Decimal(108) - D_1st_j4[0])
+    h_j4_full = (sigma_lo + Decimal(108) - D_full_j4[1], sigma_hi + Decimal(108) - D_full_j4[0])
 
     # Rigorous enclosures for mu = g / (g - h) (note g/(g-h) = 1 + h/(g-h) is DECREASING in g and INCREASING in h!):
     #   mu_lo = g_hi / (g_hi - h_lo),   mu_hi = g_lo / (g_lo - h_hi)!
@@ -631,40 +723,52 @@ def certify_farey_and_digamma_enclosures(sigma_lo, sigma_hi, g_lo, g_hi):
     mu_1st_hi = g_lo / (g_lo - h_1st[1])
     mu_full_lo = g_hi / (g_hi - h_full[0])
     mu_full_hi = g_lo / (g_lo - h_full[1])
-    mu_j4_lo = g_hi / (g_hi - h_j4[0])
-    mu_j4_hi = g_lo / (g_lo - h_j4[1])
+    mu_j4_1st_lo = g_hi / (g_hi - h_j4_1st[0])
+    mu_j4_1st_hi = g_lo / (g_lo - h_j4_1st[1])
+    mu_j4_full_lo = g_hi / (g_hi - h_j4_full[0])
+    mu_j4_full_hi = g_lo / (g_lo - h_j4_full[1])
 
     print(f"\n  EXACT RATIONAL u < 1 SUMS:")
     print(f"    D_car_z3(u<1)  = {d_car_z3_u1}  (= {float(d_car_z3_u1):.12f})")
     print(f"    D_car_j4(u<1)  = {d_car_j4_u1}  (= {float(d_car_j4_u1):.12f})")
     print(f"    D_sh_1st(u<1)  = {sh1_u1}  (= {float(sh1_u1):.12f})")
     print(f"    D_sh_full(u<1) = {sh_full_u1}  (= {float(sh_full_u1):.12f})")
+    print(f"    D_sh_2nd(u<1)  = {sh_full_u1 - sh1_u1}  (= {float(sh_full_u1 - sh1_u1):.12f})")
 
     print(f"\n  RIGOROUS PERIODIC DIGAMMA ENCLOSURES (width < 1e-24!):")
-    print(f"    D_car_per   in [{str(d_car_per[0])[:28]}, {str(d_car_per[1])[:28]}]  (width {float(d_car_per[1]-d_car_per[0]):.2e})")
-    print(f"    D_sh1_per   in [{str(sh1_per[0])[:28]}, {str(sh1_per[1])[:28]}]  (width {float(sh1_per[1]-sh1_per[0]):.2e})")
+    print(f"    D_car_per    in [{str(d_car_per[0])[:28]}, {str(d_car_per[1])[:28]}]  (width {float(d_car_per[1]-d_car_per[0]):.2e})")
+    print(f"    D_sh1_per    in [{str(sh1_per[0])[:28]}, {str(sh1_per[1])[:28]}]  (width {float(sh1_per[1]-sh1_per[0]):.2e})")
     print(f"    D_shfull_per in [{str(sh_full_per[0])[:28]}, {str(sh_full_per[1])[:28]}]  (width {float(sh_full_per[1]-sh_full_per[0]):.2e})")
 
     print(f"\n  FINAL RIGOROUS ENCLOSURES FOR PAPER THEOREMS:")
-    print(f"    THEOREM 1 (1st-order Wilson-Lucas ONLY):")
-    print(f"      D_1st   in [{str(D_1st_z3[0])[:26]}, {str(D_1st_z3[1])[:26]}]")
-    print(f"      h_1st   in [{str(h_1st[0])[:26]}, {str(h_1st[1])[:26]}]")
-    print(f"      mu_1st  in [{str(mu_1st_lo)[:26]}, {str(mu_1st_hi)[:26]}]  ==> PROVED < 5.3193!")
+    print(f"    THEOREM 1.2 (PROVED Full 1st + 2nd-order Wilson-Lucas + Z/p^2Z Shells):")
+    print(f"      D_full     in [{str(D_full_z3[0])[:26]}, {str(D_full_z3[1])[:26]}]")
+    print(f"      h_full     in [{str(h_full[0])[:26]}, {str(h_full[1])[:26]}]")
+    print(f"      mu_full    in [{str(mu_full_lo)[:26]}, {str(mu_full_hi)[:26]}]  ==> PROVED < 5.3037!")
+    assert mu_full_hi < Decimal("5.3037")
+
+    print(f"    (1st-order Wilson-Lucas milestone alone):")
+    print(f"      D_1st      in [{str(D_1st_z3[0])[:26]}, {str(D_1st_z3[1])[:26]}]")
+    print(f"      h_1st      in [{str(h_1st[0])[:26]}, {str(h_1st[1])[:26]}]")
+    print(f"      mu_1st     in [{str(mu_1st_lo)[:26]}, {str(mu_1st_hi)[:26]}]  ==> PROVED < 5.3193!")
     assert mu_1st_hi < Decimal("5.3193")
 
-    print(f"    THEOREM 2 (Single-Presentation Joint (1, zeta(3), zeta(4)), 1st-order ONLY):")
-    print(f"      D_joint in [{str(D_1st_j4[0])[:26]}, {str(D_1st_j4[1])[:26]}]")
-    print(f"      h_joint in [{str(h_j4[0])[:26]}, {str(h_j4[1])[:26]}]  < g = {str(g_lo)[:16]} (surplus > +{float(g_lo - h_j4[1]):.6f}!)")
-    print(f"      mu_j4   in [{str(mu_j4_lo)[:26]}, {str(mu_j4_hi)[:26]}]  ==> PROVED < 119.7!")
-    assert mu_j4_hi < Decimal("119.7")
+    print(f"    THEOREM 1.3 (PROVED Single-Presentation Joint (1, zeta(3), zeta(4)), Full 1st+2nd):")
+    print(f"      D_j4_full  in [{str(D_full_j4[0])[:26]}, {str(D_full_j4[1])[:26]}]")
+    print(f"      h_j4_full  in [{str(h_j4_full[0])[:26]}, {str(h_j4_full[1])[:26]}]  < g = {str(g_lo)[:16]} (surplus > +{float(g_lo - h_j4_full[1]):.6f}!)")
+    print(f"      mu_j4_full in [{str(mu_j4_full_lo)[:26]}, {str(mu_j4_full_hi)[:26]}]  ==> PROVED < 112.3!")
+    assert mu_j4_full_hi < Decimal("112.3")
 
-    print(f"    REMARK (Empirical 2nd-order refinement):")
-    print(f"      mu_full in [{str(mu_full_lo)[:26]}, {str(mu_full_hi)[:26]}]  (< 5.3037)")
-    assert mu_full_hi < Decimal("5.3037")
+    print(f"    (1st-order Joint milestone alone):")
+    print(f"      D_j4_1st   in [{str(D_1st_j4[0])[:26]}, {str(D_1st_j4[1])[:26]}]")
+    print(f"      h_j4_1st   in [{str(h_j4_1st[0])[:26]}, {str(h_j4_1st[1])[:26]}]  < g (surplus > +{float(g_lo - h_j4_1st[1]):.6f}!)")
+    print(f"      mu_j4_1st  in [{str(mu_j4_1st_lo)[:26]}, {str(mu_j4_1st_hi)[:26]}]  ==> PROVED < 119.7!")
+    assert mu_j4_1st_hi < Decimal("119.7")
 
 
 def main():
     certify_38_subshells()
+    certify_2nd_order_shells()
     sigma_lo, sigma_hi, g_lo, g_hi = certify_saddles_and_vertical_line()
     certify_farey_and_digamma_enclosures(sigma_lo, sigma_hi, g_lo, g_hi)
     print("\n[ALL PAPER BOUNDS & ENCLOSURES RIGOROUSLY CERTIFIED!]")

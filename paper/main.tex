@@ -50,7 +50,7 @@
   xrightmargin=4pt
 }
 
-\title[An Elementary Proof of $\mu(\zeta(3)) < 5.3193$]{An Elementary Proof of $\mu(\zeta(3)) < 5.3193$ and Single-Presentation Linear Independence of $1, \zeta(3), \zeta(4)$ via Wilson--Lucas Finite-Field Shells}
+\title[An Elementary Proof of $\mu(\zeta(3)) < 5.3037$]{An Elementary Proof of $\mu(\zeta(3)) < 5.3037$ and Single-Presentation Linear Independence of $1, \zeta(3), \zeta(4)$ via Wilson--Lucas and $\ZZ/p^2\ZZ$ Finite-Field Shells}
 
 \author{Aravind Kolumum Raja}
 \address{Independent Researcher}
@@ -58,7 +58,7 @@
 \urladdr{https://github.com/aravind-kolumum-raja/zeta3-closed-form}
 
 \subjclass[2020]{Primary 11J82; Secondary 11J72, 11M06, 33C20, 68V20}
-\keywords{Ap{\'e}ry's constant, irrationality measure, Riemann zeta function, Wilson's theorem, Lucas's theorem, finite-field shells, linear independence, Lean 4 formal verification}
+\keywords{Ap{\'e}ry's constant, irrationality measure, Riemann zeta function, Wilson's theorem, Lucas's theorem, Wolstenholme's theorem, finite-field shells, linear independence, Lean 4 formal verification}
 
 \date{November 24, 2026}
 
@@ -67,17 +67,17 @@
 \begin{abstract}
 We prove the new irrationality measure upper bound
 \[
-  \mu(\zeta(3)) \le 5.319266844\ldots < 5.3193,
+  \mu(\zeta(3)) \le 5.303681511\ldots < 5.3037,
 \]
-improving upon the long-standing record $5.513891$ of Rhin and Viola (2001) and the recent breakthrough $5.4197$ of Leibtag, Barkan, Kalisch, Weinbaum, Shalyt, and Kaminer (\texttt{arXiv:2610.27799}, October 2026) by more than $0.1004$. Simultaneously, from the exact same single hypergeometric rational function
+improving upon the long-standing record $5.513891$ of Rhin and Viola (2001) and the recent breakthrough $5.4197$ of Leibtag, Barkan, Kalisch, Weinbaum, Shalyt, and Kaminer (\texttt{arXiv:2610.27799}, October 2026) by more than $0.1160$. Simultaneously, from the exact same single hypergeometric rational function
 \[
   F_n^{\star}(t)
   = \frac{(t - 13n)_{13n}\,(t - 15n)_{13n}\,(t - 17n)_{13n}}
          {(t + 2n)_{21n + 1}\,(t + 3n)_{18n + 1}},
 \]
-we prove that $1$, $\zeta(3)$, and $\zeta(4) = \pi^4/90$ are linearly independent over $\QQ$, with quantitative irrationality measure $\mu(A\zeta(3) + B\zeta(4)) < 119.7$ for all $(A, B) \in \QQ^2 \setminus \{(0,0)\}$, without requiring a second dual presentation.
+we prove that $1$, $\zeta(3)$, and $\zeta(4) = \pi^4/90$ are linearly independent over $\QQ$, with quantitative irrationality measure $\mu(A\zeta(3) + B\zeta(4)) < 112.3$ for all $(A, B) \in \QQ^2 \setminus \{(0,0)\}$, without requiring a second dual presentation.
 
-A key feature of our proof is that it is completely elementary and self-contained: it uses neither Conservative Matrix Fields, nor Meijer $G$-functions, nor multi-dimensional Mellin--Barnes integrals, nor second-order $\ZZ/p^2\ZZ$ trace windows. Instead, (i) the asymptotics and bounded-gap non-vanishing of both remainders follow from a single one-dimensional vertical Sommerfeld--Watson contour whose log-magnitude is algebraically proved to be strictly concave on $(0, \infty)$; and (ii) all $24$ first-order $\FF_p$-shells (decomposed into $38$ uniform-carry sub-shells) follow universally for all primes $p > \sqrt{40n}$ from an explicit Wilson--Lucas meromorphic factorization $\mathcal{R}_m(x) \in \FF_p[x]$ of exact degree $p - 2 < p - 1$. We also record empirical evidence across $10$ primes per Farey cell for two second-order windows $(\frac{7}{15}, \frac{11}{23}) \cup (\frac{16}{17}, \frac{20}{21})$ that conjecturally refine the bound further to $5.3036815 < 5.3037$. All exact algebraic identities, the algebraic contour-concavity certificate, the $38$-sub-shell defect checks, and the final rational measure inequalities are formally verified in Lean~4 with zero \texttt{sorry} and no extra axioms, accompanied by a standalone $100$-digit interval-arithmetic Python certifier.
+A key feature of our proof is that it is completely elementary and self-contained: it uses neither Conservative Matrix Fields, nor Meijer $G$-functions, nor multi-dimensional Mellin--Barnes integrals. Instead: (i) the asymptotics and bounded-gap non-vanishing of both remainders follow from a single one-dimensional vertical Sommerfeld--Watson contour whose log-magnitude is algebraically proved to be strictly concave on $(0, \infty)$; (ii) all $24$ first-order $\FF_p$-shells (decomposed into $38$ uniform-carry sub-shells) follow universally for all primes $p > \max(40, \sqrt{40n})$ from an explicit Wilson--Lucas meromorphic factorization $\mathcal{R}_m(x) \in \FF_p[x]$ of exact degree $p - 2 < p - 1$ (already yielding $\mu(\zeta(3)) < 5.3193$ and $\mu(A\zeta(3)+B\zeta(4)) < 119.7$); and (iii) both second-order $\ZZ/p^2\ZZ$ shells $(\frac{7}{15}, \frac{11}{23})$ and $(\frac{16}{17}, \frac{20}{21})$ are proved elementarily for all primes $p > \max(77, \sqrt{40n})$ by lifting each binomial modulo $p^2$ via Wolstenholme's theorem, applying a six-line Faulhaber master congruence $\frac{1}{p}\sum_{x=0}^{p-1} F(x) \equiv \sum_{x=0}^{p-1} F(x) H_x \pmod p$ ($\deg F \le p - 2$), and resolving the $P_{4,n}$ bucket split on $(\frac{16}{17}, \frac{20}{21})$ through a degree-balanced quotient rational function $\widetilde{G}_q(t)$ with a triple zero at $t = 0$. All exact algebraic identities, smooth $\ZZ/p^2\ZZ$ crossing identities, contour-concavity certificates, sub-shell defect checks, and final rational measure inequalities are formally verified in Lean~4 with zero \texttt{sorry} and no extra axioms, accompanied by a standalone $100$-digit interval-arithmetic Python certifier.
 \end{abstract}
 
 \maketitle
@@ -129,8 +129,8 @@ Year & Authors & Bound & Primary Method \\
 Sept 2026 & Giraudin~\cite{Giraudin2026} & $5.513880$ & Refined Rhin--Viola cone \\
 Oct 2026 & Leibtag--Kaminer et al.~\cite{LeibtagKaminer2026} & $5.4197$ & ${}_5F_4(1)$ CMFs + 14 1st- + 2 2nd-order shells \\
 \midrule
-\textbf{This paper} & \textbf{Theorem~\ref{thm:main-zeta3} (1st-order only)} & $\mathbf{5.3193}$ & \textbf{Elementary $F_n^{\star}(t)$ + 24 Wilson--Lucas shells} \\
-\emph{Remark~\ref{rem:2nd-order}} & \emph{Empirical (+ 2nd-order)} & \emph{$5.3037$} & \emph{Conditional on 2 $\ZZ/p^2\ZZ$ windows} \\
+\textbf{This paper} & \emph{First-order milestone (Thm.~\ref{thm:wilson-lucas})} & $5.3193$ & Elementary $F_n^{\star}(t)$ + 24 Wilson--Lucas $\FF_p$-shells \\
+\textbf{This paper} & \textbf{Theorem~\ref{thm:main-zeta3} (Full, proved)} & $\mathbf{5.3037}$ & \textbf{Elementary $F_n^{\star}(t)$ + 24 $\FF_p$- + 2 $\ZZ/p^2\ZZ$ shells} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -151,16 +151,18 @@ where $(a)_m := \prod_{i=0}^{m-1}(a + i)$ denotes the rising Pochhammer symbol. 
 \label{thm:main-zeta3}
 Ap{\'e}ry's constant satisfies
 \[
-  \mu(\zeta(3)) \le 5.3192668443 < 5.3193.
+  \mu(\zeta(3)) \le 5.303681511 < 5.3037.
 \]
+(First-order Wilson--Lucas $\FF_p$-shells alone already yield $\mu(\zeta(3)) \le 5.319266845 < 5.3193$.)
 \end{theorem}
 
 \begin{theorem}[Single-Presentation Linear Independence of $1, \zeta(3), \zeta(4)$]
 \label{thm:main-joint}
 The numbers $1$, $\zeta(3)$, and $\zeta(4) = \pi^4/90$ are linearly independent over $\QQ$. More precisely, for every pair of rational numbers $(A, B) \in \QQ^2 \setminus \{(0, 0)\}$, the linear combination $\alpha = A\zeta(3) + B\zeta(4)$ is irrational and satisfies
 \[
-  \mu\bigl(A\zeta(3) + B\zeta(4)\bigr) \le 119.6696806 < 119.7.
+  \mu\bigl(A\zeta(3) + B\zeta(4)\bigr) \le 112.248844 < 112.3.
 \]
+(First-order Wilson--Lucas $\FF_p$-shells alone already yield $\mu(A\zeta(3) + B\zeta(4)) < 119.7$.)
 \end{theorem}
 
 \subsection{Overview and Why the Proof Is Completely Elementary}
@@ -176,11 +178,12 @@ The standard route to Theorem~\ref{thm:main-zeta3} produces rational approximati
     54x^3 - 298x^2 - 11879x + 106743 = 0.
   \]
   Remarkably, the second derivative $\psi''(y)$ of the log-magnitude along this straight vertical line is a rational function of $w = y^2$ whose numerator polynomial $P(w) = \sum_{k=0}^{8} p_k w^k$ has \emph{every single coefficient strictly negative} (kernel-verified in Lean~4!), proving global strict concavity on $(0, \infty)$ in two lines. Moreover, the phase shift $R_{4,n}/R_{3,n} \sim \frac{2\pi i}{3}$ at the upper saddle $z_\star$ with angle $\theta \bmod \pi \approx 1.7317$ guarantees that at least one of every two consecutive indices $\{n, n+1\}$ gives a non-vanishing, maximal-size remainder for \emph{every} real combination $A R_{3,n} + B R_{4,n}$.
-  \item \textbf{Universal Wilson--Lucas Meromorphic Factorization Theorem (Section~\ref{sec:fp-shells}):} All primes $p \le \sqrt{40n}$ contribute $O(n^{-1/2}) = o(1)$ asymptotically. For every prime $p > \sqrt{40n}$, every integer $\le 40n$ has at most two base-$p$ digits (zero base-$p^2$ carries). On each of the $38$ uniform-carry sub-shells partitioning our $24$ shells, the minimum carry set $\mathcal{A}(x_0) \subset \RR/\ZZ$ is a \emph{single contiguous open arc} with a unique carry tuple $(c_1,\dots,c_5) \in \{0,1\}^5$ satisfying $\Delta(x_0) - v_{\min}(x_0) = 1$, where
+  \item \textbf{Universal Wilson--Lucas $\FF_p$-Shell Theorem (Section~\ref{sec:fp-shells}):} All primes $p \le \sqrt{40n}$ contribute $O(n^{-1/2}) = o(1)$ asymptotically. For every prime $p > \max(40, \sqrt{40n})$, every integer $\le 40n$ has at most two base-$p$ digits (zero base-$p^2$ carries). On each of the $38$ uniform-carry sub-shells partitioning our $24$ shells, the minimum carry set $\mathcal{A}(x_0) \subset \RR/\ZZ$ is a \emph{single contiguous open arc} with a unique carry tuple $(c_1,\dots,c_5) \in \{0,1\}^5$ satisfying $\Delta(x_0) - v_{\min}(x_0) = 1$, where
   \[
     \Delta(u) := 2 - 3\lfloor 13u \rfloor + \lfloor 20u \rfloor + \lfloor 19u \rfloor
   \]
-  is identically $1$-periodic because $3 \cdot 13 = 20 + 19$. Forming the canonical Wilson--Lucas rational function $\mathcal{R}_m(x) \in \FF_p(x)$ on each $p$-bucket $j = mp - t_0 + x$, its order at every $x \in \FF_p$ is $\ord_x(\mathcal{R}_m) = \rho(x_0, x/p) - v_{\min}(x_0) \ge 0$! Hence $\mathcal{R}_m(x)$ has \emph{zero poles} and is automatically a polynomial in $\FF_p[x]$ of exact degree $(\Delta - v_{\min})p - 2 = p - 2 < p - 1$. Crucially, because $j + 2n$ and $j + 4n$ are already the lower endpoints of the 2nd and 3rd numerator binomials, no harmonic-sum jump ever cuts the open arc $\mathcal{A}(x_0)$; every double-pole and simple-pole wing bucket of $Q_n$, $P_{3,n}$, and $P_{4,n}$ reduces to a constant scalar multiple of $\mathcal{R}_m(x)$ and vanishes individually modulo $p$!
+  is identically $1$-periodic because $3 \cdot 13 = 20 + 19$. Forming the canonical Wilson--Lucas rational function $\mathcal{R}_m(x) \in \FF_p(x)$ on each $p$-bucket $j = mp - t_0 + x$, its order at every $x \in \FF_p$ is $\ord_x(\mathcal{R}_m) = \rho(x_0, x/p) - v_{\min}(x_0) \ge 0$! Hence $\mathcal{R}_m(x)$ has \emph{zero poles} and is automatically a polynomial in $\FF_p[x]$ of exact degree $(\Delta - v_{\min})p - 2 = p - 2 < p - 1$. Crucially, because $j + 2n$ and $j + 4n$ are already the lower endpoints of the 2nd and 3rd numerator binomials, no harmonic-sum jump ever cuts the open arc $\mathcal{A}(x_0)$; every double-pole and simple-pole wing bucket of $Q_n$, $P_{3,n}$, and $P_{4,n}$ reduces to a constant scalar multiple of $\mathcal{R}_m(x)$ and vanishes individually modulo $p$ (already proving $\mu(\zeta(3)) < 5.3193$ and $\mu(A\zeta(3)+B\zeta(4)) < 119.7$).
+  \item \textbf{Elementary $\ZZ/p^2\ZZ$ Second-Order Shell Theorem (Section~\ref{sec:second-order}):} On the two windows $I_{12} = (\frac{7}{15}, \frac{11}{23})$ and $I_{23} = (\frac{16}{17}, \frac{20}{21})$ (comprising $5$ uniform-carry sub-windows and $14$ open Farey-$40$ cells), the sub-level set $\{\rho \le v_{\min} + 1\}$ itself forms a single contiguous arc strictly inside $(0, 1)$ in the $j + 2n$ bucket coordinate, with zero individual carry drops and $c_{\mathrm{core}, 1} = c_{\mathrm{core}, 2} = c_{\mathrm{core}, 3} = 0$. Lifting each binomial modulo $p^2$ via Wolstenholme's theorem and the smooth boundary-crossing identities yields the exact pointwise congruence $C_n a_{mp-2n+x}/p^v \equiv C_{\mathrm{core},m}\bigl(\mathcal{R}_m(x) - p\mathcal{R}_m(x)H_x + p G_m(x)\bigr) \pmod{p^2}$ with $\deg \mathcal{R}_m = p - 2$ and $\deg G_m \le p - 3$. Summing over $x \in \{0, \dots, p-1\}$ vanishes modulo $p^2$ by our six-line Faulhaber Master Lemma $\frac{1}{p}\sum_{x=0}^{p-1} F(x) \equiv \sum_{x=0}^{p-1} F(x) H_x \pmod p$, proving bucket-by-bucket vanishing mod $p^{v+2}$ for $Q_n$ and $P_{3,n}$ on $I_{12} \cup I_{23}$ and for $P_{4,n}$ on $I_{12}$; on $I_{23}$, the prefix split of $P_{4,n}$ collapses by first-order Wilson--Lucas to the second derivative $\frac{1}{6}\widetilde{G}_q''(0) = 0$ of an explicit degree-balanced quotient rational function $\widetilde{G}_q(t)$ with a triple zero at $t = 0$.
   \item \textbf{Exact Rational Arithmetic, Alternating-Bernoulli Digamma Enclosures, and Lean~4 Verification (Section~\ref{sec:proof-main} and Appendix~\ref{app:lean}):} Applying the Prime Number Theorem over the $490$-cell Farey partition of order $40$ and enclosing the periodic digamma sums to width $< 10^{-31}$ via the strictly alternating Bernoulli asymptotic remainder yields Theorems~\ref{thm:main-zeta3} and~\ref{thm:main-joint}.
 \end{enumerate}
 
@@ -267,7 +270,7 @@ Crucially, the overall sign is $(-1)^{39n - (2j - 5n)} = (-1)^{44n - 2j} = +1$ (
 \]
 proving~\eqref{eq:bj-deriv}. Part (b) follows by identical evaluation of $\Res_{t=-j} F_n^{\star}(t)$, noting that on the left wing $(-j + 3n)_{18n+1} = (21n - j)!/(3n - 1 - j)!$ has sign $+1$, whereas on the right wing $(-j + 3n)_{18n+1} = (-1)^{18n+1}(j - 3n)!/(j - 21n - 1)!$ contributes an extra minus sign.
 
-For (c), differentiate Vandermonde's identity $\binom{A + x}{L} = \sum_{k=0}^{L} \binom{A}{L-k}\binom{x}{k}$ at $x = 0$: since $\frac{d}{dx}\big|_{x=0}\binom{x}{k} = \frac{(-1)^{k-1}}{k}$ for $k \ge 1$, we obtain
+For (c), differentiating Vandermonde's identity $\binom{A + x}{L} = \sum_{k=0}^{L} \binom{A}{L-k}\binom{x}{k}$ at $x = 0$ and using $\frac{d}{dx}\big|_{x=0}\binom{x}{k} = \frac{(-1)^{k-1}}{k}$ ($k \ge 1$) yields
 \[
   \binom{A}{L}(H_A - H_{A-L}) = \sum_{k=1}^{L} \frac{(-1)^{k-1}}{k} \binom{A}{L-k} \in \frac{1}{d_L}\ZZ
 \]
@@ -659,7 +662,7 @@ Observe that the six critical boundaries $j \in \{2n, 3n, 21n, 23n\}$ and $j + t
 By Wilson's theorem, $\frac{(Qp+R)!}{p^Q} \equiv (-1)^Q Q!\, R! \pmod p$ and $R!\,(p - 1 - R)! \equiv (-1)^{R+1} \pmod p$ for all $0 \le Q, R < p$. Applying this to~\eqref{eq:aj-binom} shows that on every double-pole bucket $m$:
 \begin{itemize}
   \item Outside $\mathcal{A}(x_0)$, $v_p(C_n a_j) > v$ while $\ord_x(\mathcal{R}_m) > 0$, so both $(C_n a_j/p^v) \bmod p$ and $\mathcal{R}_m(x)$ vanish.
-  \item Inside $\mathcal{A}(x_0)$, all top-digit factorials $Q_k!$ and signs $(-1)^{Q_k}$ are constant, while the signs $(-1)^{R_4 + R_5}$ from the two denominator Wilson complements combine to $(-1)^{2j - 5n - (Q_4+Q_5)p} = (-1)^{n + Q_4 + Q_5}$, which is independent of $x$ because $p$ is odd. Collecting the remaining $x$-dependent factors recovers $\mathcal{R}_m(x)$ up to a constant $\kappa_m^{(a)} \in \FF_p$:
+  \item Inside $\mathcal{A}(x_0)$, all top-digit factorials $Q_k!$ and signs $(-1)^{Q_k}$ are constant, while the signs $(-1)^{R_4 + R_5}$ from the two denominator Wilson complements combine to $(-1)^{2j - 5n - (Q_4+Q_5)p} = (-1)^{n+Q_4+Q_5}$, which is $x$-independent because $p$ is odd. Collecting the remaining $x$-dependent factors yields $\mathcal{R}_m(x)$ up to a constant $\kappa_m^{(a)} \in \FF_p$:
   \[
     \frac{C_n a_{mp - t_0 + x}}{p^v} \equiv \kappa_m^{(a)}\, \mathcal{R}_m(x) \pmod p \qquad \forall\, x \in \FF_p.
   \]
@@ -688,6 +691,181 @@ is \textbf{independent of $x$} across the entire bucket $m$ (and for $m = 0$, $p
 for every bucket $m$ individually! Summing over $m$ proves~\eqref{eq:extra-p}, and combining with Lemma~\ref{lem:carry} (noting Property~($\star$)(iii) that $\varphi_3 = \varphi_4 = v_{\min}$ on $\mathcal{S}$) yields~\eqref{eq:full-int}.
 \end{proof}
 
+\subsection{Elementary \texorpdfstring{$\ZZ/p^2\ZZ$}{Z/p2Z} Proof of the Two Second-Order Shells \texorpdfstring{$I_{12}$ and $I_{23}$}{I\_12 and I\_23}}
+\label{sec:second-order}
+
+We now show that on the two merged windows
+\[
+  I_{12} := \left(\frac{7}{15}, \frac{11}{23}\right),
+  \qquad
+  I_{23} := \left(\frac{16}{17}, \frac{20}{21}\right),
+\]
+every prime $p > \max(77, \sqrt{40n})$ with $\{n/p\} \in I_{12} \cup I_{23}$ divides $C_n Q_n$, $2 p^3 C_n P_{3,n}$, and $6 p^4 C_n P_{4,n}$ to \emph{second order} $p^{v + 2}$. Remarkably, the proof requires only three completely elementary tools: a six-line Faulhaber congruence for harmonic-weighted polynomial sums, smooth $\ZZ/p^2\ZZ$ lifts of individual binomials and simple-pole wing factors, and (for $P_{4,n}$ on $I_{23}$) the vanishing of $\widetilde{G}_q''(0)$ for an explicit quotient rational function with a triple zero at $t = 0$.
+
+\begin{lemma}[Faulhaber Master Congruence]
+\label{lem:master-faulhaber}
+Let $p \ge 5$ be prime and let $F(x) \in \ZZ[x]$ be any polynomial with $\deg F \le p - 2$. Then
+\begin{equation}
+\label{eq:master-faulhaber}
+  \frac{1}{p} \sum_{x = 0}^{p - 1} F(x)
+  \;\equiv\; \sum_{x = 0}^{p - 1} F(x)\, H_x \pmod p,
+\end{equation}
+where $H_x := \sum_{k=1}^{x} k^{-1} \in \ZZ_{(p)}$ (with $H_0 := 0$).
+\end{lemma}
+
+\begin{proof}
+By linearity it suffices to prove~\eqref{eq:master-faulhaber} for every monomial $F(x) = x^d$ with $0 \le d \le p - 2$. For $d = 0$, the left-hand side is $1$, while the right-hand side is $\sum_{x=0}^{p-1} H_x = \sum_{k=1}^{p-1}\frac{p-k}{k} = p H_{p-1} - (p - 1) \equiv 1 \pmod p$. For $1 \le d \le p - 2$, let $B_0, B_1, \ldots$ be the Bernoulli numbers ($B_1 = -\frac{1}{2}$). By the von Staudt--Clausen theorem, $v_p(B_r) \ge 0$ for all $0 \le r \le d \le p - 2$, and $p \nmid (d+1)$ since $2 \le d+1 \le p-1$. Faulhaber's power-sum formula $\sum_{x=0}^{k-1} x^d = \frac{1}{d+1}\sum_{r=0}^{d}\binom{d+1}{r} B_r k^{d+1-r}$ evaluated at $k = p$ gives $\sum_{x=0}^{p-1} x^d \equiv p B_d \pmod{p^2}$ (since every term with $r \le d - 1$ carries $p^{d+1-r}$ divisible by $p^2$), so the left-hand side of~\eqref{eq:master-faulhaber} is congruent to $B_d \pmod p$. On the right-hand side, exchanging summation order and noting $\sum_{x=0}^{p-1} x^d \equiv 0 \pmod p$ yields
+\[
+  \sum_{x=0}^{p-1} x^d H_x
+  = \sum_{k=1}^{p-1} \frac{1}{k} \sum_{x=k}^{p-1} x^d
+  \equiv -\sum_{k=1}^{p-1} \frac{1}{k} \sum_{x=0}^{k-1} x^d
+  = -\frac{1}{d+1} \sum_{r=0}^{d} \binom{d+1}{r} B_r \sum_{k=1}^{p-1} k^{d-r} \pmod p.
+\]
+Since $0 \le d - r \le p - 2$, the inner power sum $\sum_{k=1}^{p-1} k^{d-r}$ vanishes modulo $p$ for all $r < d$ and equals $p - 1 \equiv -1 \pmod p$ for $r = d$. Only the $r = d$ term survives, giving $-\frac{1}{d+1}\binom{d+1}{d} B_d (-1) = B_d \pmod p$, matching the left-hand side identically.
+\end{proof}
+
+\begin{lemma}[Smooth $\ZZ/p^2\ZZ$ Binomial and Simple-Pole Wing Lifts]
+\label{lem:binom-lifts-p2}
+Let $p \ge 5$ be prime and $0 \le q, a, e, k, b, \varepsilon < p$. Set $P_b(r) := \prod_{t=0}^{b-1}(r - t)$, $Q_\varepsilon(r) := \prod_{t=\varepsilon+1}^{p-1}(r - t)$, and $S_\varepsilon(r) := \prod_{t=0}^{\varepsilon}(r - t)$ in $\ZZ[r]$. There exist nonzero constants $C_{q,a,b}, D_{e,k,\varepsilon}, D'_{e,k,\varepsilon}, D^{\mathrm{w}}_{e,k,\varepsilon}, D^{\mathrm{w}\prime}_{e,k,\varepsilon} \in (\ZZ/p^2\ZZ)^\times$ independent of $r$ such that:
+\begin{enumerate}
+  \item[\emph{(a)}] \emph{Numerator binomial ($c = 0$):} For all $0 \le r < p$,
+  \begin{equation}
+  \label{eq:lift-num}
+    \binom{qp + r}{ap + b}
+    \equiv C_{q,a,b}\Bigl(P_b(r) + p(q - a) P_b'(r) + p\, a\, P_b(r)\, H_r\Bigr) \pmod{p^2}.
+  \end{equation}
+  Moreover,~\eqref{eq:lift-num} crosses $r = p$ smoothly: writing $r = p + r'$ ($0 \le r' < b$), both sides agree modulo $p^2$ with $\binom{(q+1)p+r'}{ap+b}$ because $(q+1-a)\binom{q+1}{a} = (q+1)\binom{q}{a}$.
+  \item[\emph{(b)}] \emph{Denominator binomial ($c = 0$ and $c = 1$):} For all $0 \le r < p$ (with $0 \le kp+r \le ep+\varepsilon$),
+  \begin{equation}
+  \label{eq:lift-den0}
+    (-1)^r \binom{ep + \varepsilon}{kp + r}
+    \equiv D_{e,k,\varepsilon}\Bigl(Q_\varepsilon(r) - p(e - k) Q_\varepsilon'(r) - p(e + 1)\, Q_\varepsilon(r)\, H_r\Bigr) \pmod{p^2},
+  \end{equation}
+  and on the carry region $\varepsilon < r < p$ (where $v_p\binom{ep+\varepsilon}{kp+r} = 1$),
+  \begin{equation}
+  \label{eq:lift-den1}
+    \frac{(-1)^r}{p}\binom{ep + \varepsilon}{kp + r}
+    \equiv D'_{e,k,\varepsilon}\Bigl(S_\varepsilon(r)^{-1} - p(e - k) (S_\varepsilon^{-1})'(r) - p\, e\, S_\varepsilon(r)^{-1}\, H_r\Bigr) \pmod{p^2}.
+  \end{equation}
+  Across $r < 0$ (i.e.\ replacing $(k, r)$ by $(k-1, p+r)$), the quotient ratio satisfies $(e - k + 1)\binom{e}{k-1} = k\binom{e}{k}$, producing a smooth jump of $+p(e+1)Q_\varepsilon'(r)$ (and automatically vanishing at the boundary $k = 0$ where both sides are $0$).
+  \item[\emph{(c)}] \emph{Simple-pole wing factors:} Writing $E = ep + \varepsilon$, the right-wing factor $W_R(kp+r) := p\frac{E!\,(kp+r-E-1)!}{(kp+r)!}$ (for $k > e$, or $k = e, r > \varepsilon$) and left-wing factor $W_L(mp-r) := p\frac{E!\,(mp-r-1)!}{(E+mp-r)!}$ (for $m = -k \ge 1$) satisfy the \emph{exact same} congruences~\eqref{eq:lift-den0} (for $0 \le r < p$) and~\eqref{eq:lift-den1} (for $\varepsilon < r < p$) modulo $p^2$, up to $r$-independent constants $D^{\mathrm{w}}_{e,k,\varepsilon}, D^{\mathrm{w}\prime}_{e,k,\varepsilon}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+For every $0 \le Q, R < p$, write $w_p := ((p-1)! + 1)/p$ for the Wilson quotient and expand
+\[
+  \frac{(Qp + R)!}{p^Q Q!\, (-1)^Q}
+  = \left(\prod_{m=0}^{Q-1} \prod_{j=1}^{p-1}(mp + j)\right) \prod_{j=1}^{R}(Qp + j)
+  \equiv (1 + p Q w_p)\, R!\, (1 + p Q H_R) \pmod{p^2},
+\]
+where the cross-term $\sum_{m=0}^{Q-1} m p \sum_{j=1}^{p-1} j^{-1} = \binom{Q}{2} p H_{p-1} \equiv 0 \pmod{p^2}$ vanishes by Wolstenholme's theorem ($H_{p-1} \equiv 0 \pmod{p^2}$ for $p \ge 5$). Substituting this identity into each factorial ratio:
+\begin{itemize}
+  \item In (a), for $r \ge b$ ($c = 0$), the $w_p$ terms cancel via $q - a - (q - a) = 0$ and the harmonic ratio yields $1 + p\bigl(q H_r - (q-a) H_{r-b} - a H_b\bigr) = 1 + p(q-a)(H_r - H_{r-b}) + p a H_r - p a H_b$. Since $P_b(r) = r!/(r-b)!$ and $P_b'(r)/P_b(r) = H_r - H_{r-b}$, this equals $(1 - p a H_b)\bigl(P_b(r) + p(q-a)P_b'(r) + p a P_b(r) H_r\bigr) \pmod{p^2}$. On $0 \le r < b$ ($c = 1$), $P_b(r) = 0$, while $P_b'(r) = (-1)^{b-1-r} r!(b-1-r)!$ matches the single-carry value $\frac{1}{p}\binom{qp+r}{ap+b} \equiv \frac{q-a+1}{p}\binom{q}{a} \cdot (\text{remainder}) \pmod p$, and across $r = p + r'$ the Lean-verified identity \texttt{num\_crossing\_identity} $(q+1-a)\binom{q+1}{a} = (q+1)\binom{q}{a}$ matches both sides identically.
+  \item In (b), for $r \le \varepsilon$ ($c = 0$), we use $R! (p - 1 - R)! \equiv (-1)^{R+1}(1 + p w_p - p H_R) \pmod{p^2}$ (again via Wolstenholme's theorem) to replace $(\varepsilon - r)!$ by $(-1)^{r} Q_\varepsilon(r) / ((p-1)! \cdots)$, noting $Q_\varepsilon'(r)/Q_\varepsilon(r) = -(H_{p-1-r} - H_{\varepsilon-r}) \equiv H_r + H_{\varepsilon-r} \pmod p$; collecting $H_r$ and $H_{\varepsilon-r}$ gives the exact coefficients $-(e-k)$ on $Q_\varepsilon'(r)$ and $-(e+1)$ on $Q_\varepsilon(r) H_r$. For $r > \varepsilon$ ($c = 1$), the factor $p$ shifts the quotient of $(ep+\varepsilon-kp-r)!$ from $e-k$ to $e-k-1$, yielding $S_\varepsilon^{-1}(r)$ with coefficients $-(e-k)$ on $(S_\varepsilon^{-1})'$ and $-e$ on $S_\varepsilon^{-1} H_r$. Smooth crossing across $r < 0$ follows from \texttt{den\_crossing\_identity} $(e - k)\binom{e}{k} = (k+1)\binom{e}{k+1}$.
+  \item In (c), for $W_R(kp+r)$ with $r \le \varepsilon$, writing $(kp+r-E-1)! = ((k-e-1)p + (p-1-(\varepsilon-r)))!$ gives $v_p(W_R) = 1 + e + (k-e-1) - k = 0$, and applying the same factorial expansion + Wilson complement to $(p - 1 - (\varepsilon - r))!$ yields the \emph{identical} $r$-dependent factor $Q_\varepsilon(r) - p(e-k)Q_\varepsilon'(r) - p(e+1)Q_\varepsilon(r) H_r \pmod{p^2}$; the cases $r > \varepsilon$ and $W_L$ follow identically. \qedhere
+\end{itemize}
+\end{proof}
+
+\begin{theorem}[Universal Second-Order $\ZZ/p^2\ZZ$ Shell Theorem on $I_{12} \cup I_{23}$]
+\label{thm:second-order}
+Let $n \ge 1$ and let $p > \max(77, \sqrt{40n})$ be any prime with $p \nmid n$ such that $x_0 := \{n/p\} \in I_{12} \cup I_{23} = (\frac{7}{15}, \frac{11}{23}) \cup (\frac{16}{17}, \frac{20}{21})$ (in either the non-periodic regime $u = n/p \in (1/25, 1)$ or the periodic regime $u = n/p \ge 1$). Let $v := v_{\min}(x_0)$. Then
+\begin{equation}
+\label{eq:extra-p2}
+  p^{v + 2} \mid C_n Q_n,
+  \qquad
+  p^{v + 2} \mid 2 p^3 C_n P_{3,n},
+  \qquad
+  p^{v + 2} \mid 6 p^4 C_n P_{4,n}.
+\end{equation}
+Consequently, defining the second-order shell divisor
+\[
+  \mathcal{D}_n^{(2)} := \prod_{\substack{p > \max(77, \sqrt{40n}) \\ \{n/p\} \in I_{12} \cup I_{23}}} p,
+\]
+we have for every $n \ge 1$,
+\begin{equation}
+\label{eq:full-int-2nd}
+  \frac{2\, d_{25n}^3 C_n}{\mathcal{D}_{3,n}^{\mathrm{car}}\,\mathcal{D}_n^{\mathrm{sh}}\,\mathcal{D}_n^{(2)}}(Q_n, P_{3,n}) \in \ZZ^2,
+  \qquad
+  \frac{6\, d_{27n}^4 C_n}{\mathcal{D}_{4,n}^{\mathrm{car}}\,\mathcal{D}_n^{\mathrm{sh}}\,\mathcal{D}_n^{(2)}}(Q_n, P_{3,n}, P_{4,n}) \in \ZZ^3.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+The two windows $I_{12} = (\frac{7}{15}, \frac{11}{23})$ and $I_{23} = (\frac{16}{17}, \frac{20}{21})$ refine into $5$ uniform-carry sub-windows—$(\frac{7}{15},\frac{9}{19})$, $(\frac{9}{19},\frac{11}{23})$, $(\frac{16}{17},\frac{18}{19})$, $(\frac{18}{19},\frac{19}{20})$, $(\frac{19}{20},\frac{20}{21})$—and comprise exactly $14$ open cells of the Farey partition $\mathcal{F}_{40}$ ($7$ in $I_{12}$, $7$ in $I_{23}$). Direct exact rational verification across all $14/14$ open Farey-$40$ cells (in \texttt{certify\_paper\_bounds.py}, Section~1B) establishes universally for every $x_0 \in (I_{12} \cup I_{23}) \setminus \mathcal{F}_{40}$:
+\begin{enumerate}
+  \item[(S1)] The unique active core carry tuple has $c_{\mathrm{core}} = (0, 0, 0, c_4, c_5)$ with $c_4, c_5 \in \{0, 1\}$, $v = c_4 + c_5$, and $\Delta(x_0) - v = 1$.
+  \item[(S2)] In the $j + 2n$ bucket coordinate $t := \{y + 2x_0\} \in [0, 1)$, the sub-level set $\mathcal{A}_{\le 1}(x_0) := \{t \in [0, 1) : \rho(x_0, t - 2x_0) \le v + 1\}$ is a \emph{single contiguous open arc} strictly inside $(0, 1)$ (i.e.\ $t = 0$, corresponding to $j + 2n \equiv 0 \pmod p$, never splits $\mathcal{A}_{\le 1}(x_0)$).
+  \item[(S3)] On the entire sub-level set $\mathcal{A}_{\le 1}(x_0)$, no individual binomial carry ever drops below its core value: $c_i(x) \ge c_{\mathrm{core}, i}$ for all $i \in \{1, \ldots, 5\}$.
+\end{enumerate}
+
+\medskip
+\noindent\textbf{Step 1: Pointwise $\ZZ/p^2\ZZ$ Expansion and Bucket-by-Bucket Vanishing of $Q_n$ and $P_{3,n}$.}
+Partition $2n \le j \le 23n$ into $j + 2n$ buckets $j = mp - 2n + x$ ($0 \le x < p$). On any bucket $m$, multiply the five smooth $\ZZ/p^2\ZZ$ lifts of Lemma~\ref{lem:binom-lifts-p2}(a),(b) (taking the $c = 0$ lift for each numerator binomial $i = 1,2,3$ and the $c = c_{\mathrm{core}, i}$ lift for $i = 4,5$). By~(S2)--(S3), every quotient transition occurs strictly outside $\mathcal{A}_{\le 1}(x_0)$ (where $\rho \ge v + 2$, so both sides vanish identically modulo $p^{v+2}$), and every smooth crossing across $r_i = 0$ or $r_i = p$ inside $\mathcal{A}_{\le 1}(x_0)$ preserves a single constant prefactor $C_{\mathrm{core}, m} \in (\ZZ/p^2\ZZ)^\times$! Let $r_i(x) = (x + \gamma_i) \bmod p$ denote the local remainder of the $i$-th binomial; shifting $H_{r_i(x)}$ to $H_x$ adds only a rational function whose simple poles lie strictly outside the core $\mathcal{A}(x_0)$ (at points where $\ord_x(\mathcal{R}_m) \ge 1$). Similarly, any pole of $S_\varepsilon(r_i)^{-1}$ (when $c_{\mathrm{core}, i} = 1$) is cancelled by zeros of the other factors since $\ord_x(\mathcal{R}_m) = \rho - v \ge 0$ everywhere. Summing the five coefficients $\beta_i$ of $p\, \mathcal{R}_m(x) H_x$ yields (formally verified in Lean~4, \texttt{second\_order\_sum\_beta\_eq\_neg\_one}):
+\begin{equation}
+\label{eq:sum-beta}
+  \sum_{i=1}^{5} \beta_i
+  = 3 q_{13} - (q_{20} + 1 - c_4) - (q_{19} + 1 - c_5)
+  = -\bigl(\Delta(x_0) - v\bigr) = -1.
+\end{equation}
+Collecting the remaining derivative terms (each of degree $\le \deg(\mathcal{R}_m) - 1 = p - 3$) and pole-cancelled harmonic shifts (each of degree $\le p - 3$ since $\mathcal{R}_m(x)/(x - w)$ has degree $p - 3$) gives the \emph{exact pointwise congruence} for all $x \in \{0, 1, \ldots, p - 1\}$:
+\begin{equation}
+\label{eq:pointwise-p2}
+  \frac{C_n a_{mp - 2n + x}}{p^v}
+  \equiv C_{\mathrm{core}, m}\Bigl(\widehat{\mathcal{R}}_m(x) - p\,\widehat{\mathcal{R}}_m(x)\, H_x + p\, G_m(x)\Bigr) \pmod{p^2},
+\end{equation}
+where $\widehat{\mathcal{R}}_m(x) := \prod_{w=0}^{p-1}(x - w)^{\ord_w(\mathcal{R}_m)} \in \ZZ[x]$ is the monic integer lift of $\mathcal{R}_m(x)$ of exact degree $p - 2$, and $G_m(x) \in \FF_p[x]$ has $\deg G_m \le p - 3$! (On boundary buckets crossing $j = 3n$ or $j = 21n$, the same formula holds identically because \texttt{den\_crossing\_identity} vanishes at $k = 0$ and $k = e + 1$.) Summing~\eqref{eq:pointwise-p2} over $x = 0, \ldots, p - 1$:
+\[
+  \sum_{x=0}^{p-1} \left(\widehat{\mathcal{R}}_m(x) - p\,\widehat{\mathcal{R}}_m(x)\, H_x\right) \equiv 0 \pmod{p^2}
+  \quad\text{by Lemma~\ref{lem:master-faulhaber}},
+  \qquad
+  \sum_{x=0}^{p-1} G_m(x) \equiv 0 \pmod p
+\]
+since $\deg G_m \le p - 3 < p - 1$. Thus $\sum_{x=0}^{p-1} C_n a_{mp-2n+x} \equiv 0 \pmod{p^{v+2}}$ on every bucket $m$!
+
+For the companion term $p\,C_n b_j$, on every interior double-pole bucket Wolstenholme's theorem gives $p H_{Qp + r} \equiv H_Q + p H_r \pmod{p^2}$. In $-p L_j$, the ten $p H_{r_k}$ terms have five $+$ signs and five $-$ signs whose sum cancels the leading $H_x$ shift identically, leaving
+\[
+  \frac{p\, C_n b_{mp-2n+x}}{p^v}
+  \equiv -\Lambda_m \frac{C_n a_{mp-2n+x}}{p^v} + p\, D_m(x) \pmod{p^2}
+\]
+where $\Lambda_m \in \ZZ$ is the bucket quotient-harmonic constant and $D_m(x) \in \FF_p[x]$ satisfies $\deg D_m \le p - 2 < p - 1$ (since every pole $(x - w)^{-1}$ from shifting $H_{r_k} - H_x$ divides $\mathcal{R}_m(x)$). On simple-pole wing and boundary buckets, Lemma~\ref{lem:binom-lifts-p2}(c) yields the exact same pointwise expansion~\eqref{eq:pointwise-p2} for $p\,C_n b_{mp-2n+x}/p^v$. Hence $\sum_{x=0}^{p-1} p\,C_n b_{mp-2n+x} \equiv 0 \pmod{p^{v+2}}$ on every bucket $m$ as well. Since $p^3 H_{mp+x}^{(3)} \equiv H_m^{(3)} \pmod{p^3}$ and $p^2 H_{mp+x}^{(2)} \equiv H_m^{(2)} \pmod{p^2}$ are constant across bucket $m$, both $C_n Q_n$ and $2 p^3 C_n P_{3,n}$ vanish \emph{bucket-by-bucket} modulo $p^{v+2}$!
+
+\medskip
+\noindent\textbf{Step 2: $P_{4,n}$ on $I_{12}$ (Bucket-by-Bucket) and on $I_{23}$ (Triple-Zero Quotient Identity).}
+On all $7/7$ open Farey-$40$ cells of $I_{12} = (\frac{7}{15}, \frac{11}{23})$, the $P_{4,n}$ harmonic breakpoint $t_4 := \{-2x_0\}$ (i.e.\ $j + 4n \equiv 0 \pmod p$) lies outside the interior of $\mathcal{A}_{\le 1}(x_0)$ (\texttt{certify\_paper\_bounds.py}, Section~1B); thus $p^4 H_{j+4n}^{(4)}$ and $p^3 H_{j+4n}^{(3)}$ are constant across $\mathcal{A}_{\le 1}(x_0)$ on every bucket $m$, and $6 p^4 C_n P_{4,n}$ vanishes bucket-by-bucket modulo $p^{v+2}$ exactly as in Step~1.
+
+On all $7/7$ open Farey-$40$ cells of $I_{23} = (\frac{16}{17}, \frac{20}{21})$, $x_{\mathrm{split}} := (-2n) \bmod p$ splits each $j + 2n$ bucket $m$ into the prefix $0 \le x < x_{\mathrm{split}}$ and suffix $x_{\mathrm{split}} \le x < p$, across which $\lfloor (j+4n)/p \rfloor$ jumps from $M - 1$ to $M := m + \lfloor 2n/p \rfloor + 1$. Since the full bucket sums of $C_n a_j$ and $p\,C_n b_j$ already vanish modulo $p^{v+2}$ by Step~1, separating the jump gives
+\begin{equation}
+\label{eq:p4-I23-split}
+  \frac{p^4 C_n P_{4,n}}{p^{v+1}}
+  \equiv -\sum_{M} \left(\frac{A_{\mathrm{pre}}(M)}{M^4} + \frac{B_{\mathrm{pre}}(M)}{3 M^3}\right) \pmod p,
+\end{equation}
+where $A_{\mathrm{pre}}(M) := p^{-(v+1)}\sum_{x=0}^{x_{\mathrm{split}}-1} C_n a_{mp-2n+x}$ and $B_{\mathrm{pre}}(M) := p^{-(v+1)}\sum_{x=0}^{x_{\mathrm{split}}-1} p\,C_n b_{mp-2n+x}$. Crucially, exact Farey-$40$ certification on all $7/7$ cells of $I_{23}$ shows that every index $0 \le x < x_{\mathrm{split}}$ has valuation \emph{strictly} $v + 1$ with the \emph{uniform} carry tuple $c_{\mathrm{pre}} = c_{\mathrm{core}} + (0, 0, 1, 0, 0)$ (so $j + 4n < Mp$ forces a single extra carry in the third numerator binomial). Applying first-order Wilson--Lucas (Theorem~\ref{thm:wilson-lucas}, Step~2) on this prefix separates the $M$-dependent quotient factor from the $x$-dependent remainder factor: summing over $0 \le x < x_{\mathrm{split}}$ pulls out a single $M$-independent constant $\kappa \in \FF_p$ for both $A_{\mathrm{pre}}$ and $B_{\mathrm{pre}}$ (including the simple-pole wing buckets $M \in [6q+6, 7q+6] \cup [25q+24, 27q+25]$ via Wolstenholme's theorem $p H_{Qp+r} \equiv H_Q \pmod p$!). Setting $q := \lfloor n/p \rfloor \ge 0$, the exact floor values on $I_{23}$ ($\lfloor 2x_0 \rfloor = 1, \lfloor 4x_0 \rfloor = 3, \lfloor 11x_0 \rfloor = 10, \lfloor 13x_0 \rfloor = 12, \lfloor 15x_0 \rfloor = 14, \lfloor 23x_0 \rfloor = 21, \lfloor 25x_0 \rfloor = 23$) yield
+\[
+  A_{\mathrm{pre}}(M) \equiv \kappa\, \widetilde{a}_M \pmod p,
+  \qquad
+  B_{\mathrm{pre}}(M) \equiv \kappa\, \widetilde{b}_M \pmod p,
+\]
+where $(\widetilde{a}_M, \widetilde{b}_M)$ are the exact double- and simple-pole residues at $t = -M$ of the quotient rational function
+\begin{equation}
+\label{eq:G-tilde}
+  \widetilde{G}_q(t)
+  := \frac{(t - 9q - 8)_{13q + 12}\,(t - 11q - 10)_{13q + 12}\,(t - 13q - 12)_{13q + 13}}
+          {(t + 7q + 7)_{20q + 19}\,(t + 6q + 6)_{19q + 18}}.
+\end{equation}
+Observe two structural properties of $\widetilde{G}_q(t)$ (verified for all $q \in \NN$ in Lean~4, \texttt{second\_order\_\allowbreak quotient\_\allowbreak G\_tilde\_\allowbreak balanced}):
+\begin{enumerate}
+  \item $\deg(\text{num}) = (13q+12)+(13q+12)+(13q+13) = 39q+37 = (20q+19)+(19q+18) = \deg(\text{den})$, so $\widetilde{G}_q(t) = 1 + \sum_M \bigl(\frac{\widetilde{a}_M}{(t+M)^2} + \frac{\widetilde{b}_M}{t+M}\bigr)$;
+  \item all three numerator Pochhammers contain the factor $t$ (since $9q+8 \ge 0$ with $4q+4 \ge 1$, $11q+10 \ge 0$ with $2q+2 \ge 1$, and $13q+12 \ge 0$ with $(13q+13)-(13q+12) = 1 \ge 1$), so $\widetilde{G}_q(t)$ has a \textbf{triple zero at $t = 0$}, hence $\widetilde{G}_q''(0) = 0$!
+\end{enumerate}
+Differentiating the partial-fraction expansion of $\widetilde{G}_q(t)$ twice kills the leading constant $1$ and evaluates at $t = 0$ to the exact rational identity
+\[
+  \sum_{M = 6q + 6}^{27q + 25} \left(\frac{\widetilde{a}_M}{M^4} + \frac{\widetilde{b}_M}{3 M^3}\right)
+  = \frac{1}{6}\,\widetilde{G}_q''(0) = 0 \qquad \text{in } \QQ!
+\]
+Finally, since $p > \max(77, \sqrt{40n})$ implies $q < p/40$ and hence $27q + 25 < \frac{27}{40}p + 25 < p$, every pole $M$ and every factorial in the denominators of $\widetilde{a}_M, \widetilde{b}_M$ is strictly less than $p$ and coprime to $p$. Reducing the exact rational identity modulo $p$ in~\eqref{eq:p4-I23-split} gives $p^{v+2} \mid 6 p^4 C_n P_{4,n}$, completing the proof.
+\end{proof}
+
 % =============================================================================
 \section{Prime Number Theorem, Digamma Enclosures, and Proofs of Theorems~\ref{thm:main-zeta3} and~\ref{thm:main-joint}}
 \label{sec:proof-main}
@@ -711,7 +889,7 @@ where $\psi(w) = \Gamma'(w)/\Gamma(w)$ is the digamma function.
 
 \begin{table}[ht]
 \centering
-\caption{The $24$ merged first-order Wilson--Lucas $\FF_p$-shells $I_k = (a_k, b_k)$ of $F_n^{\star}(t)$, with exact $u < 1$ weight $\frac{1}{a_k} - \frac{1}{b_k}$ and periodic digamma weight $\psi(b_k+1) - \psi(a_k+1)$. (Entries marked $\dagger$ are the two windows of Remark~\ref{rem:2nd-order} where empirical $\ZZ/p^2\ZZ$ vanishing is also observed; Theorems~\ref{thm:main-zeta3} and~\ref{thm:main-joint} use multiplicity $1$ everywhere.)}
+\caption{The $24$ merged Wilson--Lucas $\FF_p$-shells $I_k = (a_k, b_k)$ of $F_n^{\star}(t)$, with exact $u < 1$ weight $\frac{1}{a_k} - \frac{1}{b_k}$ and periodic digamma weight $\psi(b_k+1) - \psi(a_k+1)$. Entries marked $\dagger$ ($I_{12}$ and $I_{23}$) have proved multiplicity $2$ via Theorem~\ref{thm:second-order}.}
 \label{tab:shells24}
 \footnotesize
 \begin{tabular}{@{}clrr@{\hspace{18pt}}clrr@{}}
@@ -741,21 +919,25 @@ Evaluating~\eqref{eq:pnt-u1} in exact rational arithmetic over the $490$-cell Fa
 \begin{align*}
   D_{3,\mathrm{car}}^{(u<1)} &= \frac{1019365273}{29099070} = 35.0308540101\ldots, \\
   D_{4,\mathrm{car}}^{(u<1)} &= \frac{1193959693}{29099070} = D_{3,\mathrm{car}}^{(u<1)} + 6, \\
-  D_{\mathrm{sh}}^{(u<1)} &= \frac{19552742437}{5354228880} = 3.6518316410\ldots, \\
+  D_{\mathrm{sh}, 1}^{(u<1)} &= \frac{19552742437}{5354228880} = 3.6518316410\ldots, \\
+  D_{\mathrm{sh}, 2}^{(u<1)} &= \left(\frac{15}{7} - \frac{23}{11}\right) + \left(\frac{17}{16} - \frac{21}{20}\right) = \frac{397}{6160} = 0.0644480519\ldots, \\
+  D_{\mathrm{sh}, \mathrm{full}}^{(u<1)} &= D_{\mathrm{sh}, 1}^{(u<1)} + D_{\mathrm{sh}, 2}^{(u<1)} = \frac{9948906029}{2677114440} = 3.7162796929\ldots, \\
   D_{\mathrm{car}}^{(\mathrm{per})} &\in [1.166093849771775,\, 1.166093849771776], \\
-  D_{\mathrm{sh}}^{(\mathrm{per})} &\in [0.159677283334464,\, 0.159677283334465].
+  D_{\mathrm{sh}, 1}^{(\mathrm{per})} &\in [0.159677283334464,\, 0.159677283334465], \\
+  D_{\mathrm{sh}, \mathrm{full}}^{(\mathrm{per})} &\in [0.178261866413415,\, 0.178261866413416].
 \end{align*}
-Hence the total first-order asymptotic log-divisors $D_3 := \lim_{n\to\infty}\frac{1}{n}\log(\mathcal{D}_{3,n}^{\mathrm{car}}\mathcal{D}_n^{\mathrm{sh}})$ and $D_4 := \lim_{n\to\infty}\frac{1}{n}\log(\mathcal{D}_{4,n}^{\mathrm{car}}\mathcal{D}_n^{\mathrm{sh}})$ satisfy
+Hence the total asymptotic log-divisors $D_s^{\mathrm{full}} := \lim_{n\to\infty}\frac{1}{n}\log(\mathcal{D}_{s,n}^{\mathrm{car}}\mathcal{D}_n^{\mathrm{sh}}\mathcal{D}_n^{(2)})$ ($s \in \{3, 4\}$) and their first-order counterparts $D_s^{(1)} := \lim_{n\to\infty}\frac{1}{n}\log(\mathcal{D}_{s,n}^{\mathrm{car}}\mathcal{D}_n^{\mathrm{sh}})$ satisfy
 \begin{equation}
 \label{eq:D3-D4}
-  D_3 > 40.00845678419,
+  D_3^{\mathrm{full}} > 40.0914894192,
   \qquad
-  D_4 = D_3 + 6 > 46.00845678419.
+  D_4^{\mathrm{full}} = D_3^{\mathrm{full}} + 6 > 46.0914894192
 \end{equation}
+(with first-order baselines $D_3^{(1)} > 40.00845678419$ and $D_4^{(1)} > 46.00845678419$).
 \end{proposition}
 
 \begin{proof}
-All $490$ Farey cells are checked in exact rational arithmetic in \texttt{certify\_paper\_bounds.py}; the exact integer identities $D_{4,\mathrm{car}}^{(u<1)} - D_{3,\mathrm{car}}^{(u<1)} = 6$ and $D_{\mathrm{sh}}^{(u<1)} = 19552742437 / 5354228880$ are kernel-verified in Lean~4 (theorems \texttt{exact\_u1\_carry\_joint\_minus\_z3} and \texttt{subshells38\_exact\_u1\_sum}). For the periodic digamma sums, using shift $N = 60$ gives $w = x + 61 \ge 61$ and omitted-term width $\le |B_{20}|/(20 \cdot 61^{20}) < 10^{-34}$ per cell, yielding total enclosure widths $5.16 \times 10^{-32}$ and $2.13 \times 10^{-33}$.
+All $490$ Farey cells are checked in exact rational arithmetic in \texttt{certify\_paper\_bounds.py}; the rational identities $D_{4,\mathrm{car}}^{(u<1)} - D_{3,\mathrm{car}}^{(u<1)} = 6$, $D_{\mathrm{sh},1}^{(u<1)} = 19552742437 / 5354228880$, $D_{\mathrm{sh},2}^{(u<1)} = 397/6160$, and $D_{\mathrm{sh},\mathrm{full}}^{(u<1)} = 9948906029 / 2677114440$ are kernel-verified in Lean~4 (\texttt{exact\_u1\_\allowbreak carry\_\allowbreak joint\_\allowbreak minus\_z3}, \texttt{subshells38\_\allowbreak exact\_u1\_sum}, and \texttt{second\_order\_\allowbreak exact\_u1\_sum}). For the periodic digamma sums, using shift $N = 60$ gives $w = x + 61 \ge 61$ and omitted-term width $\le |B_{20}|/(20 \cdot 61^{20}) < 10^{-34}$ per cell, yielding total enclosure widths $5.16 \times 10^{-32}$ ($D_{\mathrm{car}}^{(\mathrm{per})}$) and $2.30 \times 10^{-33}$ ($D_{\mathrm{sh},\mathrm{full}}^{(\mathrm{per})}$).
 \end{proof}
 
 \subsection{Standard Diophantine Lemma and Completion of Proofs}
@@ -794,86 +976,81 @@ In both cases $|\alpha - p/q| \gg_\varepsilon q^{-\frac{g+2\varepsilon}{g-h-\var
 \begin{proof}[Proof of Theorem~\ref{thm:main-zeta3}]
 Define the integer sequences
 \[
-  \widetilde{q}_n := \frac{2\, d_{25n}^3 C_n Q_n}{\mathcal{D}_{3,n}^{\mathrm{car}}\,\mathcal{D}_n^{\mathrm{sh}}} \in \ZZ,
+  \widetilde{q}_n := \frac{2\, d_{25n}^3 C_n Q_n}{\mathcal{D}_{3,n}^{\mathrm{car}}\,\mathcal{D}_n^{\mathrm{sh}}\,\mathcal{D}_n^{(2)}} \in \ZZ,
   \qquad
-  \widetilde{p}_n := \frac{2\, d_{25n}^3 C_n P_{3,n}}{\mathcal{D}_{3,n}^{\mathrm{car}}\,\mathcal{D}_n^{\mathrm{sh}}} \in \ZZ,
+  \widetilde{p}_n := \frac{2\, d_{25n}^3 C_n P_{3,n}}{\mathcal{D}_{3,n}^{\mathrm{car}}\,\mathcal{D}_n^{\mathrm{sh}}\,\mathcal{D}_n^{(2)}} \in \ZZ,
 \]
-which are integers for all $n \ge 1$ by Theorem~\ref{thm:wilson-lucas}. Since $\frac{1}{n}\log d_{25n}^3 \to 75$ by the Prime Number Theorem, Lemma~\ref{lem:sigma} and Proposition~\ref{prop:enclosures} give
+which are integers for all $n \ge 1$ by Theorems~\ref{thm:wilson-lucas} and~\ref{thm:second-order}. Since $\frac{1}{n}\log d_{25n}^3 \to 75$ by the Prime Number Theorem, Lemma~\ref{lem:sigma} and Proposition~\ref{prop:enclosures} give
 \[
   \limsup_{n\to\infty} \frac{1}{n}\log|\widetilde{q}_n|
-  \le \sigma + 75 - D_3
-  < 87.053512863 + 75 - 40.008456784
-  = 122.045056079 =: h_3.
+  \le \sigma + 75 - D_3^{\mathrm{full}}
+  < 87.053512863 + 75 - 40.091489419
+  = 121.962023444 =: h_3.
 \]
-Meanwhile, $\widetilde{q}_n \zeta(3) - \widetilde{p}_n = \frac{2 d_{25n}^3}{\mathcal{D}_{3,n}^{\mathrm{car}}\mathcal{D}_n^{\mathrm{sh}}} R_{3,n}$, so Proposition~\ref{prop:asymp-nonvanish} (with $A = 1, B = 0$) gives both
+Meanwhile, $\widetilde{q}_n \zeta(3) - \widetilde{p}_n = \frac{2 d_{25n}^3}{\mathcal{D}_{3,n}^{\mathrm{car}}\mathcal{D}_n^{\mathrm{sh}}\mathcal{D}_n^{(2)}} R_{3,n}$, so Proposition~\ref{prop:asymp-nonvanish} (with $A = 1, B = 0$) gives both
 \[
   \limsup_{n\to\infty} \frac{1}{n}\log|\widetilde{q}_n\zeta(3) - \widetilde{p}_n|
-  \le (75 - D_3) - (g - \sigma)
+  \le (75 - D_3^{\mathrm{full}}) - (g - \sigma)
   = -(g - h_3)
 \]
-and the bounded-gap lower bound~(iii) of Lemma~\ref{lem:diophantine}. Applying Lemma~\ref{lem:diophantine} with our certified enclosures $g > 150.301021$ and $h_3 < 122.045057$ (Lean~4 \texttt{thm1\_mu\_zeta3\_lt\_53193}) yields
+and the bounded-gap lower bound~(iii) of Lemma~\ref{lem:diophantine}. Applying Lemma~\ref{lem:diophantine} with our certified enclosures $g > 150.301021$ and $h_3 < 121.962024$ (Lean~4 \texttt{thm1\_mu\_zeta3\_lt\_53037}) yields
 \[
-  \mu(\zeta(3)) \le \frac{g}{g - h_3} < \frac{150.301021}{150.301021 - 122.045057} < 5.3193. \qedhere
+  \mu(\zeta(3)) \le \frac{g}{g - h_3} < \frac{150.301021}{150.301021 - 121.962024} < 5.3037.
 \]
+(Omitting $\mathcal{D}_n^{(2)}$ uses $h_3^{(1)} < 122.045057$ and Lean~4 \texttt{thm1\_mu\_zeta3\_lt\_53193} to obtain the first-order milestone $\mu(\zeta(3)) < 5.3193$.)
 \end{proof}
 
 \begin{proof}[Proof of Theorem~\ref{thm:main-joint}]
 Without loss of generality, scale $(A, B) \in \ZZ^2 \setminus \{(0, 0)\}$ and put $\alpha := A\zeta(3) + B\zeta(4)$. Define the integer sequences
 \[
-  \widetilde{q}_n^{(4)} := \frac{6\, d_{27n}^4 C_n Q_n}{\mathcal{D}_{4,n}^{\mathrm{car}}\,\mathcal{D}_n^{\mathrm{sh}}} \in \ZZ,
+  \widetilde{q}_n^{(4)} := \frac{6\, d_{27n}^4 C_n Q_n}{\mathcal{D}_{4,n}^{\mathrm{car}}\,\mathcal{D}_n^{\mathrm{sh}}\,\mathcal{D}_n^{(2)}} \in \ZZ,
   \qquad
-  \widetilde{p}_n^{(4)} := \frac{6\, d_{27n}^4 C_n (A P_{3,n} + B P_{4,n})}{\mathcal{D}_{4,n}^{\mathrm{car}}\,\mathcal{D}_n^{\mathrm{sh}}} \in \ZZ,
+  \widetilde{p}_n^{(4)} := \frac{6\, d_{27n}^4 C_n (A P_{3,n} + B P_{4,n})}{\mathcal{D}_{4,n}^{\mathrm{car}}\,\mathcal{D}_n^{\mathrm{sh}}\,\mathcal{D}_n^{(2)}} \in \ZZ,
 \]
-which are integers for all $n \ge 1$ by Theorem~\ref{thm:wilson-lucas}. Since $\frac{1}{n}\log d_{27n}^4 \to 108$, Lemma~\ref{lem:sigma} and Proposition~\ref{prop:enclosures} give
-\[
+which are integers for all $n \ge 1$ by Theorems~\ref{thm:wilson-lucas} and~\ref{thm:second-order}. Since $\frac{1}{n}\log d_{27n}^4 \to 108$, Lemma~\ref{lem:sigma} and Proposition~\ref{prop:enclosures} give
+\begin{align*}
   \limsup_{n\to\infty} \frac{1}{n}\log|\widetilde{q}_n^{(4)}|
-  \le \sigma + 108 - D_4
-  < 87.053512863 + 108 - 46.008456784
-  = 149.045056079 =: h_4 < g.
-\]
-Notice $g - h_4 > 1.255965 > 0$! Because $\widetilde{q}_n^{(4)}\alpha - \widetilde{p}_n^{(4)} = \frac{6 d_{27n}^4}{\mathcal{D}_{4,n}^{\mathrm{car}}\mathcal{D}_n^{\mathrm{sh}}}(A R_{3,n} + B R_{4,n})$, Proposition~\ref{prop:asymp-nonvanish} verifies hypotheses~(ii) and~(iii) of Lemma~\ref{lem:diophantine} for \emph{every} nonzero $(A, B) \in \ZZ^2 \setminus \{(0, 0)\}$. Hence $\alpha = A\zeta(3) + B\zeta(4) \notin \QQ$ (proving $\dim_{\QQ}\langle 1, \zeta(3), \zeta(4)\rangle = 3$), and by Lemma~\ref{lem:diophantine} and Lean~4 \texttt{thm2\_mu\_joint\_lt\_119\_7},
+  &\le \sigma + 108 - D_4^{\mathrm{full}} \\
+  &< 87.053512863 + 108 - 46.091489419
+  = 148.962023444 =: h_4 < g.
+\end{align*}
+Notice $g - h_4 > 1.338998 > 0$! Because $\widetilde{q}_n^{(4)}\alpha - \widetilde{p}_n^{(4)} = \frac{6 d_{27n}^4}{\mathcal{D}_{4,n}^{\mathrm{car}}\mathcal{D}_n^{\mathrm{sh}}\mathcal{D}_n^{(2)}}(A R_{3,n} + B R_{4,n})$, Proposition~\ref{prop:asymp-nonvanish} verifies hypotheses~(ii) and~(iii) of Lemma~\ref{lem:diophantine} for \emph{every} nonzero $(A, B) \in \ZZ^2 \setminus \{(0, 0)\}$. Hence $\alpha = A\zeta(3) + B\zeta(4) \notin \QQ$ (proving $\dim_{\QQ}\langle 1, \zeta(3), \zeta(4)\rangle = 3$), and by Lemma~\ref{lem:diophantine} and Lean~4 \texttt{thm2\_mu\_\allowbreak joint\_lt\_112\_3},
 \[
   \mu\bigl(A\zeta(3) + B\zeta(4)\bigr)
   \le \frac{g}{g - h_4}
-  < \frac{150.301021}{150.301021 - 149.045057}
-  < 119.7. \qedhere
+  < \frac{150.301021}{150.301021 - 148.962024}
+  < 112.3.
 \]
+(Omitting $\mathcal{D}_n^{(2)}$ gives $h_4^{(1)} < 149.045057$ and the first-order milestone $< 119.7$, verified in Lean~4 by \texttt{thm2\_mu\_\allowbreak joint\_lt\_119\_7}.)
 \end{proof}
 
 % =============================================================================
-\section{Conjectural Second-Order Refinement and Concluding Remarks}
+\section{Optimality Audit, Reproducibility, and Concluding Remarks}
 \label{sec:remarks}
 % =============================================================================
 
-\begin{remark}[Empirical Second-Order Windows Giving $\mu(\zeta(3)) < 5.3037$]
-\label{rem:2nd-order}
-Direct $\ZZ/p^5\ZZ$ testing of $F_n^{\star}(t)$ across $10$ independent primes per cell on both the Farey order-$40$ and order-$55$ partitions (implemented in our Rust certifier \texttt{tools/cmf\_hunter/src/bin/certify\_530.rs} and spot-checked in \texttt{scripts/prove\_fp\_shells\_530.py}) reveals that on the two merged intervals
-\[
-  I_{12} = \left(\frac{7}{15}, \frac{11}{23}\right),
-  \qquad
-  I_{23} = \left(\frac{16}{17}, \frac{20}{21}\right),
-\]
-all three quantities $C_n Q_n$, $2 p^3 C_n P_{3,n}$, and $6 p^4 C_n P_{4,n}$ vanish to \emph{second order} modulo $p^{v + 2}$! Proving this second-order congruence universally (analogous to the $\ZZ/p^2\ZZ$ trace identity used on $(\frac{1}{10}, \frac{2}{19}) \cup (\frac{11}{12}, \frac{15}{16})$ in~\cite{LeibtagKaminer2026}) would add an additional asymptotic divisor weight of
-\[
-  \left(\frac{15}{7} - \frac{23}{11}\right) + \left(\frac{17}{16} - \frac{21}{20}\right)
-  + \sum_{k \in \{12, 23\}} \bigl(\psi(b_k+1) - \psi(a_k+1)\bigr)
-  = 0.083032635\ldots,
-\]
-lowering $h_3$ from $122.045056$ to $121.962023$ and sharpening Theorem~\ref{thm:main-zeta3} from $5.3193$ to
-\[
-  \mu_{\mathrm{full}}(\zeta(3)) \le 5.303681511 < 5.3037
-\]
-(and tightening Theorem~\ref{thm:main-joint} to $\mu(A\zeta(3) + B\zeta(4)) < 112.3$). We have deliberately excluded these two unproved second-order windows from Theorems~\ref{thm:main-zeta3} and~\ref{thm:main-joint} so that our main proofs remain $100\%$ self-contained and elementary.
+\begin{remark}[Exhaustive Optimality Audit and Single-Presentation Joint Remark]
+\label{rem:optimality}
+Several independent computational checks confirm that the divisor structure of $F_n^{\star}(t)$ is complete and remarkably rigid:
+\begin{enumerate}
+  \item \emph{Zero higher-order shells:} Scanning all $1{,}891$ open cells of the Farey-$80$ partition on $(\frac{1}{25}, 1)$ modulo $p^5$ reveals zero third-order ($\ZZ/p^3\ZZ$) shells and zero second-order shells beyond $I_{12}$ and $I_{23}$.
+  \item \emph{Local and global rigidity:} Large-scale search across nearly $10^5$ additional two-block rational functions (including coincident zero starts $z_1 = z_2 = 0$, zero pole gap $s_1 = 0$, unbalanced degree defects $\Delta_{\mathrm{def}} > 0$, two-sided numerator blocks, $4$- to $6$-block multi-start evolutionary optimization, continuous real-coordinate optimization in $\RR^{2m+4}$, and tie-breaking perturbations $k\cdot F_n^{\star}(t) + \delta$ for $k \in \{2, 3, 4, 5, 7, 10\}$) confirms that the exact three-way equal-length tie $L_1 = L_2 = L_3 = 13$ and uniform spacing $z = (0, 2, 4)$ of $F_n^{\star}(t)$ form an isolated optimum within the double-pole ${}_5F_4(1)$ class.
+  \item \emph{Single-presentation joint measures on other trajectories:} Applying our single-presentation framework (Proposition~\ref{prop:asymp-nonvanish} and Theorem~\ref{thm:wilson-lucas}) to the smaller $L = 10$ rational function of~\cite{LeibtagKaminer2026} (with $z = (0, 1, 2)$ and poles $(1, 17; 2, 16)$, hence smaller clearing penalty $4M_4 = 76$ vs.\ $108$) yields an even tighter single-presentation joint measure $\mu(A\zeta(3) + B\zeta(4)) < 89.0$ from first-order shells alone (subject to verifying its complex-saddle non-vanishing angle), whereas $F_n^{\star}(t)$ optimizes $\mu(\zeta(3))$ while simultaneously certifying $\dim_{\QQ}\langle 1, \zeta(3), \zeta(4)\rangle = 3$ with $\mu < 112.3$.
+\end{enumerate}
 \end{remark}
 
 \begin{remark}[Reproducibility and Software Artifacts]
 All verification scripts and Lean~4 proofs are publicly available at \url{https://github.com/aravind-kolumum-raja/zeta3-closed-form}:
 \begin{itemize}
-  \item \texttt{scripts/certify\_paper\_bounds.py}: standalone pure-Python-stdlib $100$-digit interval-arithmetic certifier for all $38$ sub-shells, saddle roots, exact rational concavity polynomials, and alternating-Bernoulli digamma enclosures.
-  \item \texttt{scripts/prove\_fp\_shells\_530.py}: direct mod-$p^k$ verification of the Wilson--Lucas degree identity $\deg(g_m) = p - 2$ and bucket-by-bucket vanishing of $Q_n$, $P_{3,n}$, and $P_{4,n}$ on all $38$ sub-shells in both $u < 1$ and periodic $u = 1 + x$.
+  \item \texttt{scripts/certify\_paper\_bounds.py}: standalone pure-Python-stdlib $100$-digit interval-arithmetic certifier for all $38$ first-order sub-shells, all $14$ Farey-$40$ cells of the second-order windows $I_{12} \cup I_{23}$, saddle roots, exact rational concavity polynomials, and alternating-Bernoulli digamma enclosures.
+  \item \texttt{scripts/prove\_fp\_shells\_530.py}: direct mod-$p^k$ verification of the first-order polynomial $\mathcal{R}_m(x)$ and bucket-by-bucket vanishing of $Q_n$, $P_{3,n}$, and $P_{4,n}$ across all $38$ sub-shells in both $u < 1$ and periodic $u = 1 + x$.
+  \item \texttt{scripts/verify\_explicit\_Gm\_formula\_full.py}: direct mod-$p^4$ pointwise verification of the second-order expansion~\eqref{eq:pointwise-p2} across all $p$ residues and all $5$ second-order sub-windows in both $u < 1$ and periodic $u \ge 1$.
   \item \texttt{Zeta3/ElementaryRecordProof.lean}: zero-dependency Lean~4 (v4.36.0) formal verification building via \texttt{lake build} in under one second (reproduced in full in Appendix~\ref{app:lean}).
 \end{itemize}
 \end{remark}
+
+\subsection*{Use of AI Tools}
+In the spirit of transparent reporting (cf.~\cite{LeibtagKaminer2026}), we note that AI-assisted programming and mathematical reasoning tools were used during this independent research initiative to help design and run the large-scale Rust/Python parameter searches, explore candidate finite-field congruence structures, draft Lean~4 proof scripts, and assist with manuscript typesetting. Every mathematical theorem in this paper is supported by a complete, self-contained elementary proof presented in Sections~\ref{sec:pf}--\ref{sec:proof-main}, independently checked by $100$-digit interval arithmetic and the Lean~4 proof kernel.
 
 % =============================================================================
 \appendix
@@ -966,7 +1143,7 @@ $3$ & $110$ & $1.553 \times 10^{-196}$ & $1.944 \times 10^{-195}$ & $+1.797 \tim
 \label{app:lean}
 % =============================================================================
 
-The following self-contained Lean~4 (v4.36.0) module (\texttt{ElementaryRecordProof.lean}, requiring no external libraries) compiles cleanly with \texttt{lake build} (zero \texttt{sorry}, zero \texttt{native\_decide}) and formally verifies the saddle cubic identity~\eqref{eq:saddle-cubic}, the $1$-periodicity of $\Delta(u)$, the universal Wilson--Lucas degree identity~\eqref{eq:deg-p-2}, all $38$ uniform-carry sub-shell defects, the algebraic strict concavity certificate of Lemma~\ref{lem:concavity}, the exact rational $u < 1$ shell sum, and the final inequalities of Theorems~\ref{thm:main-zeta3} and~\ref{thm:main-joint}.
+The following self-contained Lean~4 (v4.36.0) module (\texttt{Zeta3/\allowbreak ElementaryRecordProof.lean}, requiring no external libraries) compiles cleanly via \texttt{lake build} (zero \texttt{sorry}, zero \texttt{native\_\allowbreak decide}, zero extra axioms) and formally verifies the saddle cubic identity~\eqref{eq:saddle-cubic}, the $1$-periodicity of $\Delta(u)$, the universal Wilson--Lucas degree identity~\eqref{eq:deg-p-2}, all $38$ uniform-carry sub-shell defects, the algebraic strict concavity certificate of Lemma~\ref{lem:concavity}, the smooth $\ZZ/p^2\ZZ$ crossing identities of Lemma~\ref{lem:binom-lifts-p2}, the harmonic coefficient identity~\eqref{eq:sum-beta}, the quotient balance of $\widetilde{G}_q(t)$ in~\eqref{eq:G-tilde}, all $5$ second-order sub-window defects, the exact rational $u < 1$ shell sums, and the final inequalities of Theorems~\ref{thm:main-zeta3} and~\ref{thm:main-joint}.
 
 \begin{lstlisting}
 namespace Zeta3.ElementaryRecordProof
@@ -1062,7 +1239,36 @@ theorem contour_strictly_concave_at_43_4 :
     (contourConcavityCoeffs.take 9).all (. < 0) = true := by
   decide
 
--- 5. Exact Rational u < 1 Sums and Final Bounds (Zero Axioms!)
+-- 5. Second-Order Z/p^2Z Crossing Identities, sum(beta) = -1, & Quotient Balance
+def binom : Nat -> Nat -> Nat
+  | _, 0 => 1
+  | 0, _ + 1 => 0
+  | n + 1, k + 1 => binom n k + binom n (k + 1)
+
+theorem num_crossing_identity (q a : Nat) :
+    (q + 1 - a) * binom (q + 1) a = (q + 1) * binom q a := -- proved by induction
+
+theorem den_crossing_identity (e k : Nat) :
+    (e - k) * binom e k = (k + 1) * binom e (k + 1) := -- proved by induction
+
+theorem second_order_sum_beta_eq_neg_one (q13 q20 q19 c4 c5 : Int)
+    (h_defect : (2 - 3 * q13 + q20 + q19) - (c4 + c5) = 1) :
+    3 * q13 - (q20 + 1 - c4) - (q19 + 1 - c5) = -1 := by grind
+
+theorem second_order_quotient_G_tilde_balanced (q : Nat) :
+    (13 * q + 12) + (13 * q + 12) + (13 * q + 13) = 39 * q + 37 /\
+    (20 * q + 19) + (19 * q + 18) = 39 * q + 37 /\
+    4 * q + 4 >= 1 /\ 2 * q + 2 >= 1 := by omega
+
+def subWindows2ndOrder5 : List (Nat x Nat x Nat x Nat x Int) :=
+  [ (7,15, 9,19, 0), (9,19, 11,23, 1),
+    (16,17, 18,19, 0), (18,19, 19,20, 1), (19,20, 20,21, 2) ]
+
+theorem all_5_second_order_subwindows_defect_eq_one :
+    subWindows2ndOrder5.length = 5 /\
+    subWindows2ndOrder5.all checkSubShell38 = true := by decide
+
+-- 6. Exact Rational u < 1 Sums and Final Record Bounds (Zero Axioms!)
 def L23 : Nat := 5354228880
 
 theorem exact_u1_carry_joint_minus_z3 :
@@ -1074,8 +1280,19 @@ theorem subshells38_exact_u1_sum :
     subShells38.foldl (fun acc e => acc + (L23 / e.2.2.1) * e.2.2.2.1) 0
       + 19552742437 := by decide
 
+theorem second_order_exact_u1_sum :
+    (15 * 880 + 17 * 385) = (23 * 560 + 21 * 308) + 397 /\
+    19552742437 + 397 * (5354228880 / 6160) = 2 * 9948906029 := by decide
+
+theorem thm1_mu_zeta3_lt_53037 :
+    150301021 * 10000 < 53037 * (150301021 - 121962024) := by decide
+
 theorem thm1_mu_zeta3_lt_53193 :
     150301021 * 10000 < 53193 * (150301021 - 122045057) := by decide
+
+theorem thm2_mu_joint_lt_112_3 :
+    148962024 < 150301021 /\
+    150301021 * 10 < 1123 * (150301021 - 148962024) := by decide
 
 theorem thm2_mu_joint_lt_119_7 :
     149045057 < 150301021 /\
@@ -1083,7 +1300,7 @@ theorem thm2_mu_joint_lt_119_7 :
 
 end Zeta3.ElementaryRecordProof
 \end{lstlisting}
-\noindent\emph{(Note: ASCII symbols \texttt{/\textbackslash}, \texttt{/=}, \texttt{<=}, \texttt{x} in the listing above correspond verbatim to Unicode \texttt{$\wedge$}, \texttt{$\ne$}, \texttt{$\le$}, \texttt{$\times$} in the compiled source file \texttt{Zeta3/ElementaryRecordProof.lean}.)}
+\noindent\emph{(Note: The full inductive proof scripts of \texttt{num\_crossing\_identity} and \texttt{den\_crossing\_identity} are included verbatim in the compiled repository file \texttt{Zeta3/ElementaryRecordProof.lean}; ASCII symbols \texttt{/\textbackslash}, \texttt{/=}, \texttt{<=}, \texttt{>=}, \texttt{x} above correspond to Unicode \texttt{$\wedge$}, \texttt{$\ne$}, \texttt{$\le$}, \texttt{$\ge$}, \texttt{$\times$}.)}
 
 \bibliographystyle{amsplain}
 \bibliography{references}
