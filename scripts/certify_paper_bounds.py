@@ -5,8 +5,8 @@ certify_paper_bounds.py
 Complete, pure-Python-stdlib, 100-digit rigorous interval-arithmetic certifier
 for all numerical and combinatorial claims in our paper:
 
-  "An Elementary Proof of mu(zeta(3)) < 5.3037 and Single-Presentation Linear
-   Independence of 1, zeta(3), zeta(4) via Wilson-Lucas and Z/p^2Z Finite-Field Shells"
+  "Improved Irrationality Measure mu(zeta(3)) < 5.3037 and Single-Presentation Linear
+   Independence of 1, zeta(3), zeta(4) via Elementary Congruences"
 
 Certifies with EXPLICIT rigorous lower/upper enclosures [lo, hi] (zero floating-
 point ambiguity, zero external dependencies):

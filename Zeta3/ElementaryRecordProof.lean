@@ -4,8 +4,8 @@
 Kernel-checked Lean 4 verification of the exact algebraic, finite-field (`𝔽_p` and `ℤ/p²ℤ`),
 contour-concavity, and rational-enclosure pillars of:
 
-  "An Elementary Proof of μ(ζ(3)) < 5.3037 and Single-Presentation Linear Independence
-   of 1, ζ(3), ζ(4) via Wilson–Lucas and ℤ/p²ℤ Finite-Field Shells"
+  "Improved Irrationality Measure μ(ζ(3)) < 5.3037 and Single-Presentation Linear
+   Independence of 1, ζ(3), ζ(4) via Elementary Congruences"
 
 Zero `sorry`, zero `native_decide`, zero extra axioms (pure Lean 4 kernel).
 -/
