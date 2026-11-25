@@ -22,10 +22,13 @@ point ambiguity, zero external dependencies):
       shells I_12 = (7/15, 11/23) and I_23 = (16/17, 20/21) (5 uniform-carry sub-
       windows, 14/14 open Farey-40 cells):
        (a) c_core[:3] == (0, 0, 0) and Delta - v_min == 1 (so sum_beta == -1),
-       (b) {dv <= 1} is a SINGLE contiguous open arc strictly inside (0, 1) in the
-           j + 2n bucket coordinate (wraps_0 == False, comp_circle == 1),
+       (b) {dv <= 1} is a SINGLE contiguous interval inside [0, 1) whose interior
+           never contains t = 0 (j + 2n === 0 mod p) (wraps_0 == False, comp_circle == 1),
        (c) NO binomial carry drops below c_core on {dv <= 1} (drops_on_le1 == 0),
-       (d) On I_12 (7/7 cells), j + 4n === 0 (mod p) also never splits {dv <= 1};
+       (d) NO binomial with c_core == 1 crosses its zero breakpoint inside {dv <= 1},
+           and every crossing of a c_core == 0 factor stays strictly inside the smooth
+           crossing band (0 <= r' < b or eps < r' < p),
+       (e) On I_12 (7/7 cells), j + 4n === 0 (mod p) also never splits {dv <= 1};
            on I_23 (7/7 cells), the prefix x < (-2n mod p) has uniform carry tuple
            c_core + (0, 0, 1, 0, 0), giving exact quotient rational function G_tilde_q(t)
            of equal degree 39q + 37 with a TRIPLE ZERO at t = 0 => G_tilde_q''(0) = 0!
@@ -41,7 +44,7 @@ point ambiguity, zero external dependencies):
   4. Final rigorous upper bounds:
        - Theorem 1.2 (Full, 1st+2nd order): mu(zeta(3))           <= 5.3036815115 < 5.3037
          (1st-order Wilson-Lucas milestone: mu_1st                <= 5.3192668443 < 5.3193)
-       - Theorem 1.3 (Full, 1st+2nd order): mu(A*zeta(3)+B*zeta(4)) <= 112.238     < 112.3
+       - Theorem 1.3 (Full, 1st+2nd order): mu(A*zeta(3)+B*zeta(4)) <= 112.248844  < 112.3
          (1st-order Wilson-Lucas milestone: mu_joint_1st          <= 119.6696     < 119.7)
 """
 
@@ -404,6 +407,23 @@ def certify_2nd_order_shells():
         assert not (le1[0] and le1[-1]), f"j+2n wraps {{dv<=1}} at {x}"
         drops = sum(1 for k in range(len(vals)) if le1[k] for r in range(5) if ctups[k][r] < c_core[r])
         assert drops == 0, f"Carry drop on {{dv<=1}} at {x}"
+        # Property (S4): verify no c_core==1 factor crosses its zero breakpoint inside {dv<=1},
+        # and every c_core==0 crossing stays inside the smooth crossing band!
+        core_lo = ts[vals.index(vmin)]
+        core_hi = ts[len(vals) - 1 - vals[::-1].index(vmin) + 1]
+        a1_lo = ts[le1.index(True)]
+        a1_hi = ts[len(le1) - 1 - le1[::-1].index(True) + 1]
+        for gam, idx_b, is_num, mult_E in [
+            ((-11 * x) % 1, 0, True, 13), ((-13 * x) % 1, 1, True, 13), ((-15 * x) % 1, 2, True, 13),
+            ((5 * x) % 1, 3, False, 20), ((4 * x) % 1, 4, False, 19),
+        ]:
+            assert not (core_lo < gam < core_hi), f"gamma inside core at {x}"
+            if gam <= core_lo and a1_lo < gam:
+                assert c_core[idx_b] == 0 and not is_num, f"Unexpected downward crossing at {x}"
+                assert gam - a1_lo <= 1 - ((mult_E * x) % 1), f"Den crossing overshot eps at {x}"
+            elif gam >= core_hi and gam < a1_hi:
+                assert c_core[idx_b] == 0 and is_num, f"Unexpected upward crossing at {x}"
+                assert a1_hi - gam <= (mult_E * x) % 1, f"Num crossing overshot b at {x}"
         # Check P_{4,n} breakpoint t_p4 = (-2x) % 1 (i.e., j + 4n === 0 mod p):
         t_p4 = (-2 * x) % 1
         idx_p4 = ts.index(t_p4)
@@ -423,9 +443,9 @@ def certify_2nd_order_shells():
             n_i23 += 1
     assert n_i12 == 7 and n_i23 == 7
     print(f"  ALL {n_i12}/7 Farey-40 cells of I_12 = (7/15, 11/23) and ALL {n_i23}/7 cells of I_23 = (16/17, 20/21)")
-    print(f"  certified: c_core[:3]=(0,0,0), sum_beta=-1, single arc {{dv<=1}} strictly inside (0,1),")
-    print(f"  zero carry drops on {{dv<=1}}, zero j+2n splits (Q_n, P_{{3,n}} vanish bucket-by-bucket mod p^{{vmin+2}}),")
-    print(f"  zero j+4n splits on I_12, and exact uniform prefix c_core+(0,0,1,0,0) on I_23 (G_tilde_q''(0)=0)!")
+    print(f"  certified: c_core[:3]=(0,0,0), sum_beta=-1, single arc {{dv<=1}} never split by t=0 (j+2n),")
+    print(f"  zero carry drops on {{dv<=1}}, smooth c_core=0 crossings only (S4), zero j+4n splits on I_12,")
+    print(f"  and exact uniform prefix c_core+(0,0,1,0,0) on I_23 (G_tilde_q''(0)=0)!")
     # Exact rational 2nd-order extra sum on u < 1:
     extra_2nd_u1 = (Fraction(15, 7) - Fraction(23, 11)) + (Fraction(17, 16) - Fraction(21, 20))
     assert extra_2nd_u1 == Fraction(397, 6160)
