@@ -211,7 +211,7 @@ The standard route to Theorem~\ref{thm:main-zeta3} produces rational approximati
     54x^3 - 298x^2 - 11879x + 106743 = 0.
   \]
   The second derivative $\psi''(y)$ of the log-magnitude along this straight vertical line is a rational function of $w = y^2$ whose numerator polynomial $P(w) = \sum_{k=0}^{8} p_k w^k$ has every coefficient strictly negative (certified over $[10.750751, 10.750752]$ by interval arithmetic and checked at $c = 43/4$ in Lean~4), proving global strict concavity on $(0, \infty)$ directly. Moreover, the phase shift $R_{4,n}/R_{3,n} \sim \frac{2\pi i}{3}$ at the upper saddle $z_\star$ with angle $\theta \bmod \pi \approx 1.7317$ guarantees that at least one of every two consecutive indices $\{n, n+1\}$ gives a non-vanishing, maximal-size remainder for every real combination $A R_{3,n} + B R_{4,n}$.
-  \item \textbf{Universal Wilson--Lucas Modulo-$p$ Shell Theorem (Section~\ref{sec:fp-shells}):} All primes $p \le \sqrt{40n}$ and any prime $p > \sqrt{40n}$ dividing $n$ contribute $O(\sqrt{n}) = o(n)$ to $\log\mathcal{D}_n$. For every prime $p > \max(40, \sqrt{40n})$ with $p \nmid n$, every integer $\le 40n$ has at most two base-$p$ digits (zero base-$p^2$ carries). On each of the $38$ uniform-carry sub-shells partitioning our $24$ shells, the minimum carry set $\mathcal{A}(x_0) \subset \RR/\ZZ$ is a single contiguous open arc with a unique carry tuple $(c_1,\dots,c_5) \in \{0,1\}^5$ satisfying $\Delta(x_0) - v_{\min}(x_0) = 1$, where
+  \item \textbf{Universal Wilson--Lucas Modulo-$p$ Shell Theorem (Section~\ref{sec:fp-shells}):} All primes $p \le \max(40, \sqrt{40n})$ and any prime $p > \max(40, \sqrt{40n})$ dividing $n$ contribute $O(\sqrt{n}) = o(n)$ to $\log\mathcal{D}_n$. For every prime $p > \max(40, \sqrt{40n})$ with $p \nmid n$, every integer $\le 40n$ has at most two base-$p$ digits (zero base-$p^2$ carries). On each of the $38$ uniform-carry sub-shells partitioning our $24$ shells, the minimum carry set $\mathcal{A}(x_0) \subset \RR/\ZZ$ is a single contiguous open arc with a unique carry tuple $(c_1,\dots,c_5) \in \{0,1\}^5$ satisfying $\Delta(x_0) - v_{\min}(x_0) = 1$, where
   \[
     \Delta(u) := 2 - 3\lfloor 13u \rfloor + \lfloor 20u \rfloor + \lfloor 19u \rfloor
   \]
@@ -532,21 +532,35 @@ and uniformly for $y \ge y_\star/2$,
   \qquad
   \frac{\pi\cos(\pi t)}{\sin(\pi t)} = -i\pi\bigl(1 + O(e^{-2\pi n y})\bigr).
 \]
-Writing $F_n^{\star}(nz)$ in terms of $\Gamma$-functions and applying Stirling's formula
+Writing $F_n^{\star}(nz)$ in terms of $\Gamma$-functions, note that for the three numerator shifts $r \in \{13, 15, 17\}$ we have $c_n - r < 0$, so $t - rn = n(c_n - r + iy)$ approaches the negative real axis as $y \to 0^+$. Applying Euler's reflection formula
+\[
+  \frac{1}{\Gamma(t - rn)} = \frac{\sin\bigl(\pi(t - rn)\bigr)}{\pi}\,\Gamma(1 - t + rn)
+  \qquad (r \in \{13, 15, 17\})
+\]
+places all ten $\Gamma$-arguments strictly inside the right half-plane $\operatorname{Re}(w) \ge 2.2 n > 0$ uniformly for all $y \ge 0$ (since $c_n - 4 > 6.7$ and $13 - c_n > 2.2$ for large $n$). Because $rn \in \ZZ$ and $t = m_n + \frac{1}{2} + iny$, each reflected sine satisfies $|\sin(\pi(t - rn))| = \cosh(\pi ny)$. Applying Stirling's formula
 \[
   \Gamma(nw) = \sqrt{\frac{2\pi}{nw}}\left(\frac{nw}{e}\right)^{nw}\bigl(1 + O(n^{-1}|w|^{-1})\bigr)
 \]
-uniformly on every closed sector omitting $(-\infty, 0]$ (every shift $c_n + a + iy$ with $a \in \{0,\allowbreak -2,\allowbreak -4,\allowbreak -13,\allowbreak -15,\allowbreak -17,\allowbreak 2,\allowbreak 3,\allowbreak 21,\allowbreak 23\}$ stays at distance $\ge \frac{1}{5}$ from $(-\infty, 0]$ whenever $y \ge \frac{1}{5}$, and even at $y = 0$ every factor has $|c_n + a| \ge 0.7$ for large $n$ since $c \approx 10.7508$ is non-integral) yields
-\[
-  C_n F_n^{\star}(nz) = n^{-5/2}\,\eta(z)\, e^{n\Phi_0(z)}\bigl(1 + O(n^{-1})\bigr)
-\]
-uniformly on compact subsets of $\{\operatorname{Im}(z) > 0\}$, with explicit holomorphic prefactor
-\[
-  \eta(z) := \frac{1}{\sqrt{2\pi}}\sqrt{\frac{20\cdot 19}{13^3}}
-    \prod_{r \in \{13, 15, 17\}} \sqrt{\frac{z - r}{z - (r - 13)}}
-    \prod_{(s, D) \in \{(2,21),(3,18)\}} \frac{1}{\sqrt{(z + s + D)(z + s)}}.
-\]
-In particular, $\eta(z_\star) \ne 0$ (none of its zeros or branch points lie in $\operatorname{Im}(z) > 0$; numerically $|\eta(z_\star)| \approx 1.537 \times 10^{-4}$), and on the entire half-line $y \ge 0$ Stirling's upper bound gives $|C_n F_n^{\star}(n(c_n + iy))|\,|\sin(\pi t)|^{-2} \ll n^{-2} e^{n\psi(y)}$ uniformly (using $c_n = c + O(n^{-1})$ and the uniform boundedness of $\partial_c \operatorname{Re}\Phi_0(c + iy)$ for $y \ge 0$).
+uniformly on $\operatorname{Re}(w) \ge 2$ yields two consequences:
+\begin{itemize}
+  \item \emph{Uniform global upper bound for all $y \ge 0$:} For each $r \in \{13, 15, 17\}$, setting $r - z = -(z - r)$ gives $\arg(r - z) = \arg(z - r) - \pi$ on $\operatorname{Im}(z) > 0$, hence $\operatorname{Re}\bigl((r - z)\log(r - z)\bigr) = \operatorname{Re}\bigl(-(z - r)\log(z - r)\bigr) - \pi y$. Combined with $\log\cosh(\pi ny) \le \pi ny$ (so the $\pm\pi ny$ terms cancel), every reflected factor satisfies $\bigl|\Gamma(t - rn)^{-1}\bigr| \ll \sqrt{n|z - r|}\exp\bigl(n\operatorname{Re}(-(z - r)\log(z - r) + (z - r))\bigr)$ uniformly for all $y \ge 0$. Multiplying all ten factors with $|\sin(\pi t)|^{-2} = \cosh(\pi ny)^{-2} \le 4 e^{-2\pi ny}$ (and $|\cos(\pi t)/\sin(\pi t)| = \tanh(\pi ny) \le 1$ for $R_{4,n}$) gives uniformly for all $y \ge 0$ (using $c_n = c + O(n^{-1})$ and uniform boundedness of $\partial_c \operatorname{Re}\Phi_0(c + iy)$):
+  \[
+    \left|\frac{\pi^2}{\sin^2(\pi t)}\,C_n F_n^{\star}\bigl(n(c_n + iy)\bigr)\right|
+    \ll n^{-5/2}(1 + y)^{-2} e^{n\psi(y)},
+  \]
+  and the identical bound for the $R_{4,n}$ integrand.
+  \item \emph{Exact asymptotics on compact subsets of $\{\operatorname{Im}(z) > 0\}$:} On $y \ge y_\star/2$, where $\sin(\pi(t - rn)) = \frac{i}{2}(-1)^{m_n - rn} e^{-i\pi t}(1 + O(e^{-2\pi ny}))$, the reflected product recovers
+  \[
+    C_n F_n^{\star}(nz) = n^{-5/2}\,\eta(z)\, e^{n\Phi_0(z)}\bigl(1 + O(n^{-1})\bigr)
+  \]
+  uniformly on compact subsets of $\{\operatorname{Im}(z) > 0\}$, with explicit holomorphic prefactor
+  \[
+    \eta(z) := \frac{1}{\sqrt{2\pi}}\sqrt{\frac{20\cdot 19}{13^3}}
+      \prod_{r \in \{13, 15, 17\}} \sqrt{\frac{z - r}{z - (r - 13)}}
+      \prod_{(s, D) \in \{(2,21),(3,18)\}} \frac{1}{\sqrt{(z + s + D)(z + s)}}.
+  \]
+  In particular, $\eta(z_\star) \ne 0$ (none of its zeros or branch points lie in $\operatorname{Im}(z) > 0$; numerically $|\eta(z_\star)| \approx 1.537 \times 10^{-4}$).
+\end{itemize}
 
 Set $\delta_n := n^{-2/5}$ and split $(0, \infty)$ into the local saddle window $J_0 := [y_\star - \delta_n, y_\star + \delta_n]$, the compact complement $J_1 := [0, 2y_\star] \setminus J_0$, and the infinite tail $J_2 := [2y_\star, \infty)$:
 \begin{enumerate}
@@ -581,16 +595,16 @@ Even for small $n = 1, 2, 3$,~\eqref{eq:R3-R4-asymp} matches the exact rational 
 
 We now extract large common prime divisors $\mathcal{D}_n$ dividing $2 d_{25n}^3 C_n(Q_n, P_{3,n})$ (for Theorem~\ref{thm:main-zeta3}) and $6 d_{27n}^4 C_n(Q_n, P_{3,n}, P_{4,n})$ (for Theorem~\ref{thm:main-joint}).
 
-\subsection{Reduction to Large Primes \texorpdfstring{$p > \sqrt{40n}$}{p > sqrt(40n)} and Baseline Kummer Carries}
+\subsection{Reduction to Large Primes \texorpdfstring{$p > \max(40, \sqrt{40n})$}{p > max(40, sqrt(40n))} and Baseline Kummer Carries}
 Notice that the largest factorial argument appearing anywhere in Lemma~\ref{lem:binom-residues} or Proposition~\ref{prop:tails} is $j + 17n \le 23n + 17n = 40n$.
 
 \begin{lemma}[Elimination of Small Primes and Prime Divisors of $n$]
 \label{lem:small-primes}
-Restricting our common divisor $\mathcal{D}_n$ to primes $p > \sqrt{40n}$ with $p \nmid n$ loses at most $O(\sqrt{n})$ in $\log\mathcal{D}_n$, i.e., $o(n)$. Moreover, for every prime $p > \sqrt{40n}$ and every integer $1 \le k \le 40n$, we have $k < p^2$, so $v_p(k!) = \lfloor k/p \rfloor$ (zero base-$p^2$ carries).
+Restricting our common divisor $\mathcal{D}_n$ to primes $p > \max(40, \sqrt{40n})$ with $p \nmid n$ loses at most $O(\sqrt{n})$ in $\log\mathcal{D}_n$, i.e., $o(n)$. Moreover, for every such prime $p$ and every integer $1 \le k \le 40n$, we have $k < p^2$, so $v_p(k!) = \lfloor k/p \rfloor$ (zero base-$p^2$ carries), and $n/p \notin \mathcal{F}_{40}$ (in particular, $p \nmid kn$ for every $1 \le k \le 40$).
 \end{lemma}
 
 \begin{proof}
-For any prime $p \le \sqrt{40n}$, the maximum possible exponent lost in $v_p$ is $O(\log_p(40n))$, contributing $O(\log n)$ to $\log\mathcal{D}_n$; summing over the $\pi(\sqrt{40n}) = O(\sqrt{n}/\log n)$ such primes gives total loss $O(\sqrt{n})$. Furthermore, at most one prime $p > \sqrt{40n}$ can divide $n$ (for if two distinct primes $p_1, p_2 > \sqrt{40n}$ divided $n$, then $n \ge p_1 p_2 > 40n$, a contradiction), and its bounded exponent contributes at most $O(\log n)$. Hence the combined loss is $O(\sqrt{n}) = o(n)$. The second claim is immediate since $p^2 > 40n \ge k$.
+For any prime $p \le \max(40, \sqrt{40n})$, the maximum possible exponent lost in $v_p$ is $O(\log_p(40n))$, contributing $O(\log n)$ to $\log\mathcal{D}_n$; summing over these $\pi\bigl(\max(40, \sqrt{40n})\bigr) = O(\sqrt{n}/\log n)$ primes gives total loss $O(\sqrt{n})$. Furthermore, at most one prime $p > \sqrt{40n}$ can divide $n$ (for if two distinct primes $p_1, p_2 > \sqrt{40n}$ divided $n$, then $n \ge p_1 p_2 > 40n$, a contradiction), and its bounded exponent contributes at most $O(\log n)$. Hence the combined loss is $O(\sqrt{n}) = o(n)$. The final claims are immediate since $p^2 > 40n \ge k$ and $p > 40$ with $p \nmid n$ forces $n/p$ in lowest terms to have denominator $p > 40$.
 \end{proof}
 
 For $x_0 \in \RR$ and $y \in \RR$, define the $1$-periodic (in both $x_0$ and $y$) base-$p$ carry count of the five binomials in~\eqref{eq:aj-binom}:
@@ -608,20 +622,20 @@ and set
 \]
 where $\mathcal{B}(x_0) := \{0, \{-2x_0\}, \{-4x_0\}, \{-13x_0\}, \{-15x_0\}, \{-17x_0\}, \{2x_0\}, \{3x_0\}, \{21x_0\}, \{23x_0\}\} \subset [0, 1)$ is the finite set of jump discontinuities (breakpoints) of $\rho(x_0, \cdot)$ on $\RR/\ZZ$.
 
-For a prime $p > \sqrt{40n}$ with $p \nmid n$ and $u = n/p$, denote by $\varphi_3(u)$ (for $t_0 = 2, M = 25, \text{order } 3$) and $\varphi_4(u)$ (for $t_0 = 4, M = 27, \text{order } 4$) the baseline termwise carry valuation:
+For a prime $p > \max(40, \sqrt{40n})$ with $p \nmid n$ and $u = n/p$, denote by $\varphi_3(u)$ (for $t_0 = 2, M = 25, \text{order } 3$) and $\varphi_4(u)$ (for $t_0 = 4, M = 27, \text{order } 4$) the baseline termwise carry valuation:
 \begin{itemize}
   \item For $u > 1$ ($p < n$, $p \nmid n$): $\varphi_3(u) = \varphi_4(u) = v_{\min}(\{u\})$.
-  \item For $u \in (1/M, 1)$ ($n < p < Mn$): $\varphi_s(u)$ is the minimum over $t = j/p \in (2u, 23u)$ of the exact $p$-adic valuation of each summand in $p^s C_n(Q_n, P_{3,n}, \ldots, P_{s,n})$, incorporating both the double-pole band $t \in (3u, 21u)$ and both simple-pole wings $t \in (2u, 3u) \cup (21u, 23u)$, as well as the harmonic jump at $t + t_0 u = 1$.
+  \item For $u \in (1/M, 1)$ ($n < p < Mn$): $\varphi_s(u)$ is the minimum over the open intervals of $t = j/p \in (2u, 23u)$ (excluding the finitely many integer-crossing breakpoints) of the termwise $p$-adic valuation lower bound of $p^s C_n(Q_n, P_{3,n}, \ldots, P_{s,n})$, incorporating the double-pole band $t \in (3u, 21u)$ (using $v_p(C_n b_j) \ge \max(0, v_p(C_n a_j) - 1)$ for $20u < 1$ via Lemma~\ref{lem:binom-residues}(c)), both simple-pole wings $t \in (2u, 3u) \cup (21u, 23u)$, and the harmonic jump at $t + t_0 u = 1$.
 \end{itemize}
 
 \begin{lemma}[Baseline Carry Divisor]
 \label{lem:carry}
-For every $n \ge 1$ and every prime $p > \sqrt{40n}$ with $p \nmid n$ and $u = n/p > 1/25$ (resp.\ $u > 1/27$):
+For every $n \ge 1$ and every prime $p > \max(40, \sqrt{40n})$ with $p \nmid n$ and $u = n/p > 1/25$ (resp.\ $u > 1/27$):
 \begin{enumerate}
-  \item[\emph{(a)}] On the entire periodic interval $x_0 \in (0, 1)$, the simple-pole wing carry valuations (plus the $+1$ from $p\,C_n b_j$) are everywhere $\ge v_{\min}(x_0)$ (verified exactly across all $490$ cells of the Farey partition of order $40$).
+  \item[\emph{(a)}] On the entire periodic interval $x_0 \in (0, 1) \setminus \mathcal{F}_{40}$, the simple-pole wing carry valuations (plus the $+1$ from $p\,C_n b_j$) are everywhere $\ge v_{\min}(x_0)$ (verified exactly across all $490$ open cells of the Farey partition $\mathcal{F}_{40}$).
   \item[\emph{(b)}] Consequently, setting
   \[
-    \mathcal{D}_{s,n}^{\mathrm{car}} := \prod_{\substack{\sqrt{40n} < p < M_s n \\ p \nmid n}} p^{\varphi_s(n/p)}
+    \mathcal{D}_{s,n}^{\mathrm{car}} := \prod_{\substack{\max(40, \sqrt{40n}) < p < M_s n \\ p \nmid n}} p^{\varphi_s(n/p)}
     \qquad (M_3 = 25,\ M_4 = 27),
   \]
   we have
@@ -634,7 +648,7 @@ For every $n \ge 1$ and every prime $p > \sqrt{40n}$ with $p \nmid n$ and $u = n
 \end{lemma}
 
 \begin{proof}
-Because $p > \sqrt{40n}$, every factorial valuation is simply $v_p(k!) = \lfloor k/p \rfloor$. For $u > 1$ with $p \nmid n$, note that $n > p > \sqrt{40n}$ automatically forces $n > 40$ and $p \ge 41 > 40$, so $x_0 := \{u\} \in (0, 1) \setminus \mathcal{F}_{40}$ has denominator $p > 40$; consequently all ten breakpoints in $\mathcal{B}(x_0)$ are pairwise distinct (excluding $p \mid n$ is essential, because at $x_0 = 0$ all ten breakpoints collide at $y = 0$, where $j = 3n$ gives $\rho(0, 0) = 0 < 2 = \min_{y \in (0, 1)} \rho(0, y)$). Since at most one floor term in~\eqref{eq:rho} jumps at any single point $y_0 \in \mathcal{B}(x_0)$, the value $\rho(x_0, y_0)$ equals either the right-hand limit $\rho(x_0, y_0^+)$ (at $y_0 \in \{\{-r x_0\}, \{-(r-13)x_0\}, \{2x_0\}, \{3x_0\}\}$) or the left-hand limit $\rho(x_0, y_0^-)$ (at $y_0 \in \{\{21x_0\}, \{23x_0\}\}$), both of which lie in $[0, 1) \setminus \mathcal{B}(x_0)$ and are therefore $\ge v_{\min}(x_0)$. Furthermore, every pole satisfies $j + t_0 n \ge 4n > 4p$, so $v_p(p^s H_{j+t_0 n}^{(s)}) = 0$, $v_p(p^{s-1} H_{j+t_0 n}^{(s-1)}) = 0$, and $v_p(p L_j) \ge 0$; thus every double-pole term has valuation $\ge v_{\min}(x_0)$, and by the exact Farey-$40$ check in (a) (with the same pairwise-distinct breakpoint argument for wings) every simple-pole wing term also has valuation $\ge v_{\min}(x_0)$. For $u \in (1/M_s, 1)$, $\varphi_s(u)$ is by definition the global minimum over all $t = j/p \in (2u, 23u)$ of all double-pole and simple-pole terms.
+Because $p > \max(40, \sqrt{40n})$ and $p \nmid n$, every factorial valuation is $v_p(k!) = \lfloor k/p \rfloor$, and $u = n/p \notin \mathcal{F}_{40}$ (in particular $k u \notin \ZZ$ for all $1 \le k \le 40$, so all ten breakpoints in $\mathcal{B}(\{u\})$ are pairwise distinct; excluding $p \le 40$ and $p \mid n$ is essential, because at $p \mid n$ all ten breakpoints collide at $y = 0$, and at $p = 23$ the right endpoint $j = 23n$ hits $23u \in \ZZ$). Since at most one floor term in~\eqref{eq:rho} (or in the wing valuation) jumps at any single breakpoint $t_0$, the value at $t = j/p = t_0$ equals either the right-hand limit or the left-hand limit, both of which lie in an adjacent open interval. For $u > 1$, every pole satisfies $j + t_0 n \ge 4n > 4p$, so $v_p(p^s H_{j+t_0 n}^{(s)}) = 0$, $v_p(p^{s-1} H_{j+t_0 n}^{(s-1)}) = 0$, and $v_p(p L_j) \ge 0$; thus every double-pole term has valuation $\ge v_{\min}(\{u\})$, and by the exact Farey-$40$ check in (a) every simple-pole wing term also has valuation $\ge v_{\min}(\{u\})$. For $u \in (1/M_s, 1)$, by Lemma~\ref{lem:binom-residues}(c) we have $d_{20n} C_n b_j \in \ZZ$ on the double-pole band (hence $v_p(C_n b_j) \ge 0$ whenever $20u < 1$, and $v_p(C_n b_j) \ge v_p(C_n a_j) - 1$ always), and pairwise distinctness of all breakpoints (including the endpoints $2u, 3u, 21u, 23u \notin \ZZ$) ensures that every integer $j \in [2n, 23n]$ achieves at least the open-interval minimum $\varphi_s(u)$.
 \end{proof}
 
 \subsection{The Universal Wilson--Lucas Polynomial-Degree Theorem}
@@ -850,7 +864,7 @@ where the cross-term $\sum_{m=0}^{Q-1} m p \sum_{j=1}^{p-1} j^{-1} = \binom{Q}{2
     \equiv (-1)^{r+1}(1 + p w_p - p H_r) \pmod{p^2},
   \]
   the $r$-dependent harmonic sum is $-k H_r - (e-k)H_{\varepsilon-r} - H_r = -(e-k)(H_{\varepsilon-r} - H_r) - (e+1)H_r$. Since $H_{p-1-r} \equiv H_r \pmod p$ (via $H_{p-1} \equiv 0 \pmod p$), we have $Q_\varepsilon'(r)/Q_\varepsilon(r) = -(H_{p-1-r} - H_{\varepsilon-r}) \equiv H_{\varepsilon-r} - H_r \pmod p$, giving the exact coefficients $-(e-k)$ on $Q_\varepsilon'(r)$ and $-(e+1)$ on $Q_\varepsilon(r) H_r$. For $r > \varepsilon$ ($c = 1$), the factor $p$ shifts the quotient of $(ep+\varepsilon-kp-r)!$ from $e-k$ to $e-k-1$, yielding $S_\varepsilon^{-1}(r)$ with coefficients $-(e-k)$ on $(S_\varepsilon^{-1})'$ and $-e$ on $S_\varepsilon^{-1} H_r$. Smooth crossing across $r < 0$ follows from \texttt{den\_crossing\_identity} $(e - k)\binom{e}{k} = (k+1)\binom{e}{k+1}$.
-  \item In (c), for $W_R(kp+r)$ with $r \le \varepsilon$, writing $(kp+r-E-1)! = ((k-e-1)p + (p-1-(\varepsilon-r)))!$ gives $v_p(W_R) = 1 + e + (k-e-1) - k = 0$, and applying the same factorial expansion and Wilson complement to $(p - 1 - (\varepsilon - r))!$ yields the identical $r$-dependent factor $Q_\varepsilon(r) - p(e-k)Q_\varepsilon'(r) - p(e+1)Q_\varepsilon(r) H_r \pmod{p^2}$; the cases $r > \varepsilon$ and $W_L$ follow identically. For~\eqref{eq:wing-left-cross}, at $1 \le d \le p - 1 - \varepsilon$ we have $W_L(d)/p \equiv \varepsilon!\,(d-1)!/(\varepsilon+d)! \pmod p$, while $Q_\varepsilon'(p-d) \equiv (-1)^{d-1}(d-1)!(p-1-\varepsilon-d)! \equiv (-1)^{\varepsilon} (d-1)!/(\varepsilon+d)! \pmod p$ by Wilson's theorem and $D_{e,0,\varepsilon} \equiv Q_\varepsilon(0)^{-1} \equiv -(-1)^\varepsilon \varepsilon! \pmod p$. \qedhere
+  \item In (c), for $W_R(kp+r)$ with $r \le \varepsilon$, writing $(kp+r-E-1)! = ((k-e-1)p + (p-1-(\varepsilon-r)))!$ gives $v_p(W_R) = 1 + e + (k-e-1) - k = 0$, and applying the same factorial expansion and Wilson complement to $(p - 1 - (\varepsilon - r))!$ yields the identical $r$-dependent factor $Q_\varepsilon(r) - p(e-k)Q_\varepsilon'(r) - p(e+1)Q_\varepsilon(r) H_r \pmod{p^2}$; the cases $r > \varepsilon$ and $W_L$ follow identically. Moreover, $W_L(mp - r)$ ($k = -m \le -1$) crosses $r < 0$ smoothly with the identical formula: by Wilson's theorem, $D^{\mathrm{w}}_{e,-m,\varepsilon} \equiv -\frac{e!(m-1)!}{(e+m)!} \pmod p$ (up to an $m$-independent factor), so $D^{\mathrm{w}}_{e,-(m+1),\varepsilon}/D^{\mathrm{w}}_{e,-m,\varepsilon} \equiv \frac{m}{e+m+1} = \frac{-k}{e-k+1} \pmod p$; hence on $r = r' - p$ ($\varepsilon < r' < p$) the actual value $-p D^{\mathrm{w}}_{e,k-1,\varepsilon}(e - k + 1) Q_\varepsilon'(r') \equiv +p k D^{\mathrm{w}}_{e,k,\varepsilon} Q_\varepsilon'(r') \pmod{p^2}$ matches $-1 - (e - k) + (e + 1) = +k$ identically. For~\eqref{eq:wing-left-cross}, at $1 \le d \le p - 1 - \varepsilon$ we have $W_L(d)/p \equiv \varepsilon!\,(d-1)!/(\varepsilon+d)! \pmod p$, while $Q_\varepsilon'(p-d) \equiv (-1)^{d-1}(d-1)!(p-1-\varepsilon-d)! \equiv (-1)^{\varepsilon} (d-1)!/(\varepsilon+d)! \pmod p$ by Wilson's theorem and $D_{e,0,\varepsilon} \equiv Q_\varepsilon(0)^{-1} \equiv -(-1)^\varepsilon \varepsilon! \pmod p$. \qedhere
 \end{itemize}
 \end{proof}
 
@@ -960,7 +974,13 @@ For the companion term $p\,C_n b_j = -(C_n a_j)(p L_j)$ on an interior double-po
 \]
 where $D_m(x) \in \FF_p[x]$ satisfies $\deg D_m \le \deg(\mathcal{R}_m) = p - 2 < p - 1$ (every shifted pole $(x - w)^{-1}$ divides $\mathcal{R}_m(x)$, leaving degree $\le p - 3$, and any constant shift of $\Lambda_m \bmod p^2$ contributes a scalar multiple of $\mathcal{R}_m(x)$ of degree $p - 2$). Summing over $x = 0, \ldots, p-1$ gives $\sum_{x=0}^{p-1} p\,C_n b_{mp-2n+x} \equiv 0 \pmod{p^{v+2}}$.
 
-On pure simple-pole wing buckets, Lemma~\ref{lem:binom-lifts-p2}(c) yields the exact same pointwise expansion~\eqref{eq:pointwise-p2} for $p\,C_n b_{mp-2n+x}/p^v$. Finally, on boundary buckets containing $j \in \{2n, 3n, 21n, 23n\}$: across $j = 2n$ and $j = 21n$, the truncation side lies in $\{\rho \ge v + 2\}$ on all $14$ cells of $I_{12} \cup I_{23}$; across $j = 3n$ ($k = 0$), \texttt{den\_crossing\_identity} vanishes identically for $a_j$ while~\eqref{eq:wing-left-cross} matches the $O(p)$ derivative term of the modulo-$p^2$ polynomial lift for $p\,C_n b_j$; and across $j = 23n$ ($k = e_1$), the coefficient $(e_1 - k) = 0$ kills the derivative term in~\eqref{eq:lift-den0} for all $r > \varepsilon_1$, so the right-wing lift vanishes identically modulo $p^2$ on $j > 23n$, agreeing with $b_j = 0$. Hence $\sum_{x=0}^{p-1} C_n a_{mp-2n+x} \equiv 0$ and $\sum_{x=0}^{p-1} p\,C_n b_{mp-2n+x} \equiv 0 \pmod{p^{v+2}}$ on \emph{every} bucket $m$. Since $p^3 H_{mp+x}^{(3)} \equiv H_m^{(3)} \pmod{p^3}$ and $p^2 H_{mp+x}^{(2)} \equiv H_m^{(2)} \pmod{p^2}$ are constant across bucket $m$, both $C_n Q_n$ and $2 p^3 C_n P_{3,n}$ vanish bucket-by-bucket modulo $p^{v+2}$.
+On pure simple-pole wing buckets, Lemma~\ref{lem:binom-lifts-p2}(c) yields the exact same pointwise expansion~\eqref{eq:pointwise-p2} (including smooth downward crossing of $W_L$ across $r_4 = 0$) for $p\,C_n b_{mp-2n+x}/p^v$. Finally, on boundary buckets containing $j \in \{2n, 3n, 21n, 23n\}$, exact Farey-$40$ certification across all $14/14$ cells of $I_{12} \cup I_{23}$ (\texttt{scripts/\allowbreak certify\_\allowbreak paper\_\allowbreak bounds.py}, Section~1B) establishes:
+\begin{itemize}
+  \item \emph{Boundaries $j = 2n$ and $j = 21n$:} On all $14/14$ cells, the truncation side ($j < 2n$, resp.\ $j > 21n$) lies strictly in $\{\rho \ge v + 2\}$, so truncation agrees modulo $p^{v+2}$ with the full polynomial lift.
+  \item \emph{Boundary $j = 3n$:} On all $7/7$ cells of $I_{23}$ (including $(\frac{19}{20}, \frac{20}{21})$ where $c_{\mathrm{core}, 4} = 1$), both sides of $j = 3n$ lie in $\{\rho \ge v + 2\}$ (so the bucket's entire $\mathcal{A}_{\le 1}$ arc lies on the left wing $j < 3n$). On all $7/7$ cells of $I_{12}$, we have $c_{\mathrm{core}, 4} = 0$, $k_4 = 0$, and $j = 3n - d$ ($1 \le d \le p - 1 - \varepsilon_4$) lies on the left wing at $\rho = v + 1$: for $a_j$, the downward crossing coefficient $+p k_4 = 0$ (via \texttt{den\_crossing\_identity}) kills the modulo-$p^2$ lift on $j < 3n$, matching $a_j = 0$; for $p\,C_n b_j = -\Lambda_m(C_n a_j) + p D_m(x)$, the term $+p H_{j - 3n}$ inside $-p L_j$ shifts by~\eqref{eq:H-shift} to contribute the pole residue $-p\,D_{e_4, 0, \varepsilon_4}\,Q_{\varepsilon_4}'(p - d)$ at $x = \gamma_4 - d$ (multiplied by the remaining four core factors and the constant sign $(-1)^{n+k_5} = (-1)^{j+n}(-1)^{r_5}$), which agrees identically modulo $p^2$ with the left-wing factor $W_L(d) \equiv -p\,D_{e_4, 0, \varepsilon_4}\,Q_{\varepsilon_4}'(p - d) \pmod{p^2}$ in~\eqref{eq:wing-left-cross}.
+  \item \emph{Boundary $j = 23n$:} On the $9$ cells of $(\frac{17}{36}, \frac{11}{23}) \cup (\frac{17}{18}, \frac{20}{21})$ (including all cells with $c_{\mathrm{core}, 4} = 1$), the truncation side $j > 23n$ lies in $\{\rho \ge v + 2\}$. On the remaining $5$ cells of $(\frac{7}{15}, \frac{17}{36}) \cup (\frac{16}{17}, \frac{17}{18})$, we have $c_{\mathrm{core}, 4} = 0$ and $k_4 = e_4$ on a right-wing bucket ($a_j = 0$), and for every $j = 23n + d$ in $\mathcal{A}_{\le 1}$ ($1 \le d \le p - 1 - \varepsilon_4$, so $r_4 = \varepsilon_4 + d \in (\varepsilon_4, p)$), both $Q_{\varepsilon_4}(r_4) = 0$ and $(e_4 - k_4) = 0$ vanish in~\eqref{eq:lift-den0} with no harmonic-shift pole (as $r_4$ does not wrap across $0$ or $p$), so the right-wing lift vanishes identically modulo $p^2$ on $j > 23n$, matching $b_j = 0$.
+\end{itemize}
+Hence $\sum_{x=0}^{p-1} C_n a_{mp-2n+x} \equiv 0$ and $\sum_{x=0}^{p-1} p\,C_n b_{mp-2n+x} \equiv 0 \pmod{p^{v+2}}$ on \emph{every} bucket $m$. Since $p^3 H_{mp+x}^{(3)} \equiv H_m^{(3)} \pmod{p^3}$ and $p^2 H_{mp+x}^{(2)} \equiv H_m^{(2)} \pmod{p^2}$ are constant across bucket $m$, both $C_n Q_n$ and $2 p^3 C_n P_{3,n}$ vanish bucket-by-bucket modulo $p^{v+2}$.
 
 \medskip
 \noindent\textbf{Step 2: $P_{4,n}$ on $I_{12}$ (Bucket-by-Bucket) and on $I_{23}$ (Explicit Prefix Quotient Identity).}
@@ -1046,16 +1066,16 @@ Since $p > \max(77, \sqrt{40n})$ implies $q < p/40$ and hence $27q + 25 < \frac{
 % =============================================================================
 
 \subsection{Asymptotic Divisor Limits via the Prime Number Theorem}
-Recall the Chebyshev form of the Prime Number Theorem: $\vartheta(X) := \sum_{p \le X} \log p = X + o(X)$ (and in particular $\vartheta(X) \le 2X$ for all $X \ge 1$). Consequently, for any open interval $(a, b) \subset (0, 1)$,
+Recall the Chebyshev form of the Prime Number Theorem: $\vartheta(X) := \sum_{p \le X} \log p = X + o(X)$ (and in particular $\vartheta(X) \le 2X$ for all $X \ge 1$). Consequently, for any fixed $C \ge 40$ and any open interval $(a, b) \subset (0, 1)$,
 \begin{equation}
 \label{eq:pnt-u1}
-  \lim_{n \to \infty} \frac{1}{n} \sum_{\substack{p > \sqrt{40n} \\ n/p \in (a, b)}} \log p
+  \lim_{n \to \infty} \frac{1}{n} \sum_{\substack{p > \max(C, \sqrt{40n}) \\ n/p \in (a, b)}} \log p
   = \frac{1}{a} - \frac{1}{b},
 \end{equation}
 and for the periodic lifts $n/p \in \bigcup_{k=1}^{\infty} (k + a, k + b)$,
 \begin{equation}
 \label{eq:pnt-per}
-  \lim_{n \to \infty} \frac{1}{n} \sum_{k=1}^{\lfloor \sqrt{n/40} \rfloor} \sum_{n/(k+b) < p < n/(k+a)} \log p
+  \lim_{n \to \infty} \frac{1}{n} \sum_{k=1}^{\lfloor \sqrt{n/40} \rfloor} \sum_{\substack{p > \max(C, \sqrt{40n}) \\ n/(k+b) < p < n/(k+a)}} \log p
   = \sum_{k=1}^{\infty} \left(\frac{1}{k + a} - \frac{1}{k + b}\right)
   = \psi(b + 1) - \psi(a + 1),
 \end{equation}
@@ -1117,7 +1137,7 @@ Hence the total asymptotic log-divisors $D_s^{\mathrm{full}} := \lim_{n\to\infty
 \end{proposition}
 
 \begin{proof}
-All $490$ Farey cells are checked in exact rational arithmetic in \texttt{scripts/\allowbreak certify\_\allowbreak paper\_\allowbreak bounds.py}. The rational identities $D_{4,\mathrm{car}}^{(u<1)} - D_{3,\mathrm{car}}^{(u<1)} = 6$, $D_{\mathrm{sh},1}^{(u<1)} =\allowbreak 19552742437 /\allowbreak 5354228880$, $D_{\mathrm{sh},2}^{(u<1)} = 397/6160$, and $D_{\mathrm{sh},\mathrm{full}}^{(u<1)} =\allowbreak 9948906029 /\allowbreak 2677114440$ are cross-checked in Lean~4 by \texttt{exact\_\allowbreak u1\_\allowbreak carry\_\allowbreak joint\_\allowbreak minus\_z3}, \texttt{subshells38\_\allowbreak exact\_\allowbreak u1\_sum}, and \texttt{second\_\allowbreak order\_\allowbreak exact\_\allowbreak u1\_sum}. For the periodic digamma sums, using shift $N = 60$ gives $w = x + 61 \ge 61$ and omitted-term width $\le |B_{20}|/(20 \cdot 61^{20}) < 10^{-34}$ per cell, yielding total enclosure widths $5.16 \times 10^{-32}$ ($D_{\mathrm{car}}^{(\mathrm{per})}$) and $2.30 \times 10^{-33}$ ($D_{\mathrm{sh},\mathrm{full}}^{(\mathrm{per})}$).
+All $490$ Farey cells are checked in exact rational arithmetic in \texttt{scripts/\allowbreak certify\_\allowbreak paper\_\allowbreak bounds.py}. The rational identities $D_{4,\mathrm{car}}^{(u<1)} - D_{3,\mathrm{car}}^{(u<1)} = 6$, $D_{\mathrm{sh},1}^{(u<1)} =\allowbreak 19552742437 /\allowbreak 5354228880$, $D_{\mathrm{sh},2}^{(u<1)} = 397/6160$, and $D_{\mathrm{sh},\mathrm{full}}^{(u<1)} =\allowbreak 9948906029 /\allowbreak 2677114440$ are cross-checked in Lean~4 (\texttt{exact\_\allowbreak u1\_\allowbreak carry\_\allowbreak joint\_\allowbreak minus\_z3}, \texttt{subshells38\_\allowbreak exact\_\allowbreak u1\_sum}, \texttt{second\_\allowbreak order\_\allowbreak exact\_\allowbreak u1\_sum}). For the periodic digamma sums, using shift $N = 60$ gives $w = x + 61 \ge 61$ and omitted-term width $\le |B_{20}|/(20 \cdot 61^{20}) < 10^{-34}$ per cell, yielding total enclosure widths $5.16 \times 10^{-32}$ ($D_{\mathrm{car}}^{(\mathrm{per})}$) and $2.30 \times 10^{-33}$ ($D_{\mathrm{sh},\mathrm{full}}^{(\mathrm{per})}$).
 \end{proof}
 
 \subsection{Standard Diophantine Lemma and Completion of Proofs}
@@ -1145,7 +1165,7 @@ Second, let $p/q \in \QQ$ with $\gcd(p, q) = 1$ and $q$ sufficiently large that 
   \[
     \left|\alpha - \frac{p}{q}\right| > \frac{1}{2q|\widetilde{q}_m|} \ge \frac{1}{2q\, e^{(h + \varepsilon)m}} \gg_\varepsilon q^{-1 - \frac{h+\varepsilon}{g-h-\varepsilon}} = q^{-\frac{g}{g-h-\varepsilon}}.
   \]
-  \item \emph{Case 2: $p\,\widetilde{q}_m - q\,\widetilde{p}_m = 0$.} Then $p/q = \widetilde{p}_m/\widetilde{q}_m$, and hence directly by~(i) and~(iii),
+  \item \emph{Case 2: $p\,\widetilde{q}_m - q\,\widetilde{p}_m = 0$.} Note that $\widetilde{q}_m \ne 0$ (otherwise $\widetilde{p}_m = 0$, contradicting~(iii)), so $p/q = \widetilde{p}_m/\widetilde{q}_m$, and hence directly by~(i) and~(iii),
   \[
     \left|\alpha - \frac{p}{q}\right| = \frac{|\widetilde{q}_m \alpha - \widetilde{p}_m|}{|\widetilde{q}_m|} \ge \frac{e^{-(g - h + \varepsilon)m}}{e^{(h + \varepsilon)m}} = e^{-(g + 2\varepsilon)m} \gg_\varepsilon q^{-\frac{g + 2\varepsilon}{g - h - \varepsilon}}.
   \]
@@ -1226,7 +1246,7 @@ In particular, $g - h_4^{\mathrm{exact}} > 1.338998 > 0$. Because $\widetilde{q}
 The following observations are empirical search findings from our companion scripts (not proved theorems; full logs and scripts are archived in \texttt{docs/\allowbreak CAMPAIGN\_25\_\allowbreak EXPERIMENTS\_\allowbreak REPORT.md} and \texttt{scripts/\allowbreak campaign\_\allowbreak phase*.py}):
 \begin{enumerate}
   \item \emph{Higher-order shell scan (\texttt{scripts/\allowbreak campaign\_\allowbreak phase1\_\allowbreak exps1\_5.py}):} Scanning all $1{,}891$ open cells of the Farey-$80$ partition on $(\frac{1}{25}, 1)$ modulo $p^5$ detected zero third-order ($\ZZ/p^3\ZZ$) shells and zero second-order shells beyond $I_{12}$ and $I_{23}$.
-  \item \emph{Local parameter search (\texttt{scripts/\allowbreak campaign\_\allowbreak phase3\_\allowbreak exps11\_12.py}, \texttt{phase4\_\allowbreak exp13\_16\_\allowbreak fixed.py}, \texttt{phase5\_\allowbreak exps19\_25.py}):} Numerical exploration across roughly $10^5$ neighboring two-block rational functions (including coincident zero starts $z_1 = z_2 = 0$, zero pole gap $s_1 = 0$, unbalanced degree defects $\Delta_{\mathrm{def}} > 0$, two-sided numerator blocks, $4$- to $6$-block evolutionary search, continuous real-coordinate optimization in $\RR^{2m+4}$, and tie-breaking perturbations $k\cdot F_n^{\star}(t) + \delta$ for $k \in \{2, 3, 4, 5, 7, 10\}$) found no improvement over the three-way equal-length tie $L_1 = L_2 = L_3 = 13$ and uniform spacing $z = (0, 2, 4)$ of $F_n^{\star}(t)$ within our searched double-pole ${}_5F_4(1)$ neighborhood.
+  \item \emph{Local parameter search (\texttt{scripts/\allowbreak campaign\_\allowbreak phase3\_\allowbreak exps11\_12.py}, \texttt{campaign\_\allowbreak phase4\_\allowbreak exp13\_16\_\allowbreak fixed.py}, \texttt{campaign\_\allowbreak phase5\_\allowbreak exps19\_25.py}):} Numerical exploration across roughly $10^5$ neighboring two-block rational functions (including coincident zero starts $z_1 = z_2 = 0$, zero pole gap $s_1 = 0$, unbalanced degree defects $\Delta_{\mathrm{def}} > 0$, two-sided numerator blocks, $4$- to $6$-block evolutionary search, continuous real-coordinate optimization in $\RR^{2m+4}$, and tie-breaking perturbations $k\cdot F_n^{\star}(t) + \delta$ for $k \in \{2, 3, 4, 5, 7, 10\}$) found no improvement over the three-way equal-length tie $L_1 = L_2 = L_3 = 13$ and uniform spacing $z = (0, 2, 4)$ of $F_n^{\star}(t)$ within our searched double-pole ${}_5F_4(1)$ neighborhood.
   \item \emph{Single-presentation joint estimate on the $L = 10$ trajectory} (\texttt{scripts/\allowbreak check\_\allowbreak exp25\_\allowbreak joint\_\allowbreak exact.py}): Numerically evaluating our single-presentation heuristic on the smaller $L = 10$ rational function of~\cite{LeibtagKaminer2026} (with $z = (0, 1, 2)$ and poles $(1, 17;\allowbreak 2, 16)$, hence smaller clearing penalty $4M_4 = 76$ vs.\ $108$) suggests an approximate first-order single-presentation joint measure $< 89.0$ (not proved here, and contingent on verifying its saddle non-vanishing angle). By contrast, $F_n^{\star}(t)$ optimizes $\mu(\zeta(3))$ while simultaneously certifying $\dim_{\QQ}\langle 1,\allowbreak \zeta(3),\allowbreak \zeta(4)\rangle = 3$ with $\mu < 112.3$ (compared with the tighter two-presentation bound $< 66.3$ of~\cite{LeibtagKaminer2026}).
 \end{enumerate}
 \end{remark}

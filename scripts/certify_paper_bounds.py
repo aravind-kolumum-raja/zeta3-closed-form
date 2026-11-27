@@ -199,8 +199,12 @@ def exact_carry_u1(u: Fraction, t0: int, order: int) -> int:
             vb += math.floor(E1 * u) - math.floor(t - S2 * u) - math.floor(P1 * u - t)
             vb += math.floor(E2 * u) - math.floor(t - S1 * u) - math.floor(P2 * u - t)
             h_hi = order if (t + t0 * u >= 1) else 0
-            h_lo = ((order - 1) if (t + t0 * u >= 1) else 0) + (1 if 20 * u >= 1 else 0)
-            val = order + vb - max(h_hi, h_lo)
+            any_arg_ge1 = any(t + r * u >= 1 for r in RS) or (P1 * u - t >= 1) or (P2 * u - t >= 1)
+            # By Lemma 2.1(c), d_{20n} C_n b_j in Z, so if 20*u < 1 then v_p(C_n b_j) >= 0;
+            # and always v_p(C_n b_j) >= vb - (1 if any_arg_ge1 else 0).
+            vp_Cb = (vb - (1 if any_arg_ge1 else 0)) if (20 * u >= 1) else max(0, vb - (1 if any_arg_ge1 else 0))
+            h_b = (order - 1) if (t + t0 * u >= 1) else 0
+            val = min(order + vb - h_hi, order + vp_Cb - h_b)
         else:
             if t < S2 * u:
                 vb += math.floor(E1 * u) + math.floor(S2 * u - t) - math.floor(P1 * u - t)
@@ -424,6 +428,24 @@ def certify_2nd_order_shells():
             elif gam >= core_hi and gam < a1_hi:
                 assert c_core[idx_b] == 0 and is_num, f"Unexpected upward crossing at {x}"
                 assert a1_hi - gam <= (mult_E * x) % 1, f"Num crossing overshot b at {x}"
+        # Boundary-bucket certification at j in {2n, 3n, 21n, 23n} (t = 4x, 5x, 23x, 25x mod 1):
+        for mult_b, b_name in [(4, "2n"), (5, "3n"), (23, "21n"), (25, "23n")]:
+            tb = (mult_b * x) % 1
+            idx_b = ts.index(tb)
+            dv_L = vals[idx_b - 1] - vmin if idx_b > 0 else 99
+            dv_R = vals[idx_b] - vmin if idx_b < len(vals) else 99
+            if b_name == "2n":
+                assert dv_L >= 2 and dv_R >= 2, f"2n boundary in A<=1 at {x}"
+            elif b_name == "21n":
+                assert dv_R >= 2, f"21n right side in A<=1 at {x}"
+            elif b_name == "3n":
+                if in23:
+                    assert dv_L >= 2 and dv_R >= 2, f"I23 3n boundary in A<=1 at {x}"
+                else:
+                    assert c_core[3] == 0 and dv_L == 1 and dv_R == 0, f"I12 3n unexpected at {x}"
+            elif b_name == "23n":
+                if dv_R < 2:
+                    assert c_core[3] == 0 and dv_L == 0 and dv_R == 1, f"23n unexpected at {x}"
         # Check P_{4,n} breakpoint t_p4 = (-2x) % 1 (i.e., j + 4n === 0 mod p):
         t_p4 = (-2 * x) % 1
         idx_p4 = ts.index(t_p4)
